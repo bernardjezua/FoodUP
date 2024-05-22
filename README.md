@@ -4,7 +4,7 @@ Food &amp; Restaurant Review Application Using Python
 ## CMSC 127 ST-1L GROUP 1
 De Castro, John Nico T.  
 Olano, Kenneth O.  
-Ramos, John Miles     		
+Ramos, John Miles  
 Tandang, Bernard Jezua R.  
 
 ## Installation
