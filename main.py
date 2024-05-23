@@ -1,5 +1,6 @@
+from doctest import master
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import Label, Toplevel, ttk, messagebox
 import mysql.connector
 
 class FoodReviewApp:
@@ -86,44 +87,160 @@ class FoodReviewApp:
 
     # Other helper functions
     def add_establishment(self):
-        # Code for adding a new food establishment
-        messagebox.showinfo("Info", "Add Establishment")
+        newWindow = Toplevel(master)
+        newWindow.title("Add Establishment")
+        newWindow.geometry("200x200")
+        newWindow.grab_set()
+
+        
+        Label(newWindow, text ="Establishment ID").pack()
+        establishment_id = tk.Entry(newWindow, width=30)
+        establishment_id.pack( padx=20, pady= 20)
+        Label(newWindow, text ="Establishment Name").pack()
+        establishment_name = tk.Entry(newWindow, width=30)
+        establishment_name.pack( padx=20, pady= 20)
+        Label(newWindow, text ="Establishment Location").pack()
+        establishment_loc = tk.Text(newWindow,height = 2)
+        establishment_loc.pack( padx=20, pady= 20)
+        Label(newWindow, text ="Mode of Service").pack()
+        serv_mod = tk.Text(newWindow,height=2)
+        serv_mod.pack(padx=20, pady= 20)
+        Label(newWindow, text ="Contact Detail").pack()
+        contact_detail = tk.Text(newWindow, height=2)
+        contact_detail.pack( padx=20, pady= 20)
+        Label(newWindow, text ="Establishment Description").pack()
+        establishment_id = tk.Text(newWindow, height=2)
+        establishment_id.pack( padx=20, pady= 20)
+        submitButton = tk.Button(newWindow, text="Submit")
+        submitButton.pack(padx=20, pady= 20)
+  
 
     def update_establishment(self):
-        # Code for updating an existing food establishment
-        messagebox.showinfo("Info", "Update Establishment")
+        newWindow = Toplevel(master)
+        newWindow.title("Update Establishment")
+        newWindow.geometry("200x200")
+        newWindow.grab_set()
+        Label(newWindow, text ="Enter establishment id:").pack()
+        establishment_id = tk.Entry(newWindow, width=30)
+        establishment_id.pack( padx=20, pady= 20)
+        submitButton = tk.Button(newWindow, text="Submit")
+        submitButton.pack(padx=20, pady= 20)
 
     def delete_establishment(self):
-        # Code for deleting a food establishment
-        messagebox.showinfo("Info", "Delete Establishment")
+        newWindow = Toplevel(master)
+        newWindow.title("Delete Establishment")
+        newWindow.geometry("200x200")
+        newWindow.grab_set()
+        Label(newWindow, text ="Enter establishment id:").pack()
+        establishment_id = tk.Entry(newWindow, width=30)
+        establishment_id.pack( padx=20, pady= 20)
+        submitButton = tk.Button(newWindow, text="Submit")
+        submitButton.pack(padx=20, pady= 20)
 
     def add_food_item(self):
-        # Code for adding a new food item
-        messagebox.showinfo("Info", "Add Food Item")
+        newWindow = Toplevel(master)
+        newWindow.title("Add Food Item")
+        newWindow.geometry("400x800")
+        newWindow.grab_set()
+
+        Label(newWindow, text ="Food Item ID").pack()
+        fooditem_id = tk.Entry(newWindow, width=30)
+        fooditem_id.pack(padx=20, pady = 20)
+        Label(newWindow, text ="Food Item Name").pack()
+        fooditem_name = tk.Entry(newWindow, width=30)
+        fooditem_name.pack(padx=20, pady = 20)
+        Label(newWindow, text ="Food Item Type").pack()
+        fooditem_type = tk.Text(newWindow, height=2)
+        fooditem_type.pack(padx=20, pady = 20)
+        Label(newWindow, text ="Food Item Price").pack()
+        fooditem_price = tk.Entry(newWindow, width=30)
+        fooditem_price.pack(padx=20, pady = 20)
+        Label(newWindow, text ="Food Item Description").pack()
+        fooditem_id = tk.Text(newWindow, height=2)
+        fooditem_id.pack(padx=20, pady = 20)
+        submitButton = tk.Button(newWindow, text="Submit")
+        submitButton.pack(padx=20, pady= 20)
 
     def update_food_item(self):
-        # Code for updating an existing food item
-        messagebox.showinfo("Info", "Update Food Item")
+        newWindow = Toplevel(master)
+        newWindow.title("Update Food Item")
+        newWindow.geometry("400x800")
+        newWindow.grab_set()
+
+        Label(newWindow, text ="Enter food item id: ").pack()
+        fooditem_id = tk.Entry(newWindow, width=30)
+        fooditem_id.pack(padx=20, pady = 20)
+        submitButton = tk.Button(newWindow, text="Submit")
+        submitButton.pack(padx=20, pady= 20)
 
     def search_food_item(self):
-        # Code for searching a food item
-        messagebox.showinfo("Info", "Search Food Item")
+        newWindow = Toplevel(master)
+        newWindow.title("Search Food Item")
+        newWindow.geometry("400x800")
+        newWindow.grab_set()
+
+        Label(newWindow, text ="Enter food item id: ").pack()
+        fooditem_id = tk.Entry(newWindow, width=30)
+        fooditem_id.pack(padx=20, pady = 20)
+        submitButton = tk.Button(newWindow, text="Submit")
+        submitButton.pack(padx=20, pady= 20)
 
     def delete_food_item(self):
-        # Code for deleting a food item
-        messagebox.showinfo("Info", "Delete Food Item")
+        newWindow = Toplevel(master)
+        newWindow.title("Delete Food Item")
+        newWindow.geometry("400x800")
+        newWindow.grab_set()
+
+        Label(newWindow, text ="Enter food item id: ").pack()
+        fooditem_id = tk.Entry(newWindow, width=30)
+        fooditem_id.pack(padx=20, pady = 20)
+        submitButton = tk.Button(newWindow, text="Submit")
+        submitButton.pack(padx=20, pady= 20)
 
     def add_review(self):
-        # Code for adding a new review
-        messagebox.showinfo("Info", "Add Review")
+        newWindow = Toplevel(master)
+        newWindow.title("Update Food Item")
+        newWindow.geometry("400x800")
+        newWindow.grab_set()
+
+        Label(newWindow, text ="Review ID").pack()
+        review_id = tk.Entry(newWindow, width=30)
+        review_id.pack(padx=20, pady = 20)
+        Label(newWindow, text ="Review Rating").pack()
+        review_rating = tk.Entry(newWindow, width=30)
+        review_rating.pack(padx=20, pady = 20)
+        Label(newWindow, text ="Date of Rating").pack()
+        review_rating = tk.Entry(newWindow, width=30)
+        review_rating.pack(padx=20, pady = 20)
+        Label(newWindow, text ="Review Statement").pack()
+        review_rating = tk.Text(newWindow, height=2)
+        review_rating.pack(padx=20, pady = 20)
+        submitButton = tk.Button(newWindow, text="Submit")
+        submitButton.pack(padx=20, pady= 20)
 
     def update_review(self):
-        # Code for updating an existing review
-        messagebox.showinfo("Info", "Update Review")
+        newWindow = Toplevel(master)
+        newWindow.title("Update Review")
+        newWindow.geometry("400x800")
+        newWindow.grab_set()
+
+        Label(newWindow, text ="Enter review id: ").pack()
+        fooditem_id = tk.Entry(newWindow, width=30)
+        fooditem_id.pack(padx=20, pady = 20)
+        submitButton = tk.Button(newWindow, text="Submit")
+        submitButton.pack(padx=20, pady= 20)
 
     def delete_review(self):
-        # Code for deleting a review
-        messagebox.showinfo("Info", "Delete Review")
+        newWindow = Toplevel(master)
+        newWindow.title("Delete Review")
+        newWindow.geometry("400x800")
+        newWindow.grab_set()
+
+        Label(newWindow, text ="Enter review id: ").pack()
+        fooditem_id = tk.Entry(newWindow, width=30)
+        fooditem_id.pack(padx=20, pady = 20)
+        submitButton = tk.Button(newWindow, text="Submit")
+        submitButton.pack(padx=20, pady= 20)
 
 
     def run(self):
