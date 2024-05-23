@@ -25,15 +25,18 @@ class FoodReviewApp:
         self.tab1 = ttk.Frame(self.tab_control)
         self.tab2 = ttk.Frame(self.tab_control)
         self.tab3 = ttk.Frame(self.tab_control)
+        self.tab4 = ttk.Frame(self.tab_control)
         self.tab_control.add(self.tab1, text='Food Establishments')
         self.tab_control.add(self.tab2, text='Food Items')
         self.tab_control.add(self.tab3, text='Reviews')
+        self.tab_control.add(self.tab4, text='View All Reports')
         self.tab_control.pack(expand=1, fill='both')
 
         # Setup tab1 for Food Establishments
         self.setup_tab1()
         self.setup_tab2()
         self.setup_tab3()
+        self.setup_tab4()
 
     def setup_tab1(self):
         # Label frame for Food Establishments tab
@@ -85,7 +88,32 @@ class FoodReviewApp:
         delete_button.pack(pady=5)
 
 
+    def setup_tab4(self):
+        # Label frame for View Reports tab
+        view_reports_frame = ttk.LabelFrame(self.tab4, text="View Reports")
+        view_reports_frame.pack(padx=10, pady=10)
+
+        # Buttons for viewing reports
+        view_all_food_estabs = ttk.Button(view_reports_frame, text="View All Food Establishments", command=self.select_all_food_estabs)
+        view_all_food_estabs.pack(pady=5)
+
+        # add_button = ttk.Button(view_reports_frame, text="Add Establishment", command=self.add_establishment)
+        # add_button.pack(pady=5)
+
+        # update_button = ttk.Button(view_reports_frame, text="Update Establishment", command=self.update_establishment)
+        # update_button.pack(pady=5)
+
+        # delete_button = ttk.Button(view_reports_frame, text="Delete Establishment", command=self.delete_establishment)
+        # delete_button.pack(pady=5)
+
+
     # Other helper functions
+    def select_all_food_estabs(self):
+        sql_statement = "SELECT * FROM FOOD_ESTABLISHMENT"
+        self.cursor.execute(sql_statement)
+        result = self.cursor.fetchall()
+        print(result)
+
     def add_establishment(self):
         newWindow = Toplevel(master)
         newWindow.title("Add Establishment")
