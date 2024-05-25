@@ -57,7 +57,7 @@ image_1 = canvas.create_image(
 )
 
 canvas.create_text(
-    345.0,
+    540,
     81.0,
     anchor="nw",
     text="Login",
@@ -143,7 +143,7 @@ canvas.create_rectangle(
     outline="")
 
 canvas.create_text(
-    20.0,
+    105,
     150.0,
     anchor="nw",
     text="Welcome to",
@@ -159,14 +159,7 @@ image_2 = canvas.create_image(
     image=image_image_2
 )
 
-canvas.create_text(
-    345.0,
-    81.0,
-    anchor="nw",
-    text="Login",
-    fill="#D78521",
-    font=("Inter Bold", 22 * -1)
-)
+
 
 entry_image_2 = PhotoImage(
     file=relative_to_assets("entry_2.png"))
@@ -227,6 +220,7 @@ button_image_4 = PhotoImage(
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
+    background= "#FFFFFF",
     highlightthickness=0,
     command=lambda: print("button_4 clicked"),
     relief="flat"

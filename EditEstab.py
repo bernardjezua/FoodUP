@@ -6,7 +6,7 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / "assets/frame13"
+ASSETS_PATH = OUTPUT_PATH / "assets/frame5"
 
 
 def relative_to_assets(path: str) -> Path:
@@ -30,6 +30,14 @@ canvas = Canvas(
 )
 
 canvas.place(x = 0, y = 0)
+canvas.create_rectangle(
+    0.0,
+    0.0,
+    246.0,
+    500.0,
+    fill="#DE1A1A",
+    outline="")
+
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
@@ -40,8 +48,8 @@ button_1 = Button(
     relief="flat"
 )
 button_1.place(
-    x=374.0,
-    y=417.0,
+    x=372.0,
+    y=423.0,
     width=299.0,
     height=49.0
 )
@@ -62,20 +70,118 @@ button_2.place(
     height=37.0
 )
 
-canvas.create_rectangle(
-    0.0,
-    0.0,
-    246.0,
-    500.0,
-    fill="#DE1A1A",
-    outline="")
+canvas.create_text(
+    374.0,
+    327.0,
+    anchor="nw",
+    text="Contact Details",
+    fill="#D78521",
+    font=("Inter", 14 * -1)
+)
 
-image_image_1 = PhotoImage(
-    file=relative_to_assets("image_1.png"))
-image_1 = canvas.create_image(
-    123.0,
-    84.0,
-    image=image_image_1
+canvas.create_text(
+    374.0,
+    257.0,
+    anchor="nw",
+    text="Modes of Service (Dine In, Take Out, Delivery, Pickup)",
+    fill="#D78521",
+    font=("Inter", 14 * -1)
+)
+
+canvas.create_text(
+    375.0,
+    187.0,
+    anchor="nw",
+    text="Location",
+    fill="#D78521",
+    font=("Inter", 14 * -1)
+)
+
+entry_image_1 = PhotoImage(
+    file=relative_to_assets("entry_1.png"))
+entry_bg_1 = canvas.create_image(
+    523.5,
+    300.5,
+    image=entry_image_1
+)
+entry_1 = Entry(
+    bd=0,
+    bg="#F2D398",
+    fg="#000716",
+    highlightthickness=0
+)
+entry_1.place(
+    x=379.0,
+    y=276.0,
+    width=289.0,
+    height=47.0
+)
+
+canvas.create_text(
+    375.0,
+    118.0,
+    anchor="nw",
+    text="Establishment description",
+    fill="#D78521",
+    font=("Inter", 14 * -1)
+)
+
+canvas.create_text(
+    375.0,
+    47.0,
+    anchor="nw",
+    text="Establishment name",
+    fill="#D78521",
+    font=("Inter", 14 * -1)
+)
+
+entry_image_2 = PhotoImage(
+    file=relative_to_assets("entry_2.png"))
+entry_bg_2 = canvas.create_image(
+    523.5,
+    90.5,
+    image=entry_image_2
+)
+entry_2 = Entry(
+    bd=0,
+    bg="#F2D398",
+    fg="#000716",
+    highlightthickness=0
+)
+entry_2.place(
+    x=379.0,
+    y=66.0,
+    width=289.0,
+    height=47.0
+)
+
+entry_image_3 = PhotoImage(
+    file=relative_to_assets("entry_3.png"))
+entry_bg_3 = canvas.create_image(
+    523.5,
+    161.5,
+    image=entry_image_3
+)
+entry_3 = Entry(
+    bd=0,
+    bg="#F2D398",
+    fg="#000716",
+    highlightthickness=0
+)
+entry_3.place(
+    x=379.0,
+    y=137.0,
+    width=289.0,
+    height=47.0
+)
+
+canvas.create_text(
+    387.0,
+    399.0,
+    anchor="nw",
+    text="*  Separate multiple values with commas e.g. Take Out,Dine In",
+    fill="#B0A6BF",
+    font=("Inter Bold", 9 * -1)
 )
 
 button_image_3 = PhotoImage(
@@ -88,10 +194,46 @@ button_3 = Button(
     relief="flat"
 )
 button_3.place(
-    x=86.0,
-    y=460.0,
-    width=75.0,
-    height=19.354839324951172
+    x=24.0,
+    y=159.0,
+    width=201.0,
+    height=42.0
+)
+
+button_image_hover_3 = PhotoImage(
+    file=relative_to_assets("button_hover_1.png"))
+
+def button_3_hover(e):
+    button_3.config(
+        image=button_image_hover_3
+    )
+def button_3_leave(e):
+    button_3.config(
+        image=button_image_3
+    )
+
+button_3.bind('<Enter>', button_3_hover)
+button_3.bind('<Leave>', button_3_leave)
+
+
+entry_image_4 = PhotoImage(
+    file=relative_to_assets("entry_4.png"))
+entry_bg_4 = canvas.create_image(
+    523.5,
+    230.5,
+    image=entry_image_4
+)
+entry_4 = Entry(
+    bd=0,
+    bg="#F2D398",
+    fg="#000716",
+    highlightthickness=0
+)
+entry_4.place(
+    x=379.0,
+    y=206.0,
+    width=289.0,
+    height=47.0
 )
 
 button_image_4 = PhotoImage(
@@ -105,7 +247,7 @@ button_4 = Button(
 )
 button_4.place(
     x=23.0,
-    y=354.0,
+    y=256.0,
     width=201.0,
     height=42.0
 )
@@ -115,32 +257,45 @@ button_image_5 = PhotoImage(
 button_5 = Button(
     image=button_image_5,
     borderwidth=0,
+    background="#DE1A1A",
     highlightthickness=0,
     command=lambda: print("button_5 clicked"),
     relief="flat"
 )
 button_5.place(
-    x=22.0,
-    y=207.0,
-    width=201.0,
-    height=42.0
+    x=86.0,
+    y=460.0,
+    width=75.0,
+    height=19.354839324951172
 )
 
-button_image_hover_5 = PhotoImage(
-    file=relative_to_assets("button_hover_1.png"))
+image_image_1 = PhotoImage(
+    file=relative_to_assets("image_1.png"))
+image_1 = canvas.create_image(
+    123.0,
+    84.0,
+    image=image_image_1
+)
 
-def button_5_hover(e):
-    button_5.config(
-        image=button_image_hover_5
-    )
-def button_5_leave(e):
-    button_5.config(
-        image=button_image_5
-    )
-
-button_5.bind('<Enter>', button_5_hover)
-button_5.bind('<Leave>', button_5_leave)
-
+entry_image_5 = PhotoImage(
+    file=relative_to_assets("entry_5.png"))
+entry_bg_5 = canvas.create_image(
+    523.5,
+    370.5,
+    image=entry_image_5
+)
+entry_5 = Entry(
+    bd=0,
+    bg="#F2D398",
+    fg="#000716",
+    highlightthickness=0
+)
+entry_5.place(
+    x=379.0,
+    y=346.0,
+    width=289.0,
+    height=47.0
+)
 
 button_image_6 = PhotoImage(
     file=relative_to_assets("button_6.png"))
@@ -152,8 +307,8 @@ button_6 = Button(
     relief="flat"
 )
 button_6.place(
-    x=22.0,
-    y=158.0,
+    x=24.0,
+    y=208.0,
     width=201.0,
     height=42.0
 )
@@ -184,8 +339,8 @@ button_7 = Button(
     relief="flat"
 )
 button_7.place(
-    x=22.0,
-    y=256.0,
+    x=24.0,
+    y=304.0,
     width=201.0,
     height=42.0
 )
@@ -216,8 +371,8 @@ button_8 = Button(
     relief="flat"
 )
 button_8.place(
-    x=22.0,
-    y=305.0,
+    x=24.0,
+    y=351.0,
     width=201.0,
     height=42.0
 )
@@ -237,150 +392,5 @@ def button_8_leave(e):
 button_8.bind('<Enter>', button_8_hover)
 button_8.bind('<Leave>', button_8_leave)
 
-
-entry_image_1 = PhotoImage(
-    file=relative_to_assets("entry_1.png"))
-entry_bg_1 = canvas.create_image(
-    525.5,
-    366.5,
-    image=entry_image_1
-)
-entry_1 = Text(
-    bd=0,
-    bg="#F2D398",
-    fg="#000716",
-    highlightthickness=0
-)
-entry_1.place(
-    x=381.0,
-    y=330.0,
-    width=289.0,
-    height=71.0
-)
-
-entry_image_2 = PhotoImage(
-    file=relative_to_assets("entry_2.png"))
-entry_bg_2 = canvas.create_image(
-    525.5,
-    216.5,
-    image=entry_image_2
-)
-entry_2 = Entry(
-    bd=0,
-    bg="#F2D398",
-    fg="#000716",
-    highlightthickness=0
-)
-entry_2.place(
-    x=381.0,
-    y=192.0,
-    width=289.0,
-    height=47.0
-)
-
-canvas.create_text(
-    377.0,
-    173.0,
-    anchor="nw",
-    text="Food ID",
-    fill="#D78521",
-    font=("Inter", 14 * -1)
-)
-
-entry_image_3 = PhotoImage(
-    file=relative_to_assets("entry_3.png"))
-entry_bg_3 = canvas.create_image(
-    524.5,
-    147.5,
-    image=entry_image_3
-)
-entry_3 = Entry(
-    bd=0,
-    bg="#F2D398",
-    fg="#000716",
-    highlightthickness=0
-)
-entry_3.place(
-    x=380.0,
-    y=123.0,
-    width=289.0,
-    height=47.0
-)
-
-canvas.create_text(
-    376.0,
-    104.0,
-    anchor="nw",
-    text="Establishment ID",
-    fill="#D78521",
-    font=("Inter", 14 * -1)
-)
-
-entry_image_4 = PhotoImage(
-    file=relative_to_assets("entry_4.png"))
-entry_bg_4 = canvas.create_image(
-    524.5,
-    78.5,
-    image=entry_image_4
-)
-entry_4 = Entry(
-    bd=0,
-    bg="#F2D398",
-    fg="#000716",
-    highlightthickness=0
-)
-entry_4.place(
-    x=380.0,
-    y=54.0,
-    width=289.0,
-    height=47.0
-)
-
-canvas.create_text(
-    376.0,
-    35.0,
-    anchor="nw",
-    text="Review ID",
-    fill="#D78521",
-    font=("Inter", 14 * -1)
-)
-
-canvas.create_text(
-    377.0,
-    311.0,
-    anchor="nw",
-    text="Review",
-    fill="#D78521",
-    font=("Inter", 14 * -1)
-)
-
-entry_image_5 = PhotoImage(
-    file=relative_to_assets("entry_5.png"))
-entry_bg_5 = canvas.create_image(
-    525.5,
-    285.5,
-    image=entry_image_5
-)
-entry_5 = Entry(
-    bd=0,
-    bg="#F2D398",
-    fg="#000716",
-    highlightthickness=0
-)
-entry_5.place(
-    x=381.0,
-    y=261.0,
-    width=289.0,
-    height=47.0
-)
-
-canvas.create_text(
-    377.0,
-    242.0,
-    anchor="nw",
-    text="Rating",
-    fill="#D78521",
-    font=("Inter", 14 * -1)
-)
 window.resizable(False, False)
 window.mainloop()

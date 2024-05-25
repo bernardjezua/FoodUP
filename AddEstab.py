@@ -341,6 +341,7 @@ button_image_7 = PhotoImage(
 button_7 = Button(
     image=button_image_7,
     borderwidth=0,
+    background="#DE1A1A",
     highlightthickness=0,
     command=lambda: print("button_7 clicked"),
     relief="flat"

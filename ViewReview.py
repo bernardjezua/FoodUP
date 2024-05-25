@@ -50,6 +50,7 @@ button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
     image=button_image_1,
+    background= '#DE1A1A',
     borderwidth=0,
     highlightthickness=0,
     command=lambda: print("button_1 clicked"),
@@ -253,7 +254,7 @@ entry_1 = Entry(
 )
 entry_1.place(
     x=450.0,
-    y=175.0,
+    y=176.0,
     width=130.0,
     height=24.0
 )
@@ -273,7 +274,7 @@ entry_2 = Entry(
 )
 entry_2.place(
     x=298.0,
-    y=175.0,
+    y=176.0,
     width=130.0,
     height=24.0
 )

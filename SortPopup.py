@@ -93,30 +93,12 @@ entry_1 = Entry(
 )
 entry_1.place(
     x=155.0,
-    y=127.0,
+    y=128.0,
     width=50.0,
     height=24.0
 )
 
-entry_image_2 = PhotoImage(
-    file=relative_to_assets("entry_2.png"))
-entry_bg_2 = canvas.create_image(
-    105.0,
-    140.0,
-    image=entry_image_2
-)
-entry_2 = Entry(
-    bd=0,
-    bg="#FFFFFF",
-    fg="#000716",
-    highlightthickness=0
-)
-entry_2.place(
-    x=85.0,
-    y=127.0,
-    width=40.0,
-    height=24.0
-)
+
 
 canvas.create_text(
     142.0,
@@ -142,7 +124,7 @@ entry_3 = Entry(
 )
 entry_3.place(
     x=85.0,
-    y=127.0,
+    y=128.0,
     width=50.0,
     height=24.0
 )

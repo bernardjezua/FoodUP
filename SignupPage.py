@@ -56,7 +56,7 @@ image_1 = canvas.create_image(
 )
 
 canvas.create_text(
-    345.0,
+    525,
     31.0,
     anchor="nw",
     text="Sign up",

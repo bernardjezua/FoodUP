@@ -6,7 +6,7 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / "assets/frame15"
+ASSETS_PATH = OUTPUT_PATH / "assets/frame10"
 
 
 def relative_to_assets(path: str) -> Path:
@@ -51,15 +51,16 @@ button_image_1 = PhotoImage(
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
+    background="#DE1A1A",
     highlightthickness=0,
     command=lambda: print("button_1 clicked"),
     relief="flat"
 )
 button_1.place(
-    x=299.0,
-    y=107.0,
-    width=201.0,
-    height=42.0
+    x=86.0,
+    y=460.0,
+    width=75.0,
+    height=19.354839324951172
 )
 
 button_image_2 = PhotoImage(
@@ -72,10 +73,46 @@ button_2 = Button(
     relief="flat"
 )
 button_2.place(
-    x=540.0,
-    y=107.0,
+    x=23.0,
+    y=256.0,
     width=201.0,
     height=42.0
+)
+
+canvas.create_rectangle(
+    276.0,
+    218.0,
+    770.0,
+    480.0,
+    fill="#F0F0F0",
+    outline="")
+
+canvas.create_rectangle(
+    276.0,
+    151.0,
+    770.0,
+    208.0,
+    fill="#F0F0F0",
+    outline="")
+
+entry_image_1 = PhotoImage(
+    file=relative_to_assets("entry_1.png"))
+entry_bg_1 = canvas.create_image(
+    432.0,
+    187.0,
+    image=entry_image_1
+)
+entry_1 = Entry(
+    bd=0,
+    bg="#FFFFFF",
+    fg="#000716",
+    highlightthickness=0,
+)
+entry_1.place(
+    x=292.0,
+    y=175.0,
+    width=280.0,
+    height=24.0
 )
 
 button_image_3 = PhotoImage(
@@ -88,10 +125,10 @@ button_3 = Button(
     relief="flat"
 )
 button_3.place(
-    x=540.0,
-    y=158.0,
-    width=201.0,
-    height=42.0
+    x=608.0,
+    y=174.0,
+    width=130.0,
+    height=26.0
 )
 
 button_image_4 = PhotoImage(
@@ -104,10 +141,10 @@ button_4 = Button(
     relief="flat"
 )
 button_4.place(
-    x=299.0,
-    y=158.0,
-    width=201.0,
-    height=42.0
+    x=620.0,
+    y=104.0,
+    width=150.0,
+    height=30.0
 )
 
 button_image_5 = PhotoImage(
@@ -120,10 +157,10 @@ button_5 = Button(
     relief="flat"
 )
 button_5.place(
-    x=23.0,
-    y=350.0,
-    width=201.0,
-    height=42.0
+    x=448.0,
+    y=104.0,
+    width=150.0,
+    height=30.0
 )
 
 button_image_6 = PhotoImage(
@@ -136,19 +173,27 @@ button_6 = Button(
     relief="flat"
 )
 button_6.place(
-    x=86.0,
-    y=460.0,
-    width=75.0,
-    height=19.354839324951172
+    x=276.0,
+    y=104.0,
+    width=150.0,
+    height=30.0
 )
 
+canvas.create_rectangle(
+    534.0,
+    23.0,
+    770.0,
+    78.0,
+    fill="#FFFFFF",
+    outline="")
+
 canvas.create_text(
-    299.0,
-    45.0,
+    276.0,
+    18.0,
     anchor="nw",
-    text="Reviews",
+    text="Food\nEstablishments",
     fill="#D78521",
-    font=("Inter Bold", 32 * -1)
+    font=("Inter Bold", 25 * -1)
 )
 
 button_image_7 = PhotoImage(
@@ -161,8 +206,8 @@ button_7 = Button(
     relief="flat"
 )
 button_7.place(
-    x=22.0,
-    y=203.0,
+    x=24.0,
+    y=208.0,
     width=201.0,
     height=42.0
 )
@@ -193,8 +238,8 @@ button_8 = Button(
     relief="flat"
 )
 button_8.place(
-    x=22.0,
-    y=154.0,
+    x=24.0,
+    y=159.0,
     width=201.0,
     height=42.0
 )
@@ -225,8 +270,8 @@ button_9 = Button(
     relief="flat"
 )
 button_9.place(
-    x=22.0,
-    y=252.0,
+    x=24.0,
+    y=304.0,
     width=201.0,
     height=42.0
 )
@@ -257,8 +302,8 @@ button_10 = Button(
     relief="flat"
 )
 button_10.place(
-    x=22.0,
-    y=301.0,
+    x=24.0,
+    y=351.0,
     width=201.0,
     height=42.0
 )
@@ -278,5 +323,23 @@ def button_10_leave(e):
 button_10.bind('<Enter>', button_10_hover)
 button_10.bind('<Leave>', button_10_leave)
 
+
+canvas.create_text(
+    287.0,
+    159.0,
+    anchor="nw",
+    text="Search Establishment ID",
+    fill="#DE1A1A",
+    font=("Inter", 11 * -1)
+)
+
+canvas.create_text(
+    609.0,
+    159.0,
+    anchor="nw",
+    text="Filter by Rating",
+    fill="#DE1A1A",
+    font=("Inter", 11 * -1)
+)
 window.resizable(False, False)
 window.mainloop()
