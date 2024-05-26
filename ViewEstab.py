@@ -4,16 +4,14 @@ import subprocess
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-
+from tkinter import Tk, Canvas, Entry, Button, PhotoImage, ttk, CENTER, NO, StringVar
+from QueriesAPI import QueriesAPI
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets/frame10"
 
-
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
-
 
 window = Tk()
 
@@ -31,7 +29,6 @@ y = (hs/2) - (h/2)
 # set the dimensions of the screen and where it is placed
 window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 window.configure(bg = "#FFFFFF")
-
 
 canvas = Canvas(
     window,
@@ -93,6 +90,7 @@ button_2.place(
     height=42.0
 )
 
+# table
 canvas.create_rectangle(
     276.0,
     218.0,
@@ -100,6 +98,35 @@ canvas.create_rectangle(
     480.0,
     fill="#F0F0F0",
     outline="")
+
+table = ttk.Treeview()
+table['columns'] = ('estab_id', 'estab_name', 'estab_desc', 'serv_mod', 'loc', 'contact')
+table.column("#0", width=0,  stretch=NO)
+table.column("estab_id",anchor=CENTER, width=20)
+table.column("estab_name",anchor=CENTER,width=80)
+table.column("estab_desc",anchor=CENTER,width=80)
+table.column("serv_mod",anchor=CENTER,width=80)
+table.column("loc",anchor=CENTER,width=80)
+table.column("contact",anchor=CENTER,width=80)
+
+table.heading("#0",text="",anchor=CENTER)
+table.heading("estab_id",text="Id",anchor=CENTER)
+table.heading("estab_name",text="Name",anchor=CENTER)
+table.heading("estab_desc",text="Description",anchor=CENTER)
+table.heading("serv_mod",text="Modes of Service",anchor=CENTER)
+table.heading("loc",text="Location",anchor=CENTER)
+table.heading("contact",text="Contact",anchor=CENTER)
+table.place(
+    x=276,
+    y=218,
+    width=494,
+    height=262
+)
+db = QueriesAPI()
+result = db.select_all_food_estabs()
+for index,value in enumerate(result):
+    table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3]))
+
 
 canvas.create_rectangle(
     276.0,
@@ -116,11 +143,25 @@ entry_bg_1 = canvas.create_image(
     187.0,
     image=entry_image_1
 )
+
+def clear_all(tableToClear):
+   for item in tableToClear.get_children():
+      tableToClear.delete(item)
+
+sv = StringVar()
+def update_table_search_id(*args):
+    clear_all(table)
+    result = db.select_food_estab_by_id(sv.get())
+    for index,value in enumerate(result):
+        table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3]))
+
+sv.trace_add("write", callback=update_table_search_id)
 entry_1 = Entry(
     bd=0,
     bg="#FFFFFF",
     fg="#000716",
     highlightthickness=0,
+    textvariable=sv
 )
 entry_1.place(
     x=292.0,
