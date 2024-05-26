@@ -18,6 +18,9 @@ view_estab = Tk()
 view_estab.geometry("800x500")
 view_estab.configure(bg = "#FFFFFF")
 
+window.geometry("800x500")
+window.configure(bg = "#FFFFFF")
+
 w = 800
 h = 500 
 
@@ -468,7 +471,6 @@ canvas.create_text(
     fill="#DE1A1A",
     font=("Inter", 11 * -1)
 )
-
 
 view_estab.resizable(False, False)
 view_estab.mainloop()

@@ -1,6 +1,5 @@
 from pathlib import Path
 import sys, subprocess
-
 # from tkinter import *
 
 # Explicit imports to satisfy Flake8
