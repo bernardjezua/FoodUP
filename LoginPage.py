@@ -243,6 +243,4 @@ button_4.place(
     height=33.0
 )
 window.resizable(False, False)
-
-def loginPage():
-    window.mainloop()
+window.mainloop()
