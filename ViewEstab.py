@@ -18,8 +18,8 @@ view_estab = Tk()
 view_estab.geometry("800x500")
 view_estab.configure(bg = "#FFFFFF")
 
-window.geometry("800x500")
-window.configure(bg = "#FFFFFF")
+# window.geometry("800x500")
+# window.configure(bg = "#FFFFFF")
 
 w = 800
 h = 500 
@@ -33,8 +33,8 @@ x = (ws/2) - (w/2)
 y = (hs/2) - (h/2)
 
 # set the dimensions of the screen and where it is placed
-window.geometry('%dx%d+%d+%d' % (w, h, x, y))
-window.configure(bg = "#FFFFFF")
+view_estab.geometry('%dx%d+%d+%d' % (w, h, x, y))
+view_estab.configure(bg = "#FFFFFF")
 
 canvas = Canvas(
     view_estab,
@@ -224,7 +224,7 @@ button_drop_3.place(
 
 def on_button_4_click():
     print("button_4 clicked")
-    window.destroy()
+    view_estab.destroy()
     process = subprocess.Popen([sys.executable, "DeleteEstab.py"], shell=True)
     process.wait()
 
@@ -246,7 +246,7 @@ button_4.place(
 
 def on_button_5_click():
     print("button_5 clicked")
-    window.destroy()
+    view_estab.destroy()
     process = subprocess.Popen([sys.executable, "EditEstab.py"], shell=True)
     process.wait()
 
@@ -268,7 +268,7 @@ button_5.place(
 
 def on_button_6_click():
     print("button_6 clicked")
-    window.destroy()
+    view_estab.destroy()
     process = subprocess.Popen([sys.executable, "AddEstab.py"], shell=True)
     process.wait()
 
@@ -307,7 +307,7 @@ canvas.create_text(
 
 def on_button_7_click():
     print("button_7 clicked")
-    window.destroy()
+    view_estab.destroy()
     process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
     process.wait()
 
@@ -344,7 +344,7 @@ button_7.bind('<Leave>', button_7_leave)
 
 def on_button_8_click():
     print("button_8 clicked")
-    window.destroy()
+    view_estab.destroy()
     process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
     process.wait()
 
@@ -381,7 +381,7 @@ button_8.bind('<Leave>', button_8_leave)
 
 def on_button_9_click():
     print("button_9 clicked")
-    window.destroy()
+    view_estab.destroy()
     process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
     process.wait()
 
@@ -418,7 +418,7 @@ button_9.bind('<Leave>', button_9_leave)
 
 def on_button_10_click():
     print("button_10 clicked")
-    window.destroy()
+    view_estab.destroy()
     process = subprocess.Popen([sys.executable, "ReviewMenu.py"], shell=True)
     process.wait()
 
