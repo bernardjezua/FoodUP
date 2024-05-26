@@ -1,4 +1,6 @@
 from pathlib import Path
+import sys
+import subprocess
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
@@ -15,7 +17,19 @@ def relative_to_assets(path: str) -> Path:
 
 window = Tk()
 
-window.geometry("800x500")
+w = 800
+h = 500 
+
+# get screen width and height
+ws = window.winfo_screenwidth() 
+hs = window.winfo_screenheight()
+
+# calculate x and y coordinates for the Tk root window
+x = (ws/2) - (w/2)
+y = (hs/2) - (h/2)
+
+# set the dimensions of the screen and where it is placed
+window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 window.configure(bg = "#FFFFFF")
 
 
@@ -196,13 +210,19 @@ canvas.create_text(
     font=("Inter Bold", 25 * -1)
 )
 
+def on_button_7_click():
+    print("button_7 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
+    process.wait()
+
 button_image_7 = PhotoImage(
     file=relative_to_assets("button_7.png"))
 button_7 = Button(
     image=button_image_7,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_7 clicked"),
+    command=on_button_7_click,
     relief="flat"
 )
 button_7.place(
@@ -227,6 +247,9 @@ def button_7_leave(e):
 button_7.bind('<Enter>', button_7_hover)
 button_7.bind('<Leave>', button_7_leave)
 
+def on_button_8_click():
+    print("button_8 clicked")
+    window.destroy()
 
 button_image_8 = PhotoImage(
     file=relative_to_assets("button_8.png"))
@@ -234,7 +257,7 @@ button_8 = Button(
     image=button_image_8,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_8 clicked"),
+    command=on_button_8_click,
     relief="flat"
 )
 button_8.place(
@@ -259,6 +282,11 @@ def button_8_leave(e):
 button_8.bind('<Enter>', button_8_hover)
 button_8.bind('<Leave>', button_8_leave)
 
+def on_button_9_click():
+    print("button_9 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+    process.wait()
 
 button_image_9 = PhotoImage(
     file=relative_to_assets("button_9.png"))
@@ -266,7 +294,7 @@ button_9 = Button(
     image=button_image_9,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_9 clicked"),
+    command=on_button_9_click,
     relief="flat"
 )
 button_9.place(
@@ -291,6 +319,11 @@ def button_9_leave(e):
 button_9.bind('<Enter>', button_9_hover)
 button_9.bind('<Leave>', button_9_leave)
 
+def on_button_10_click():
+    print("button_10 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ReviewMenu.py"], shell=True)
+    process.wait()
 
 button_image_10 = PhotoImage(
     file=relative_to_assets("button_10.png"))
@@ -298,7 +331,7 @@ button_10 = Button(
     image=button_image_10,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_10 clicked"),
+    command=on_button_10_click,
     relief="flat"
 )
 button_10.place(
