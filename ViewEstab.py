@@ -13,14 +13,17 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame10"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-window = Tk()
+view_estab = Tk()
+
+view_estab.geometry("800x500")
+view_estab.configure(bg = "#FFFFFF")
 
 w = 800
 h = 500 
 
 # get screen width and height
-ws = window.winfo_screenwidth() 
-hs = window.winfo_screenheight()
+ws = view_estab.winfo_screenwidth() 
+hs = view_estab.winfo_screenheight()
 
 # calculate x and y coordinates for the Tk root window
 x = (ws/2) - (w/2)
@@ -31,7 +34,7 @@ window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 window.configure(bg = "#FFFFFF")
 
 canvas = Canvas(
-    window,
+    view_estab,
     bg = "#FFFFFF",
     height = 500,
     width = 800,
@@ -451,5 +454,10 @@ canvas.create_text(
     fill="#DE1A1A",
     font=("Inter", 11 * -1)
 )
-window.resizable(False, False)
-window.mainloop()
+
+
+view_estab.resizable(False, False)
+view_estab.mainloop()
+
+
+

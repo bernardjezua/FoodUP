@@ -14,7 +14,6 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame2"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-
 window = Tk()
 
 w = 800  # width for the Tk root
@@ -31,7 +30,6 @@ y = (hs/2) - (h/2)
 # set the dimensions of the screen and where it is placed
 window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 window.configure(bg = "#DE1A1A")
-
 
 canvas = Canvas(
     window,
@@ -243,5 +241,8 @@ canvas.create_text(
     fill="#FFFFFF",
     font=("Inter Black", 39 * -1)
 )
+
+
+
 window.resizable(False, False)
 window.mainloop()
