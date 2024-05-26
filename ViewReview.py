@@ -30,7 +30,6 @@ y = (hs/2) - (h/2)
 window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 window.configure(bg = "#FFFFFF")
 
-
 canvas = Canvas(
     window,
     bg = "#FFFFFF",
