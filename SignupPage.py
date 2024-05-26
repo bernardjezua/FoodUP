@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from LoginPage import window
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
@@ -12,11 +12,6 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame1"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-
-window = Tk()
-
-window.geometry("800x500")
-window.configure(bg = "#FFFFFF")
 
 
 canvas = Canvas(

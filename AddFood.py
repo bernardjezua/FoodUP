@@ -1,8 +1,10 @@
 from pathlib import Path
-
+from LoginPage import window
 # from tkinter import *
+
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from OperationFunctions import *
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -13,10 +15,6 @@ def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 
-window = Tk()
-
-window.geometry("800x500")
-window.configure(bg = "#FFFFFF")
 
 
 canvas = Canvas(
@@ -63,13 +61,14 @@ button_1.place(
     height=19.354839324951172
 )
 
+#add food button
 button_image_2 = PhotoImage(
     file=relative_to_assets("button_2.png"))
 button_2 = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_2 clicked"),
+    command=lambda: addFood(entry_4, entry_2, entry_3, entry_1 ,entry_5),
     relief="flat"
 )
 button_2.place(
@@ -351,6 +350,7 @@ entry_bg_4 = canvas.create_image(
     83.5,
     image=entry_image_4
 )
+#entry for food name
 entry_4 = Entry(
     bd=0,
     bg="#F2D398",

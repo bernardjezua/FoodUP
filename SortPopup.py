@@ -13,14 +13,14 @@ def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 
-window = Tk()
+sort = Tk()
 
-window.geometry("287x222")
-window.configure(bg = "#FFFFFF")
+sort.geometry("287x222")
+sort.configure(bg = "#FFFFFF")
 
 
 canvas = Canvas(
-    window,
+    sort,
     bg = "#FFFFFF",
     height = 222,
     width = 287,
@@ -153,5 +153,5 @@ canvas.create_text(
     fill="#D78521",
     font=("Inter Bold", 18 * -1)
 )
-window.resizable(False, False)
-window.mainloop()
+sort.resizable(False, False)
+sort.mainloop()

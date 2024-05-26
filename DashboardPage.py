@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from LoginPage import window
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
@@ -11,12 +11,6 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame2"
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
-
-
-window = Tk()
-
-window.geometry("800x500")
-window.configure(bg = "#DE1A1A")
 
 
 canvas = Canvas(
@@ -144,7 +138,7 @@ button_4 = Button(
     bg="#D78521",
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_4 clicked"),
+    command=lambda:print("button_4 clicked"),
     relief="flat"
 )
 button_4.place(
@@ -203,5 +197,8 @@ canvas.create_text(
     fill="#FFFFFF",
     font=("Inter Black", 39 * -1)
 )
+
+
+
 window.resizable(False, False)
 window.mainloop()

@@ -13,14 +13,14 @@ def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 
-window = Tk()
+view_estab = Tk()
 
-window.geometry("800x500")
-window.configure(bg = "#FFFFFF")
+view_estab.geometry("800x500")
+view_estab.configure(bg = "#FFFFFF")
 
 
 canvas = Canvas(
-    window,
+    view_estab,
     bg = "#FFFFFF",
     height = 500,
     width = 800,
@@ -341,5 +341,10 @@ canvas.create_text(
     fill="#DE1A1A",
     font=("Inter", 11 * -1)
 )
-window.resizable(False, False)
-window.mainloop()
+
+
+view_estab.resizable(False, False)
+view_estab.mainloop()
+
+
+
