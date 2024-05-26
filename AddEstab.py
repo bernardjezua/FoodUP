@@ -228,13 +228,20 @@ canvas.create_text(
     font=("Inter", 14 * -1)
 )
 
+def on_button_2_click():
+    # TODO: Implement add estab logic here
+    print("button_2 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process.wait()
+
 button_image_2 = PhotoImage(
     file=relative_to_assets("button_2.png"))
 button_2 = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_2 clicked"),
+    command=lambda: on_button_2_click(),
     relief="flat"
 )
 button_2.place(
@@ -244,13 +251,19 @@ button_2.place(
     height=49.0
 )
 
+def on_button_3_click():
+    print("button_3 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+    process.wait()
+
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
 button_3 = Button(
     image=button_image_3,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_3 clicked"),
+    command=lambda: on_button_3_click(),
     relief="flat"
 )
 button_3.place(
@@ -275,6 +288,11 @@ def button_3_leave(e):
 button_3.bind('<Enter>', button_3_hover)
 button_3.bind('<Leave>', button_3_leave)
 
+def on_button_4_click():
+    print("button_4 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+    process.wait()
 
 button_image_4 = PhotoImage(
     file=relative_to_assets("button_4.png"))
@@ -282,7 +300,7 @@ button_4 = Button(
     image=button_image_4,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_4 clicked"),
+    command=lambda: on_button_4_click(),
     relief="flat"
 )
 button_4.place(
@@ -292,13 +310,19 @@ button_4.place(
     height=42.0
 )
 
+def on_button_5_click():
+    print("button_5 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process.wait()
+
 button_image_5 = PhotoImage(
     file=relative_to_assets("button_5.png"))
 button_5 = Button(
     image=button_image_5,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_5 clicked"),
+    command=lambda: on_button_5_click(),
     relief="flat"
 )
 button_5.place(
@@ -339,6 +363,11 @@ def button_5_leave(e):
 button_5.bind('<Enter>', button_5_hover)
 button_5.bind('<Leave>', button_5_leave)
 
+def on_button_6_click():
+    print("button_6 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
+    process.wait()
 
 button_image_6 = PhotoImage(
     file=relative_to_assets("button_6.png"))
@@ -346,7 +375,7 @@ button_6 = Button(
     image=button_image_6,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_6 clicked"),
+    command=lambda: on_button_6_click(),
     relief="flat"
 )
 button_6.place(

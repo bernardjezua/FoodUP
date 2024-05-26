@@ -216,13 +216,19 @@ button_drop_3.place(
 #     height=26.0
 # )
 
+def on_button_4_click():
+    print("button_4 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "DeleteEstab.py"], shell=True)
+    process.wait()
+
 button_image_4 = PhotoImage(
     file=relative_to_assets("button_4.png"))
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_4 clicked"),
+    command=lambda: on_button_4_click(),
     relief="flat"
 )
 button_4.place(
@@ -232,13 +238,19 @@ button_4.place(
     height=30.0
 )
 
+def on_button_5_click():
+    print("button_5 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "EditEstab.py"], shell=True)
+    process.wait()
+
 button_image_5 = PhotoImage(
     file=relative_to_assets("button_5.png"))
 button_5 = Button(
     image=button_image_5,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_5 clicked"),
+    command=lambda: on_button_5_click(),
     relief="flat"
 )
 button_5.place(
@@ -327,6 +339,8 @@ button_7.bind('<Leave>', button_7_leave)
 def on_button_8_click():
     print("button_8 clicked")
     window.destroy()
+    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process.wait()
 
 button_image_8 = PhotoImage(
     file=relative_to_assets("button_8.png"))
