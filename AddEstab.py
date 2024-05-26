@@ -1,4 +1,6 @@
 from pathlib import Path
+import sys
+import subprocess
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
@@ -49,13 +51,20 @@ canvas.create_rectangle(
     fill="#DE1A1A",
     outline="")
 
+def on_button_1_click():
+    print("button_1 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process.wait()
+
+
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_1 clicked"),
+    command=lambda: on_button_1_click(),
     relief="flat"
 )
 button_1.place(
