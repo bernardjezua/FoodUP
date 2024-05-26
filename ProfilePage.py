@@ -202,7 +202,7 @@ button_4.bind('<Leave>', button_4_leave)
 def on_button_5_click():
     print("button_5 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ReviewMenu.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
     process.wait()
 
 button_image_5 = PhotoImage(

@@ -48,13 +48,19 @@ canvas.create_rectangle(
     fill="#DE1A1A",
     outline="")
 
+def on_button_1_click():
+    print("button_1 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+    process.wait()
+
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_1 clicked"),
+    command=on_button_1_click,
     relief="flat"
 )
 button_1.place(
@@ -79,6 +85,11 @@ def button_1_leave(e):
 button_1.bind('<Enter>', button_1_hover)
 button_1.bind('<Leave>', button_1_leave)
 
+def on_button_2_click():
+    print("button_2 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+    process.wait()
 
 button_image_2 = PhotoImage(
     file=relative_to_assets("button_2.png"))
@@ -86,7 +97,7 @@ button_2 = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_2 clicked"),
+    command=on_button_2_click,
     relief="flat"
 )
 button_2.place(
@@ -111,6 +122,9 @@ def button_2_leave(e):
 button_2.bind('<Enter>', button_2_hover)
 button_2.bind('<Leave>', button_2_leave)
 
+def on_button_3_click():
+    print("button_3 clicked")
+    window.destroy()
 
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
@@ -118,7 +132,7 @@ button_3 = Button(
     image=button_image_3,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_3 clicked"),
+    command=on_button_3_click,
     relief="flat"
 )
 button_3.place(
@@ -128,13 +142,19 @@ button_3.place(
     height=42.0
 )
 
+def on_button_4_click():
+    print("button_4 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
+    process.wait()
+
 button_image_4 = PhotoImage(
     file=relative_to_assets("button_4.png"))
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_4 clicked"),
+    command=on_button_4_click,
     relief="flat"
 )
 button_4.place(
@@ -193,13 +213,19 @@ button_5.place(
     height=19.354839324951172
 )
 
+def on_button_6_click():
+    print("button_6 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process.wait()
+
 button_image_6 = PhotoImage(
     file=relative_to_assets("button_6.png"))
 button_6 = Button(
     image=button_image_6,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_6 clicked"),
+    command=on_button_6_click,
     relief="flat"
 )
 button_6.place(
@@ -246,13 +272,19 @@ entry_1.place(
     height=47.0
 )
 
+def on_button_7_click():
+    print("button_7 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process.wait()
+
 button_image_7 = PhotoImage(
     file=relative_to_assets("button_7.png"))
 button_7 = Button(
     image=button_image_7,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_7 clicked"),
+    command=on_button_7_click,
     relief="flat"
 )
 button_7.place(

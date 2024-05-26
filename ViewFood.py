@@ -108,13 +108,19 @@ canvas.create_rectangle(
     fill="#F0F0F0",
     outline="")
 
+def on_button_3_click():
+    print("button_3 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "DeleteFood.py"], shell=True)
+    process.wait()
+
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
 button_3 = Button(
     image=button_image_3,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_3 clicked"),
+    command=on_button_3_click,
     relief="flat"
 )
 button_3.place(
@@ -124,13 +130,19 @@ button_3.place(
     height=30.0
 )
 
+def on_button_4_click():
+    print("button_4 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "EditFood.py"], shell=True)
+    process.wait()
+
 button_image_4 = PhotoImage(
     file=relative_to_assets("button_4.png"))
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_4 clicked"),
+    command=on_button_4_click,
     relief="flat"
 )
 button_4.place(
@@ -140,13 +152,19 @@ button_4.place(
     height=30.0
 )
 
+def on_button_5_click():
+    print("button_5 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "AddFood.py"], shell=True)
+    process.wait()
+
 button_image_5 = PhotoImage(
     file=relative_to_assets("button_5.png"))
 button_5 = Button(
     image=button_image_5,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_5 clicked"),
+    command=on_button_5_click,
     relief="flat"
 )
 button_5.place(
@@ -285,7 +303,7 @@ button_8.bind('<Leave>', button_8_leave)
 def on_button_9_click():
     print("button_9 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ReviewMenu.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
     process.wait()
 
 button_image_9 = PhotoImage(

@@ -92,7 +92,7 @@ button_1.bind('<Leave>', button_1_leave)
 def on_button_2_click():
     print("button_2 clicked")
     window.withdraw()
-    process = subprocess.Popen([sys.executable, "ReviewMenu.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
     process.wait()
     window.wm_deiconify()
 
