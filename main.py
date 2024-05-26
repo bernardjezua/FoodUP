@@ -1,6 +1,6 @@
 from doctest import master
 import tkinter as tk
-from tkinter import Label, Toplevel, ttk, messagebox
+from tkinter import Label, Toplevel, ttk, messagebox, CENTER, NO
 import mysql.connector
 
 class FoodReviewApp:
@@ -93,9 +93,26 @@ class FoodReviewApp:
         view_reports_frame = ttk.LabelFrame(self.tab4, text="View Reports")
         view_reports_frame.pack(padx=10, pady=10)
 
+        table = ttk.Treeview(view_reports_frame)
+
+        table['columns'] = ('establishment_id', 'description', 'establishment_name')
+
+        table.column("#0", width=0,  stretch=NO)
+        table.column("establishment_id",anchor=CENTER, width=80)
+        table.column("description",anchor=CENTER,width=80)
+        table.column("establishment_name",anchor=CENTER,width=80)
+
+        table.heading("#0",text="",anchor=CENTER)
+        table.heading("establishment_id",text="Id",anchor=CENTER)
+        table.heading("description",text="Description",anchor=CENTER)
+        table.heading("establishment_name",text="Name",anchor=CENTER)
+
+        
         # Buttons for viewing reports
-        view_all_food_estabs = ttk.Button(view_reports_frame, text="View All Food Establishments", command=self.select_all_food_estabs)
+        view_all_food_estabs = ttk.Button(view_reports_frame, text="View All Food Establishments", command=lambda: self.select_all_food_estabs(table))
         view_all_food_estabs.pack(pady=5)
+        
+        table.pack()
 
         # add_button = ttk.Button(view_reports_frame, text="Add Establishment", command=self.add_establishment)
         # add_button.pack(pady=5)
@@ -108,10 +125,12 @@ class FoodReviewApp:
 
 
     # Other helper functions
-    def select_all_food_estabs(self):
+    def select_all_food_estabs(self, table):
         sql_statement = "SELECT * FROM FOOD_ESTABLISHMENT"
         self.cursor.execute(sql_statement)
         result = self.cursor.fetchall()
+        for index,value in enumerate(result):
+            table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[1],value[2]))
         print(result)
 
     def add_establishment(self):
