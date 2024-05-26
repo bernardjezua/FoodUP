@@ -18,8 +18,8 @@ view_estab = Tk()
 view_estab.geometry("800x500")
 view_estab.configure(bg = "#FFFFFF")
 
-window.geometry("800x500")
-window.configure(bg = "#FFFFFF")
+# window.geometry("800x500")
+# window.configure(bg = "#FFFFFF")
 
 w = 800
 h = 500 
