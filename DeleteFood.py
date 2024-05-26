@@ -1,5 +1,4 @@
 from pathlib import Path
-
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
@@ -28,7 +27,6 @@ y = (hs/2) - (h/2)
 # set the dimensions of the screen and where it is placed
 window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 window.configure(bg = "#FFFFFF")
-
 
 canvas = Canvas(
     window,

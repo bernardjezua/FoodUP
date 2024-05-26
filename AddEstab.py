@@ -5,6 +5,7 @@ import subprocess
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from OperationFunctions import *
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -30,7 +31,6 @@ y = (hs/2) - (h/2)
 # set the dimensions of the screen and where it is placed
 window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 window.configure(bg = "#FFFFFF")
-
 
 canvas = Canvas(
     window,
@@ -241,7 +241,7 @@ button_2 = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: on_button_2_click(),
+    command=lambda: addEstab(entry_4, entry_2, entry_3, entry_1, entry_5),
     relief="flat"
 )
 button_2.place(
