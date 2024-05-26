@@ -1,5 +1,7 @@
 from pathlib import Path
-from LoginPage import window
+import sys
+import subprocess
+
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
@@ -13,7 +15,22 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame6"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
+window = Tk()
 
+w = 800
+h = 500 
+
+# get screen width and height
+ws = window.winfo_screenwidth() 
+hs = window.winfo_screenheight()
+
+# calculate x and y coordinates for the Tk root window
+x = (ws/2) - (w/2)
+y = (hs/2) - (h/2)
+
+# set the dimensions of the screen and where it is placed
+window.geometry('%dx%d+%d+%d' % (w, h, x, y))
+window.configure(bg = "#FFFFFF")
 
 canvas = Canvas(
     window,
@@ -34,13 +51,20 @@ canvas.create_rectangle(
     fill="#DE1A1A",
     outline="")
 
+def on_button_1_click():
+    print("button_1 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process.wait()
+
+
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_1 clicked"),
+    command=lambda: on_button_1_click(),
     relief="flat"
 )
 button_1.place(

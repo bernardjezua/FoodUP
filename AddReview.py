@@ -17,10 +17,21 @@ ASSETS_PATH = OUTPUT_PATH / "assets/addreview"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-
 window = Tk()
 
-window.geometry("800x500")
+w = 800
+h = 500 
+
+# get screen width and height
+ws = window.winfo_screenwidth() 
+hs = window.winfo_screenheight()
+
+# calculate x and y coordinates for the Tk root window
+x = (ws/2) - (w/2)
+y = (hs/2) - (h/2)
+
+# set the dimensions of the screen and where it is placed
+window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 window.configure(bg = "#FFFFFF")
 
 
