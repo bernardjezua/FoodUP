@@ -4,7 +4,7 @@ import subprocess
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Button, PhotoImage, ttk, CENTER, NO, StringVar
+from tkinter import Tk, Canvas, Entry, Button, PhotoImage, ttk, CENTER, NO, StringVar, OptionMenu
 from QueriesAPI import QueriesAPI
 
 OUTPUT_PATH = Path(__file__).parent
@@ -170,21 +170,51 @@ entry_1.place(
     height=24.0
 )
 
+options = [
+    "Filter",
+    "Rating >= 4",
+    "5",
+    "4",
+    "3",
+    "2",
+    "1",
+]
+
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
-button_3 = Button(
-    image=button_image_3,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: print("button_3 clicked"),
-    relief="flat"
+
+clicked = StringVar()
+clicked.set("Filter")
+button_drop_3 = OptionMenu(canvas,
+    clicked,
+    *options
 )
-button_3.place(
+button_drop_3.configure(
+    bd=0,
+    activebackground="#FFFFFF",
+    bg="#FFFFFF",
+    fg="#000716",
+    highlightthickness=0
+)
+button_drop_3.place(
     x=608.0,
     y=174.0,
     width=130.0,
     height=26.0
 )
+# button_3 = Button(
+#     image=button_image_3,
+#     borderwidth=0,
+#     highlightthickness=0,
+#     command=lambda: print("button_3 clicked"),
+#     relief="flat"
+# )
+# button_3.place(
+#     x=608.0,
+#     y=174.0,
+#     width=130.0,
+#     height=26.0
+# )
 
 button_image_4 = PhotoImage(
     file=relative_to_assets("button_4.png"))
@@ -218,13 +248,19 @@ button_5.place(
     height=30.0
 )
 
+def on_button_6_click():
+    print("button_6 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "AddEstab.py"], shell=True)
+    process.wait()
+
 button_image_6 = PhotoImage(
     file=relative_to_assets("button_6.png"))
 button_6 = Button(
     image=button_image_6,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_6 clicked"),
+    command=lambda: on_button_6_click(),
     relief="flat"
 )
 button_6.place(
