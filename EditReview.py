@@ -7,6 +7,8 @@ from pathlib import Path
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
+import subprocess
+import sys
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 
@@ -46,6 +48,7 @@ canvas = Canvas(
 )
 
 canvas.place(x = 0, y = 0)
+#edit button
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
@@ -62,13 +65,17 @@ button_1.place(
     height=49.0
 )
 
+def on_button_2_click():
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+    process.wait()
 button_image_2 = PhotoImage(
     file=relative_to_assets("button_2.png"))
 button_2 = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_2 clicked"),
+    command=lambda: on_button_2_click(),
     relief="flat"
 )
 button_2.place(
@@ -78,6 +85,7 @@ button_2.place(
     height=37.0
 )
 
+#search button
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
 button_3 = Button(
@@ -127,13 +135,17 @@ button_4.place(
     height=19.354839324951172
 )
 
+def on_button_5_click():
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+    process.wait()
 button_image_5 = PhotoImage(
     file=relative_to_assets("button_5.png"))
 button_5 = Button(
     image=button_image_5,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_5 clicked"),
+    command=lambda: on_button_5_click(),
     relief="flat"
 )
 button_5.place(
@@ -142,6 +154,10 @@ button_5.place(
     width=201.0,
     height=42.0
 )
+def on_button_6_click():
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
+    process.wait()
 
 button_image_6 = PhotoImage(
     file=relative_to_assets("button_6.png"))
@@ -149,7 +165,7 @@ button_6 = Button(
     image=button_image_6,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_6 clicked"),
+    command=lambda: on_button_6_click(),
     relief="flat"
 )
 button_6.place(
@@ -174,14 +190,18 @@ def button_6_leave(e):
 button_6.bind('<Enter>', button_6_hover)
 button_6.bind('<Leave>', button_6_leave)
 
-
+def on_button_7_click():
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process.wait()
+    
 button_image_7 = PhotoImage(
     file=relative_to_assets("button_7.png"))
 button_7 = Button(
     image=button_image_7,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_7 clicked"),
+    command=lambda: on_button_7_click(),
     relief="flat"
 )
 button_7.place(
@@ -206,6 +226,10 @@ def button_7_leave(e):
 button_7.bind('<Enter>', button_7_hover)
 button_7.bind('<Leave>', button_7_leave)
 
+def on_button_8_click():
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process.wait()
 
 button_image_8 = PhotoImage(
     file=relative_to_assets("button_8.png"))
@@ -213,7 +237,7 @@ button_8 = Button(
     image=button_image_8,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_8 clicked"),
+    command=lambda: on_button_8_click(),
     relief="flat"
 )
 button_8.place(
@@ -238,14 +262,17 @@ def button_8_leave(e):
 button_8.bind('<Enter>', button_8_hover)
 button_8.bind('<Leave>', button_8_leave)
 
-
+def on_button_9_click():
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+    process.wait()
 button_image_9 = PhotoImage(
     file=relative_to_assets("button_9.png"))
 button_9 = Button(
     image=button_image_9,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_9 clicked"),
+    command=lambda: on_button_9_click(),
     relief="flat"
 )
 button_9.place(

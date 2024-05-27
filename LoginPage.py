@@ -4,7 +4,7 @@ from pathlib import Path
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-
+from QueriesAPI import QueriesAPI
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets/frame0"
@@ -212,11 +212,12 @@ canvas.create_text(
 
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
+#LOGIN BUTTON
 button_3 = Button(
     image=button_image_3,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_3 clicked"),
+    command=lambda: QueriesAPI().verify_credentials(entry_2.get(), entry_1.get(), window),
     relief="flat"
 )
 button_3.place(
@@ -242,5 +243,7 @@ button_4.place(
     width=435.0,
     height=33.0
 )
+# def printRes():
+#     print(f'''email:{}\npassword:{}''')
 window.resizable(False, False)
 window.mainloop()

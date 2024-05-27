@@ -2,6 +2,7 @@ from pathlib import Path
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from QueriesAPI import QueriesAPI
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -79,7 +80,7 @@ button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_1 clicked"),
+    command=lambda: QueriesAPI().create_account(entry_4.get(), entry_2.get(), entry_1.get(), entry_3.get(), window),
     relief="flat"
 )
 button_1.place(
@@ -221,5 +222,6 @@ canvas.create_text(
     fill="#D78521",
     font=("Inter", 14 * -1)
 )
+
 window.resizable(False, False)
 window.mainloop()

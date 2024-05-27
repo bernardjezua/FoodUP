@@ -1,5 +1,6 @@
 from pathlib import Path
-from LoginPage import window
+import subprocess
+import sys
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage

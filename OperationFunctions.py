@@ -1,3 +1,4 @@
+from tkinter import messagebox
 import shortuuid
 from datetime import date, time, datetime
 
@@ -60,3 +61,5 @@ def addReview(rate_text, food_text, estab_text, review_text):
     email = "customer1@email.com"
     reviewInsert = f'''INSERT INTO REVIEW(review_id, rating, rev_date, rev_stat, email, estab_id, food_id) VALUES ({reviewid}, {rating}, '{datereviewed}', '{review}', '{email}', {estabid}, {foodid})'''
     print(reviewInsert)
+
+
