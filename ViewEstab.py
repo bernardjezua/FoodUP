@@ -419,7 +419,7 @@ button_9.bind('<Leave>', button_9_leave)
 def on_button_10_click():
     print("button_10 clicked")
     view_estab.destroy()
-    process = subprocess.Popen([sys.executable, "ReviewMenu.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
     process.wait()
 
 button_image_10 = PhotoImage(

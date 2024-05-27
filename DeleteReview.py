@@ -150,7 +150,7 @@ button_4 = Button(
     image=button_image_4,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: on_button_4_click,
+    command=lambda: on_button_4_click(),
     relief="flat"
 )
 button_4.place(
