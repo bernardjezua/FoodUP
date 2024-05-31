@@ -4,7 +4,7 @@ import subprocess
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Button, PhotoImage, ttk, CENTER, NO, StringVar, OptionMenu
+from tkinter import Tk, Canvas, Entry, Button, PhotoImage, ttk, CENTER, NO, StringVar, OptionMenu, font
 from QueriesAPI import QueriesAPI
 
 OUTPUT_PATH = Path(__file__).parent
@@ -106,22 +106,49 @@ canvas.create_rectangle(
     outline="")
 
 table = ttk.Treeview()
-table['columns'] = ('estab_id', 'estab_name', 'estab_desc', 'serv_mod', 'loc', 'contact')
+table['columns'] = ('estab_id', 'estab_name', 'estab_desc', 'serv_mod', 'loc', 'contact', 'avg_rating')
 table.column("#0", width=0,  stretch=NO)
-table.column("estab_id",anchor=CENTER, width=20)
-table.column("estab_name",anchor=CENTER,width=80)
-table.column("estab_desc",anchor=CENTER,width=80)
-table.column("serv_mod",anchor=CENTER,width=80)
-table.column("loc",anchor=CENTER,width=80)
-table.column("contact",anchor=CENTER,width=80)
+table.column("estab_id",anchor=CENTER,width=40)
+table.column("estab_name",anchor=CENTER,minwidth=50)
+table.column("estab_desc",anchor=CENTER,minwidth=50)
+table.column("serv_mod",anchor=CENTER,minwidth=50)
+table.column("loc",anchor=CENTER,minwidth=50)
+table.column("contact",anchor=CENTER,minwidth=50)
+table.column("avg_rating",anchor=CENTER,width=90)
+
+# Scrollbars
+horzScrollBar = ttk.Scrollbar(view_estab, 
+                           orient ="horizontal", 
+                           command = table.xview)
+horzScrollBar.place(
+    x=276,
+    y=480,
+    width=494,
+    height=20
+)
+vertScrollBar = ttk.Scrollbar(view_estab, 
+                           orient ="vertical", 
+                           command = table.yview)
+vertScrollBar.place(
+    x=770,
+    y=218,
+    width=20,
+    height=262
+)
+table.configure(xscrollcommand = horzScrollBar.set)
+table.configure(yscrollcommand = vertScrollBar.set)
+
+# Disable resizing of columns
+table.bind('<Button-1>', 'break')
 
 table.heading("#0",text="",anchor=CENTER)
 table.heading("estab_id",text="Id",anchor=CENTER)
 table.heading("estab_name",text="Name",anchor=CENTER)
 table.heading("estab_desc",text="Description",anchor=CENTER)
-table.heading("serv_mod",text="Modes of Service",anchor=CENTER)
-table.heading("loc",text="Location",anchor=CENTER)
-table.heading("contact",text="Contact",anchor=CENTER)
+table.heading("serv_mod",text="Mode/s of Service",anchor=CENTER)
+table.heading("loc",text="Location/s",anchor=CENTER)
+table.heading("contact",text="Contact Detail/s",anchor=CENTER)
+table.heading("avg_rating",text="Average Rating",anchor=CENTER)
 table.place(
     x=276,
     y=218,
@@ -178,22 +205,31 @@ entry_1.place(
 
 options = [
     "Filter",
-    "Rating >= 4",
-    "5",
-    "4",
-    "3",
-    "2",
-    "1",
+    "High Rating",
+    "Average Rating",
+    "Low Rating",
 ]
 
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
 
 clicked = StringVar()
+def update_table_filter(*args):
+    clear_all(table)
+    result = db.select_food_estab_by_rating(clicked.get())
+    if(clicked.get() == "Filter"):
+        for index,value in enumerate(result):
+            table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3]))
+    else:
+        for index,value in enumerate(result):
+            table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3],value[6]))
+    
+
+clicked.trace_add("write", callback=update_table_filter)
 clicked.set("Filter")
 button_drop_3 = OptionMenu(canvas,
     clicked,
-    *options
+    *options,
 )
 button_drop_3.configure(
     bd=0,
