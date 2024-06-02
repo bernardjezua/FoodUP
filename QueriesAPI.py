@@ -84,6 +84,32 @@ class QueriesAPI():
         result = self.cursor.fetchall()[0][0]
         return result
     
+    def select_food_review_spec(self, food_id, estab_id):
+        whereclause = ""
+        if(food_id != '' or estab_id != ''):
+            whereclause = "WHERE "
+            if(food_id != ''):
+                if(estab_id != ''):
+                    whereclause += f"r.food_id = {food_id} AND r.estab_id = {estab_id}"
+                else:
+                    whereclause += f"r.food_id = {food_id}"
+            
+            if(estab_id != ''):
+                if(food_id != ''):
+                    whereclause += f"r.estab_id = {estab_id}"
+                else:
+                    whereclause += f"r.estab_id = {estab_id}"
+            
+            # if(month != ''):
+            #     if(food_id != '' or estab_id != ''):
+            #         whereclause += f" AND MONTH(r.rev_date) = {month}"
+            #     else:
+            #         whereclause += f"MONTH(r.rev_date) = {month}"
+        sql_statement = f"SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id {whereclause};"
+        self.cursor.execute(sql_statement)
+        result = self.cursor.fetchall()
+        return result
+    
     # def select_food_reviews(self, estab_id=None, food_id=None):
     #     if estab_id and food_id:
     #         estab_reviews = self.select_all_reviews_from_estab(estab_id)
@@ -142,12 +168,12 @@ class QueriesAPI():
         #print(f"Rating: {rate_text.get()}\nFood ID: {food_text.get()}\nEstab ID: {estab_text.get()}\nReview: {review_text.get('1.0', 'end-1c')}")
         reviewid = generateID()
         rating = rate_text.get()
-        foodid = food_text.get()
-        estabid = estab_text.get()
+        food_id = food_text.get()
+        estab_id = estab_text.get()
         review = review_text.get('1.0', 'end-1c')
         datereviewed = datetime.now().strftime("%Y-%m-%d")
         email =logged_user[0]
-        reviewInsert = f'''INSERT INTO REVIEW(review_id, rating, rev_date, rev_stat, email, estab_id, food_id) VALUES ({reviewid}, {rating}, '{datereviewed}', '{review}', '{email}', {estabid}, {foodid})'''
+        reviewInsert = f'''INSERT INTO REVIEW(review_id, rating, rev_date, rev_stat, email, estab_id, food_id) VALUES ({reviewid}, {rating}, '{datereviewed}', '{review}', '{email}', {estab_id}, {food_id})'''
         
         try:
             self.cursor.execute(reviewInsert)
