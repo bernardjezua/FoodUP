@@ -4,9 +4,9 @@ import subprocess
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, END
 from OperationFunctions import *
-
+from QueriesAPI import QueriesAPI
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets/frame6"
@@ -14,6 +14,28 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame6"
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
+db = QueriesAPI()
+
+def resetEntries():
+    entry_4.delete(0,END)
+    entry_2.delete(0,END)
+    entry_3.delete(0,END)
+    entry_1.delete(0,END)
+    entry_5.delete(0,END)
+
+def add_button_clicked():
+    if(entry_4.get() == '' or entry_2.get() == '' or entry_3.get() == '' or entry_1.get() == '' or entry_5.get() == ''):
+        messagebox.showerror("Add Error", "Fields cannot be empty")
+        return
+    
+    locList = entry_3.get().split(",")
+    servModList = entry_1.get().split(",")
+    contactList = entry_5.get().split(",")
+    
+    result = db.add_food_estab(entry_4.get(), entry_2.get(), locList, servModList, contactList)
+    messagebox.showinfo("Edit Establishment", "Successfully updated establishment!")
+    print(result)
 
 window = Tk()
 
@@ -241,7 +263,7 @@ button_2 = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: addEstab(entry_4, entry_2, entry_3, entry_1, entry_5),
+    command=lambda: add_button_clicked(),
     relief="flat"
 )
 button_2.place(

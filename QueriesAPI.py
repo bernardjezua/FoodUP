@@ -121,8 +121,59 @@ class QueriesAPI():
             addrev_window.destroy()
         except mysql.connector.Error as err:
             messagebox.showerror("Error", f"Error: {err}")
+
+    def add_food_estab(self, estab_name, estab_desc, loc, serv_mod, contact):
+        sql_statement = 'SELECT estab_id FROM FOOD_ESTABLISHMENT ORDER BY estab_id DESC'
+        self.cursor.execute(sql_statement)
+        result = self.cursor.fetchall()
+        newId = result[0][0] + 1
+
+        for i in loc: 
+            sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_LOCATION(estab_id, loc) VALUES (%s, %s)'
+            self.cursor.execute(sql_statement, (newId,  i))
+        for i in serv_mod:
+           sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_MODE_OF_SERVICE(estab_id, serv_mod) VALUES (%s, %s)'
+           self.cursor.execute(sql_statement, (newId,  i))
+
+        for i in contact:
+            sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_CONTACT(estab_id, contact) VALUES (%s, %s)'
+            self.cursor.execute(sql_statement, (newId,  i))
+
+        sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT(estab_id, estab_desc, estab_name) VALUES  (%s, %s, %s)'
+        self.cursor.execute(sql_statement, (newId, estab_desc, estab_name))
+
+        self.conn.commit()
+        addedFoodEstab = self.select_food_estab_by_id(str(newId))
+        return addedFoodEstab
+
         
     # ----- UPDATE STATEMENTS -----
+    def update_food_estab_by_id(self, id, estab_name, estab_desc, loc, serv_mod, contact):
+        sql_statement = 'UPDATE FOOD_ESTABLISHMENT SET estab_desc=%s, estab_name=%s WHERE estab_id=%s'
+        self.cursor.execute(sql_statement, (estab_desc, estab_name, id))
+
+        sql_statement = 'DELETE FROM FOOD_ESTABLISHMENT_CONTACT WHERE estab_id=%s'
+        self.cursor.execute(sql_statement, [id])
+        sql_statement = 'DELETE FROM FOOD_ESTABLISHMENT_LOCATION WHERE estab_id=%s'
+        self.cursor.execute(sql_statement, [id])
+        sql_statement = 'DELETE FROM FOOD_ESTABLISHMENT_MODE_OF_SERVICE WHERE estab_id=%s'
+        self.cursor.execute(sql_statement, [id])
+
+        for contactDetail in contact:
+            sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_CONTACT(estab_id, contact) VALUES(%s, %s)'
+            self.cursor.execute(sql_statement, (id, contactDetail))
+
+        for location in loc:
+            sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_LOCATION(estab_id, loc) VALUES(%s, %s)'
+            self.cursor.execute(sql_statement, (id, location))
+
+        for modeOfService in serv_mod:
+            sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_MODE_OF_SERVICE(estab_id, serv_mod) VALUES(%s, %s)'
+            self.cursor.execute(sql_statement, (id, modeOfService))
+
+        self.conn.commit()
+        updatedFoodEstab = self.select_food_estab_by_id(id)
+        return updatedFoodEstab
 
 
     # ----- DELETE STATEMENTS -----

@@ -9,15 +9,73 @@ import subprocess
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox, END
+from QueriesAPI import QueriesAPI
 
+db = QueriesAPI()
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets/editestab"
 
+def on_button_3_click():
+    print("button_3 clicked")
+    window.destroy()
+    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process.wait()
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
+def resetEntries():
+    entry_3.delete(0,END)
+    entry_2.delete(0,END)
+    entry_4.delete(0,END)
+    entry_1.delete(0,END)
+    entry_5.delete(0,END)
+
+estab_id = None
+
+def search_button_click():
+    global estab_id
+    estab_id = entry_6.get()
+    
+    if(estab_id == None or estab_id == ''):
+        messagebox.showerror("Search Error", "Enter Establishment ID first")
+        return
+    
+    # add validation for non-numeric chars
+
+    result = db.select_food_estab_by_id(estab_id)
+    if(len(result) == 0):
+        resetEntries()
+        messagebox.showerror("Search Error", "No establishment with specified ID found")
+    else:
+        resetEntries()
+        # print(result)
+        entry_2.insert(0,result[0][2])  # Name
+        entry_3.insert(0,result[0][1])  # Description
+        entry_4.insert(0,result[0][4])  # Location
+        entry_1.insert(0,result[0][5])  # Modes of Service
+        entry_5.insert(0,result[0][3])  # Contact
+        
+
+def edit_button_click():
+    if(estab_id == None):
+        messagebox.showerror("Search Error", "Enter Establishment ID first")
+        return
+    
+    # validate fields - ensure fields not empty
+    if(entry_6.get() == '' or entry_2.get() == '' or entry_3.get() == '' or entry_4.get() == '' or entry_1.get() == '' or entry_5.get() == ''):
+        messagebox.showerror("Edit Error", "Fields cannot be empty")
+        return
+    
+    locList = entry_4.get().split(",")
+    servModList = entry_1.get().split(",")
+    contactList = entry_5.get().split(",")
+    
+    result = db.update_food_estab_by_id(estab_id, entry_2.get(), entry_3.get(), locList, servModList, contactList)
+    messagebox.showinfo("Edit Establishment", "Successfully updated establishment!")
+    print(result)
 
 window = Tk()
 
@@ -56,16 +114,16 @@ canvas.create_rectangle(
     fill="#DE1A1A",
     outline="")
 
-button_image_1 = PhotoImage(
+edit_button_image = PhotoImage(
     file=relative_to_assets("button_1.png"))
-button_1 = Button(
-    image=button_image_1,
+edit_button = Button(
+    image=edit_button_image,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_1 clicked"),
+    command=lambda: edit_button_click(),
     relief="flat"
 )
-button_1.place(
+edit_button.place(
     x=372.0,
     y=439.0,
     width=299.0,
@@ -121,6 +179,28 @@ canvas.create_text(
     font=("Inter", 14 * -1)
 )
 
+# Establishment id
+entry_image_6 = PhotoImage(
+    file=relative_to_assets("entry_6.png"))
+entry_bg_6 = canvas.create_image(
+    482.5,
+    60.5,
+    image=entry_image_6
+)
+entry_6 = Entry(
+    bd=0,
+    bg="#F2D398",
+    fg="#000716",
+    highlightthickness=0
+)
+entry_6.place(
+    x=379.0,
+    y=36.0,
+    width=207.0,
+    height=47.0
+)
+
+# Modes of Service
 entry_image_1 = PhotoImage(
     file=relative_to_assets("entry_1.png"))
 entry_bg_1 = canvas.create_image(
@@ -159,6 +239,7 @@ canvas.create_text(
     font=("Inter", 14 * -1)
 )
 
+# Establishment Name
 entry_image_2 = PhotoImage(
     file=relative_to_assets("entry_2.png"))
 entry_bg_2 = canvas.create_image(
@@ -179,6 +260,7 @@ entry_2.place(
     height=47.0
 )
 
+# Establishment Description
 entry_image_3 = PhotoImage(
     file=relative_to_assets("entry_3.png"))
 entry_bg_3 = canvas.create_image(
@@ -207,10 +289,6 @@ canvas.create_text(
     fill="#B0A6BF",
     font=("Inter Bold", 9 * -1)
 )
-
-def on_button_3_click():
-    print("button_3 clicked")
-    window.destroy()
 
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
@@ -243,7 +321,7 @@ def button_3_leave(e):
 button_3.bind('<Enter>', button_3_hover)
 button_3.bind('<Leave>', button_3_leave)
 
-
+# Location
 entry_image_4 = PhotoImage(
     file=relative_to_assets("entry_4.png"))
 entry_bg_4 = canvas.create_image(
@@ -311,6 +389,7 @@ image_1 = canvas.create_image(
     image=image_image_1
 )
 
+# Contact Details
 entry_image_5 = PhotoImage(
     file=relative_to_assets("entry_5.png"))
 entry_bg_5 = canvas.create_image(
@@ -452,40 +531,21 @@ canvas.create_text(
     font=("Inter", 14 * -1)
 )
 
-button_image_9 = PhotoImage(
+search_button_image = PhotoImage(
     file=relative_to_assets("button_9.png"))
-button_9 = Button(
-    image=button_image_9,
+search_button = Button(
+    image=search_button_image,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_9 clicked"),
+    command=lambda: search_button_click(),
     relief="flat"
 )
-button_9.place(
+search_button.place(
     x=603.0,
     y=42.0,
     width=67.8702392578125,
     height=37.0
 )
 
-entry_image_6 = PhotoImage(
-    file=relative_to_assets("entry_6.png"))
-entry_bg_6 = canvas.create_image(
-    482.5,
-    60.5,
-    image=entry_image_6
-)
-entry_6 = Entry(
-    bd=0,
-    bg="#F2D398",
-    fg="#000716",
-    highlightthickness=0
-)
-entry_6.place(
-    x=379.0,
-    y=36.0,
-    width=207.0,
-    height=47.0
-)
 window.resizable(False, False)
 window.mainloop()
