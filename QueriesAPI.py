@@ -215,6 +215,23 @@ class QueriesAPI():
 
 
     # ----- DELETE STATEMENTS -----
+    def delete_review(self, review_id):
+        if not review_id.isdigit():
+            return "Review ID must be a number."
+
+        if(review_id != ''):
+            self.cursor.execute(f"SELECT * FROM review WHERE review_id = {review_id}")
+            review_search = self.cursor.fetchall()
+            if(review_search != []):
+                delete_review = f'''DELETE FROM review WHERE review_id = "{review_id}";'''               
+                try:
+                    self.cursor.execute(delete_review)
+                    self.conn.commit()
+                    return None
+                except mysql.connector.Error as err:
+                    return f"Error: {err}"
+            else:
+                return "No review was found with the entered id!"
 
     def __del__(self):
         self.cursor.close()
