@@ -71,6 +71,42 @@ class QueriesAPI():
         result = self.cursor.fetchall()
         return result
 
+    # ----- FOOD REVIEW FUNCTIONS -----
+    def select_all_food_reviews(self):
+        sql_statement = "SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id;"
+        self.cursor.execute(sql_statement)
+        result = self.cursor.fetchall()
+        return result
+    
+    def count_food_reviews(self):
+        sql_statement = f"SELECT COUNT(review_id) FROM review;"
+        self.cursor.execute(sql_statement)
+        result = self.cursor.fetchall()[0][0]
+        return result
+    
+    # def select_food_reviews(self, estab_id=None, food_id=None):
+    #     if estab_id and food_id:
+    #         estab_reviews = self.select_all_reviews_from_estab(estab_id)
+    #         food_reviews = self.select_all_reviews_for_food(food_id=food_id)
+    #         return estab_reviews + food_reviews
+    #     elif estab_id:
+    #         return self.select_all_reviews_from_estab(estab_id)
+    #     elif food_id:
+    #         return self.select_all_reviews_for_food(food_id=food_id)
+    #     else:
+    #         return []
+    
+    # def select_all_reviews_from_estab(self, estab_id):
+    #     sql_statement = "SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id WHERE fe.estab_id = %s;"
+    #     self.cursor.execute(sql_statement, [estab_id])
+    #     result = self.cursor.fetchall()
+    #     return result
+
+    # def select_all_reviews_for_food(self, estab_id=None, food_id=None):
+    #     sql_statement = "SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id WHERE fi.food_id = %s;"
+    #     self.cursor.execute(sql_statement, [estab_id, food_id])
+    #     result = self.cursor.fetchall()
+    #     return result
 
     def verify_credentials(self, email, password, login_window): #------LOG IN VERIFICATION------#
         sql_statement = "SELECT email FROM CUSTOMER WHERE email = %s AND password = %s"

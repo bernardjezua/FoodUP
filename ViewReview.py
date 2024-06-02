@@ -3,7 +3,8 @@ import sys, subprocess
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Button, PhotoImage, ttk, CENTER, NO, StringVar, OptionMenu, font
+from QueriesAPI import QueriesAPI
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -13,25 +14,25 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame11"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-window = Tk()
+view_review = Tk()
 
 w = 800
 h = 500 
 
 # get screen width and height
-ws = window.winfo_screenwidth() 
-hs = window.winfo_screenheight()
+ws = view_review.winfo_screenwidth() 
+hs = view_review.winfo_screenheight()
 
 # calculate x and y coordinates for the Tk root window
 x = (ws/2) - (w/2)
 y = (hs/2) - (h/2)
 
 # set the dimensions of the screen and where it is placed
-window.geometry('%dx%d+%d+%d' % (w, h, x, y))
-window.configure(bg = "#FFFFFF")
+view_review.geometry('%dx%d+%d+%d' % (w, h, x, y))
+view_review.configure(bg = "#FFFFFF")
 
 canvas = Canvas(
-    window,
+    view_review,
     bg = "#FFFFFF",
     height = 500,
     width = 800,
@@ -92,7 +93,7 @@ button_2.place(
 
 def on_button_3_click():
     print("button_3 clicked")
-    window.destroy()
+    view_review.destroy()
     process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
     process.wait()
 
@@ -129,7 +130,7 @@ button_3.bind('<Leave>', button_3_leave)
 
 def on_button_4_click():
     print("button_4 clicked")
-    window.destroy()
+    view_review.destroy()
 
 button_image_4 = PhotoImage(
     file=relative_to_assets("button_4.png"))
@@ -164,7 +165,7 @@ button_4.bind('<Leave>', button_4_leave)
 
 def on_button_5_click():
     print("button_5 clicked")
-    window.destroy()
+    view_review.destroy()
     process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
     process.wait()
 
@@ -199,9 +200,10 @@ def button_5_leave(e):
 button_5.bind('<Enter>', button_5_hover)
 button_5.bind('<Leave>', button_5_leave)
 
+
 def on_button_6_click():
     print("button_6 clicked")
-    window.destroy()
+    view_review.destroy()
     process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
     process.wait()
 
@@ -338,7 +340,7 @@ canvas.create_text(
 
 def on_button_8_click():
     print("button_8 clicked")
-    window.destroy()
+    view_review.destroy()
     process = subprocess.Popen([sys.executable, "DeleteReview.py"], shell=True)
     process.wait()
 
@@ -360,7 +362,7 @@ button_8.place(
 
 def on_button_9_click():
     print("button_9 clicked")
-    window.destroy()
+    view_review.destroy()
     process = subprocess.Popen([sys.executable, "EditReview.py"], shell=True)
     process.wait()
 
@@ -382,7 +384,7 @@ button_9.place(
 
 def on_button_10_click():
     print("button_10 clicked")
-    window.destroy()
+    view_review.destroy()
     process = subprocess.Popen([sys.executable, "AddReview.py"], shell=True)
     process.wait()
 
@@ -410,6 +412,16 @@ image_2 = canvas.create_image(
     image=image_image_2
 )
 
+
+canvas.create_text(
+    608.0,
+    47.0,
+    anchor="nw",
+    text=f"{QueriesAPI().count_food_reviews()}",
+    fill="#FFFFFF",
+    font=("Inter Bold", 18)
+)
+
 canvas.create_text(
     282.0,
     31.0,
@@ -434,5 +446,63 @@ button_11.place(
     width=80.0,
     height=25.736572265625
 )
-window.resizable(False, False)
-window.mainloop()
+
+
+table = ttk.Treeview()
+table['columns'] = ('review_id', 'rating', 'rev_date', 'rev_stat', 'email', 'estab_id', 'food_id')
+table.column("#0", width=0,  stretch=NO)
+table.column("review_id",anchor=CENTER,width=40)
+table.column("rating",anchor=CENTER,minwidth=50)
+table.column("rev_date",anchor=CENTER,minwidth=90)
+table.column("rev_stat",anchor=CENTER,minwidth=50)
+table.column("email",anchor=CENTER,minwidth=70)
+table.column("estab_id",anchor=CENTER,minwidth=90)
+table.column("food_id",anchor=CENTER,minwidth=90)
+
+# Scrollbars
+horzScrollBar = ttk.Scrollbar(view_review, 
+                           orient ="horizontal", 
+                           command = table.xview)
+horzScrollBar.place(
+    x=276,
+    y=480,
+    width=494,
+    height=20
+)
+vertScrollBar = ttk.Scrollbar(view_review, 
+                           orient ="vertical", 
+                           command = table.yview)
+vertScrollBar.place(
+    x=770,
+    y=218,
+    width=20,
+    height=262
+)
+table.configure(xscrollcommand = horzScrollBar.set)
+table.configure(yscrollcommand = vertScrollBar.set)
+
+# Disable resizing of columns
+table.bind('<Button-1>', 'break')
+table.heading("#0",text="",anchor=CENTER)
+table.heading("review_id",text="Id",anchor=CENTER)
+table.heading("rating",text="Rating",anchor=CENTER)
+table.heading("rev_date",text="Date",anchor=CENTER)
+table.heading("rev_stat",text="Review",anchor=CENTER)
+table.heading("email",text="Email",anchor=CENTER)
+table.heading("estab_id",text="Establishment Name",anchor=CENTER)
+table.heading("food_id",text="Food Name",anchor=CENTER)
+table.place(
+    x=276,
+    y=218,
+    width=494,
+    height=262
+)
+
+db = QueriesAPI()
+result = db.select_all_food_reviews()
+for index,value in enumerate(result):
+    table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[1],value[2],value[3], value[4], value[5], value[6]))
+    #print(value[0],value[1],value[2],value[3], value[4], value[5], value[6], value[7])
+
+view_review.resizable(False, False)
+view_review.mainloop()
