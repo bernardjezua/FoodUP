@@ -140,25 +140,41 @@ class QueriesAPI():
         except mysql.connector.Error as err:
             messagebox.showerror("Register Error", f"Error: {err}")
 
-    def add_review(self, rate_text, food_text, estab_text, review_text, addrev_window):
-        #print(f"Rating: {rate_text.get()}\nFood ID: {food_text.get()}\nEstab ID: {estab_text.get()}\nReview: {review_text.get('1.0', 'end-1c')}")
-        reviewid = generateID()
-        rating = rate_text.get()
-        food_id = food_text.get()
-        estab_id = estab_text.get()
-        review = review_text.get('1.0', 'end-1c')
+    def add_review(self, rating, food_id, estab_id, review, window):
+        maxquery = "SELECT MAX(review_id) from REVIEW;"
+        self.cursor.execute(maxquery)
+        max = self.cursor.fetchall()
+        reviewid = max[0][0]+1
         datereviewed = datetime.now().strftime("%Y-%m-%d")
-        email=logged_user[0]
-        reviewInsert = f'''INSERT INTO REVIEW(review_id, rating, rev_date, rev_stat, email, estab_id, food_id) VALUES ({reviewid}, {rating}, '{datereviewed}', '{review}', '{email}', {estab_id}, {food_id})'''
+
+        global logged_user
+        if logged_user is None:
+            logged_user = ["customer1@yahoo.com"]
         
+        email = logged_user[0]
+
+        if food_id != '':
+            self.cursor.execute(f"SELECT * FROM food_item WHERE food_id = {food_id}")
+            food_query = self.cursor.fetchall()
+            if food_query == []:
+                messagebox.showerror("Food Not Found", f"No food was found with the entered id!")
+                return
+
+        if estab_id != '':
+            self.cursor.execute(f"SELECT * FROM food_establishment WHERE estab_id = {estab_id}")
+            estab_query = self.cursor.fetchall()
+            if estab_query == []:
+                messagebox.showerror("Establishment Not Found", f"No establishment was found with the entered id!")
+                return
+
+        # Insert review into the database
         try:
+            reviewInsert = f'''INSERT INTO REVIEW(review_id, rating, rev_date, rev_stat, email, estab_id, food_id) VALUES ({reviewid}, {rating}, '{datereviewed}', '{review}', '{email}', {estab_id}, {food_id})'''
             self.cursor.execute(reviewInsert)
-            self.conn.commit()
-            messagebox.showinfo("Add Review", "Review posted!")
-            print(reviewInsert)
-            addrev_window.destroy()
+            self.db.commit()
+            messagebox.showinfo("Success", "Review added successfully!")
         except mysql.connector.Error as err:
-            messagebox.showerror("Error", f"Error: {err}")
+            messagebox.showerror("Database Error", f"Error: {err}")
 
     def add_food_estab(self, estab_name, estab_desc, loc, serv_mod, contact):
         sql_statement = 'SELECT estab_id FROM FOOD_ESTABLISHMENT ORDER BY estab_id DESC'
