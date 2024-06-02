@@ -314,13 +314,34 @@ def clear_all(tableToClear):
 fiv = StringVar()
 fev = StringVar()
 
+months = ["Any","Current Month", "Last 3 Months", "Last 6 Months", "Last Year"]
+
+mfil = StringVar()
+mfil.set("Any")
+view_by_month = OptionMenu(canvas,
+    mfil,
+    *months,
+)
+view_by_month.configure(
+    bd=0,
+    bg="#FFFFFF",
+    fg="#000716",
+    highlightthickness=0
+)
+view_by_month.place(
+    x=606.0,
+    y=175.0,
+    width=125.0,
+    height=26.0
+)
+
 def update_table_search_id(*args):
     clear_all(table)
     if(bool(re.search(r'[^\d]', fiv.get())) or bool(re.search(r'[^\d]', fev.get()))):
         print("non-numeric input")
         result = []
     else:
-        result = db.select_food_review_spec(fiv.get(), fev.get())
+        result = db.select_food_review_spec(fiv.get(), fev.get(), mfil.get())
     
     print("Number of results fetched:", len(result))
     for index, value in enumerate(result):
@@ -328,6 +349,7 @@ def update_table_search_id(*args):
 
 fiv.trace_add("write", callback=update_table_search_id)
 fev.trace_add("write", callback=update_table_search_id)
+mfil.trace_add("write", callback=update_table_search_id)
 
 entry_image_1 = PhotoImage(
     file=relative_to_assets("entry_1.png"))
@@ -489,28 +511,6 @@ canvas.create_text(
     text="Reviews",
     fill="#D78521",
     font=("Inter Bold", 25 * -1)
-)
-
-
-months = ["Any","Current Month", "Last 3 Months", "Last 6 Months", "Last Year"]
-
-clicked = StringVar()
-clicked.set("Any")
-view_by_month = OptionMenu(canvas,
-    clicked,
-    *months,
-)
-view_by_month.configure(
-    bd=0,
-    bg="#FFFFFF",
-    fg="#000716",
-    highlightthickness=0
-)
-view_by_month.place(
-    x=606.0,
-    y=175.0,
-    width=125.0,
-    height=26.0
 )
 
 # button_image_11 = PhotoImage(

@@ -84,51 +84,31 @@ class QueriesAPI():
         result = self.cursor.fetchall()[0][0]
         return result
     
-    def select_food_review_spec(self, food_id, estab_id):
+    def select_food_review_spec(self, food_id, estab_id, month_filter):
         whereclause = ""
-        if(food_id != '' or estab_id != ''):
+        if(food_id != '' or estab_id != '' or month_filter != 'Any'):
             whereclause = "WHERE "
-            if(food_id != '' and estab_id != ''):
-                whereclause += f"r.food_id = {food_id} AND r.estab_id = {estab_id}"
-            elif(food_id != ''):
-                whereclause += f"r.food_id = {food_id}"
-            elif(estab_id != ''):
-                whereclause += f"r.estab_id = {estab_id}"
+            if(food_id != ''):
+                whereclause += f"r.food_id = {food_id} AND "
+            if(estab_id != ''):
+                whereclause += f"r.estab_id = {estab_id} AND "
+            if(month_filter == 'Current Month'):
+                whereclause += f"MONTH(r.rev_date) = MONTH(CURDATE()) AND YEAR(r.rev_date) = YEAR(CURDATE())"
+            elif(month_filter == 'Last 3 Months'):
+                whereclause += f"r.rev_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)"
+            elif(month_filter == 'Last 6 Months'):
+                whereclause += f"r.rev_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)"
+            elif(month_filter == 'Last Year'):
+                whereclause += f"r.rev_date >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)"
+            
+            # Remove the last ' AND ' if it exists
+            if whereclause.endswith(' AND '):
+                whereclause = whereclause[:-5]
 
         sql_statement = f"SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id {whereclause}"
         self.cursor.execute(sql_statement)
         result = self.cursor.fetchall()
         return result
-    
-            # if(month != ''):
-            #     if(food_id != '' or estab_id != ''):
-            #         whereclause += f" AND MONTH(r.rev_date) = {month}"
-            #     else:
-            #         whereclause += f"MONTH(r.rev_date) = {month}"
-
-    # def select_food_reviews(self, estab_id=None, food_id=None):
-    #     if estab_id and food_id:
-    #         estab_reviews = self.select_all_reviews_from_estab(estab_id)
-    #         food_reviews = self.select_all_reviews_for_food(food_id=food_id)
-    #         return estab_reviews + food_reviews
-    #     elif estab_id:
-    #         return self.select_all_reviews_from_estab(estab_id)
-    #     elif food_id:
-    #         return self.select_all_reviews_for_food(food_id=food_id)
-    #     else:
-    #         return []
-    
-    # def select_all_reviews_from_estab(self, estab_id):
-    #     sql_statement = "SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id WHERE fe.estab_id = %s;"
-    #     self.cursor.execute(sql_statement, [estab_id])
-    #     result = self.cursor.fetchall()
-    #     return result
-
-    # def select_all_reviews_for_food(self, estab_id=None, food_id=None):
-    #     sql_statement = "SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id WHERE fi.food_id = %s;"
-    #     self.cursor.execute(sql_statement, [estab_id, food_id])
-    #     result = self.cursor.fetchall()
-    #     return result
 
     def verify_credentials(self, email, password, login_window): #------LOG IN VERIFICATION------#
         sql_statement = "SELECT email FROM CUSTOMER WHERE email = %s AND password = %s"
@@ -168,7 +148,7 @@ class QueriesAPI():
         estab_id = estab_text.get()
         review = review_text.get('1.0', 'end-1c')
         datereviewed = datetime.now().strftime("%Y-%m-%d")
-        email =logged_user[0]
+        email=logged_user[0]
         reviewInsert = f'''INSERT INTO REVIEW(review_id, rating, rev_date, rev_stat, email, estab_id, food_id) VALUES ({reviewid}, {rating}, '{datereviewed}', '{review}', '{email}', {estab_id}, {food_id})'''
         
         try:
