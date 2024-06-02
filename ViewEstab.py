@@ -182,13 +182,22 @@ def clear_all(tableToClear):
       tableToClear.delete(item)
 
 sv = StringVar()
-def update_table_search_id(*args):
+def update_table(*args):
     clear_all(table)
-    result = db.select_food_estab_by_id(sv.get())
+    id = sv.get()
+    filter = clicked.get()
+    if(filter == "Filter" and id == ''):
+        result = db.select_food_estab_by_id_rating(None, filter)
+    elif(filter == "Filter" and id != ''):
+        result = db.select_food_estab_by_id_rating(id, filter)
+    elif(filter != "Filter" and id == ''):
+        result = db.select_food_estab_by_id_rating(None, filter)
+    else:
+        result = db.select_food_estab_by_id_rating(id, filter)
     for index,value in enumerate(result):
-        table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3]))
-
-sv.trace_add("write", callback=update_table_search_id)
+        table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3],value[6]))
+        
+sv.trace_add("write", callback=update_table)
 entry_1 = Entry(
     bd=0,
     bg="#FFFFFF",
@@ -214,18 +223,9 @@ button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
 
 clicked = StringVar()
-def update_table_filter(*args):
-    clear_all(table)
-    result = db.select_food_estab_by_rating(clicked.get())
-    if(clicked.get() == "Filter"):
-        for index,value in enumerate(result):
-            table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3]))
-    else:
-        for index,value in enumerate(result):
-            table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3],value[6]))
-    
 
-clicked.trace_add("write", callback=update_table_filter)
+
+clicked.trace_add("write", callback=update_table)
 clicked.set("Filter")
 button_drop_3 = OptionMenu(canvas,
     clicked,
