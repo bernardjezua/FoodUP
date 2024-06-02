@@ -182,6 +182,23 @@ class QueriesAPI():
 
 
     # ----- DELETE STATEMENTS -----
+    def delete_food_estab_by_id(self, id):
+        result = self.select_food_estab_by_id(id)
+        if(result == []):
+            messagebox.showerror("Delete Error", "Establishment with specified ID not found!")
+            return []
+        else:
+            sql_statement = 'DELETE FROM FOOD_ESTABLISHMENT WHERE estab_id=%s'
+            self.cursor.execute(sql_statement, [id])
+            sql_statement = 'DELETE FROM FOOD_ESTABLISHMENT_CONTACT WHERE estab_id=%s'
+            self.cursor.execute(sql_statement, [id])
+            sql_statement = 'DELETE FROM FOOD_ESTABLISHMENT_LOCATION WHERE estab_id=%s'
+            self.cursor.execute(sql_statement, [id])
+            sql_statement = 'DELETE FROM FOOD_ESTABLISHMENT_MODE_OF_SERVICE WHERE estab_id=%s'
+            self.cursor.execute(sql_statement, [id])
+            self.conn.commit()
+            messagebox.showinfo("Delete Establishment", "Successfully deleted establishment!")
+            return
 
     def __del__(self):
         self.cursor.close()

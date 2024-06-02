@@ -114,6 +114,15 @@ canvas.create_text(
     font=("Inter Bold", 18)
 )
 
+canvas.create_text(
+    276.0,
+    18.0,
+    anchor="nw",
+    text="Food\nEstablishments",
+    fill="#D78521",
+    font=("Inter Bold", 25 * -1)
+)
+
 # table
 canvas.create_rectangle(
     276.0,
