@@ -73,7 +73,7 @@ class QueriesAPI():
 
     # ----- FOOD REVIEW FUNCTIONS -----
     def select_all_food_reviews(self):
-        sql_statement = "SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id;"
+        sql_statement = "SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id GROUP BY r.review_id;"
         self.cursor.execute(sql_statement)
         result = self.cursor.fetchall()
         return result
@@ -88,28 +88,24 @@ class QueriesAPI():
         whereclause = ""
         if(food_id != '' or estab_id != ''):
             whereclause = "WHERE "
-            if(food_id != ''):
-                if(estab_id != ''):
-                    whereclause += f"r.food_id = {food_id} AND r.estab_id = {estab_id}"
-                else:
-                    whereclause += f"r.food_id = {food_id}"
-            
-            if(estab_id != ''):
-                if(food_id != ''):
-                    whereclause += f"r.estab_id = {estab_id}"
-                else:
-                    whereclause += f"r.estab_id = {estab_id}"
-            
+            if(food_id != '' and estab_id != ''):
+                whereclause += f"r.food_id = {food_id} AND r.estab_id = {estab_id}"
+            elif(food_id != ''):
+                whereclause += f"r.food_id = {food_id}"
+            elif(estab_id != ''):
+                whereclause += f"r.estab_id = {estab_id}"
+
+        sql_statement = f"SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id {whereclause}"
+        self.cursor.execute(sql_statement)
+        result = self.cursor.fetchall()
+        return result
+    
             # if(month != ''):
             #     if(food_id != '' or estab_id != ''):
             #         whereclause += f" AND MONTH(r.rev_date) = {month}"
             #     else:
             #         whereclause += f"MONTH(r.rev_date) = {month}"
-        sql_statement = f"SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id {whereclause};"
-        self.cursor.execute(sql_statement)
-        result = self.cursor.fetchall()
-        return result
-    
+
     # def select_food_reviews(self, estab_id=None, food_id=None):
     #     if estab_id and food_id:
     #         estab_reviews = self.select_all_reviews_from_estab(estab_id)

@@ -306,22 +306,6 @@ canvas.create_rectangle(
     fill="#F0F0F0",
     outline="")
 
-button_image_7 = PhotoImage(
-    file=relative_to_assets("button_7.png"))
-button_7 = Button(
-    image=button_image_7,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: print("button_7 clicked"),
-    relief="flat"
-)
-button_7.place(
-    x=686.0,
-    y=168.0,
-    width=80.0,
-    height=26.0
-)
-
 def clear_all(tableToClear):
    for item in tableToClear.get_children():
       tableToClear.delete(item)
@@ -406,10 +390,10 @@ canvas.create_text(
 )
 
 canvas.create_text(
-    599.0,
+    609.0,
     157.0,
     anchor="nw",
-    text="View by Month",
+    text="Filter Date",
     fill="#DE1A1A",
     font=("Inter", 11 * -1)
 )
@@ -508,27 +492,26 @@ canvas.create_text(
 )
 
 
-months = ["1","2","3","4","5","6","7","8","9","10","11","12"]
+months = ["Any","Current Month", "Last 3 Months", "Last 6 Months", "Last Year"]
 
-# clicked = StringVar()
-# clicked.trace_add("write", callback=update_table_filter)
-# clicked.set("Filter")
-# view_by_month = OptionMenu(canvas,
-#     clicked,
-#     *months,
-# )
-# view_by_month.configure(
-#     bd=0,
-#     bg="#FFFFFF",
-#     fg="#000716",
-#     highlightthickness=0
-# )
-# view_by_month.place(
-#     x=596.0,
-#     y=175.0,
-#     width=80.0,
-#     height=26.0
-# )
+clicked = StringVar()
+clicked.set("Any")
+view_by_month = OptionMenu(canvas,
+    clicked,
+    *months,
+)
+view_by_month.configure(
+    bd=0,
+    bg="#FFFFFF",
+    fg="#000716",
+    highlightthickness=0
+)
+view_by_month.place(
+    x=606.0,
+    y=175.0,
+    width=125.0,
+    height=26.0
+)
 
 # button_image_11 = PhotoImage(
 #     file=relative_to_assets("button_11.png"))
