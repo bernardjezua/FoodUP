@@ -96,6 +96,24 @@ button_2.place(
     height=42.0
 )
 
+# Estab count
+image_image_2 = PhotoImage(
+    file=relative_to_assets("image_2.png"))
+image_2 = canvas.create_image(
+    652.0,
+    50.0,
+    image=image_image_2
+)
+
+canvas.create_text(
+    638.0,
+    47.0,
+    anchor="nw",
+    text=f"{QueriesAPI().count_food_estab()}",
+    fill="#FFFFFF",
+    font=("Inter Bold", 18)
+)
+
 # table
 canvas.create_rectangle(
     276.0,
@@ -322,23 +340,6 @@ button_6.place(
     y=104.0,
     width=150.0,
     height=30.0
-)
-
-canvas.create_rectangle(
-    534.0,
-    23.0,
-    770.0,
-    78.0,
-    fill="#FFFFFF",
-    outline="")
-
-canvas.create_text(
-    276.0,
-    18.0,
-    anchor="nw",
-    text="Food\nEstablishments",
-    fill="#D78521",
-    font=("Inter Bold", 25 * -1)
 )
 
 def on_button_7_click():
