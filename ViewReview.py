@@ -513,21 +513,5 @@ canvas.create_text(
     font=("Inter Bold", 25 * -1)
 )
 
-# button_image_11 = PhotoImage(
-#     file=relative_to_assets("button_11.png"))
-# view_by_month = Button(
-#     image=button_image_11,
-#     borderwidth=0,
-#     highlightthickness=0,
-#     command=lambda: print("button_11 clicked"),
-#     relief="flat"
-# )
-# view_by_month.place(
-#     x=596.0,
-#     y=175.0,
-#     width=80.0,
-#     height=25.736572265625
-# )
-
 view_review.resizable(False, False)
 view_review.mainloop()
