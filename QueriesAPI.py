@@ -71,6 +71,11 @@ class QueriesAPI():
         result = self.cursor.fetchall()
         return result
 
+    def count_food_estab(self):
+        sql_statement = f"SELECT COUNT(estab_id) FROM FOOD_ESTABLISHMENT;"
+        self.cursor.execute(sql_statement)
+        result = self.cursor.fetchall()[0][0]
+        return result
 
     def verify_credentials(self, email, password, login_window): #------LOG IN VERIFICATION------#
         sql_statement = "SELECT email FROM CUSTOMER WHERE email = %s AND password = %s"
