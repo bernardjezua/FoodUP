@@ -1,8 +1,10 @@
 from pathlib import Path
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import StringVar, Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox
 import sys, subprocess
+
+from QueriesAPI import QueriesAPI
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets/frame9"
@@ -39,13 +41,24 @@ canvas = Canvas(
 )
 
 canvas.place(x = 0, y = 0)
+
+#DELETE BUTTON
+def on_delete_click():
+    if(delete.get() != ""):
+        QueriesAPI().delete_food_item(entry_1.get())
+        window.destroy()
+        process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+        process.wait()
+    else:
+        messagebox.showinfo("Invalid Input", "Please check all fields!")
+    
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_1 clicked"),
+    command=lambda: on_delete_click(),
     relief="flat"
 )
 button_1.place(
@@ -284,7 +297,7 @@ def button_8_leave(e):
 button_8.bind('<Enter>', button_8_hover)
 button_8.bind('<Leave>', button_8_leave)
 
-
+delete = StringVar()
 entry_image_1 = PhotoImage(
     file=relative_to_assets("entry_1.png"))
 entry_bg_1 = canvas.create_image(
@@ -296,7 +309,8 @@ entry_1 = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
-    highlightthickness=0
+    highlightthickness=0,
+    textvariable=delete
 )
 entry_1.place(
     x=377.0,
