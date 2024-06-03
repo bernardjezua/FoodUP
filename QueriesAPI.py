@@ -155,6 +155,9 @@ class QueriesAPI():
     # ----- FOOD REVIEW FUNCTIONS -----
     def select_all_food_reviews(self):
         sql_statement = "SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id GROUP BY r.review_id;"
+        self.cursor.execute(sql_statement)
+        result = self.cursor.fetchall()
+        return result
 
     def select_food_estab_by_id(self, id):
         if(id == ''):
