@@ -4,12 +4,9 @@ import sys
 from tkinter import messagebox
 import mysql.connector
 import re
-import shortuuid
 import os
 from cryptography.fernet import Fernet
 
-def generateID():
-    return shortuuid.ShortUUID(alphabet="0123456789").random(length=5)
 
 class DuplicateEmailError(Exception):
     pass
