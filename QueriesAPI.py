@@ -591,10 +591,11 @@ class QueriesAPI():
                     self.cursor.execute(delete_fift)
                     self.conn.commit()
                     messagebox.showinfo("Delete Food", "Food deleted!")
+                    return True
                 except mysql.connector.Error as err:
                     messagebox.showerror("Error", f"Error: {err}")
             else:
-                messagebox.showerror("Food Not Found", f"No food was found with the entered id!")
+                return False
                 
     def delete_food_estab_by_id(self, id):
         result = self.select_food_estab_by_id(id)

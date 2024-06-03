@@ -45,11 +45,14 @@ canvas.place(x = 0, y = 0)
 
 #DELETE BUTTON
 def on_delete_click():
-    if(delete.get() != ""):
-        QueriesAPI().delete_food_item(entry_1.get())
-        window.destroy()
-        process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
-        process.wait()
+    if(delete.get() != "" and delete.get().isnumeric()):
+        result = QueriesAPI().delete_food_item(entry_1.get())
+        if(result):
+            window.destroy()
+            process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+            process.wait()
+        else:
+            messagebox.showerror("Food Not Found", f"No food was found with the entered id!")
     else:
         messagebox.showinfo("Invalid Input", "Please check all fields!")
     
