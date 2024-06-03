@@ -34,24 +34,12 @@ Follow these steps to set up the project locally:
 
 7. You will be greeted with a login page, login or signup for an account
 
-![alt text](pages/assets/image.png)
+![alt text](pages/assets/login.png)
 
-## Contributing
+## Screenshots
 
-1. Fork/Clone the repository
+Dashboard  
+![alt text](pages/assets/dashboard.png)
 
-2. Create a new branch
-
-       git checkout -b feature-branch-name
-
-3. Make your changes
-
-4. Commit your changes:
-
-       git commit -m "This is a commit message"
-
-5. Push the changes to the branch 
-
-       git push origin feature-branch-name
-
-6. Create a pull request
+Profile  
+![alt text](pages/assets/profile.png)
