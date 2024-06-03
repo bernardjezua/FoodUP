@@ -412,16 +412,36 @@ review_id_entry.place(
     height=47.0
 )
 
+def setId(*args):
+    revid.set(global_reviewid)
+
+revid.trace_add("write", callback=setId)
+# rating.trace_add("write", callback=setId)
+# reviewdesc.trace_add("write", callback=setId)
+# eid.trace_add("write", callback=setId)
+# fid.trace_add("write", callback=setId)
+
+# SEARCH FUNCTION
+global_reviewid = None
 def search_review():
-    if(review_id_entry.get().isnumeric()):
-        result = QueriesAPI().select_review_by_id(review_id_entry.get())
+    if(revid.get().isnumeric()):
+        global global_reviewid
+        global_reviewid = revid.get()
+        result = QueriesAPI().select_review_by_id(global_reviewid)
         if result != []:
             print(result)
             revid.set(result[0][0])
             rating.set(result[0][1])
             reviewdesc.set(result[0][2])
-            eid.set(result[0][3])
-            fid.set(result[0][4])
+            print(type(result[0][3]), type(result[0][4]))
+            if isinstance(result[0][3], type(None)):
+                eid.set('')
+            else:
+                eid.set(result[0][3])
+            if isinstance(result[0][4], type(None)):
+                fid.set('')
+            else:
+                fid.set(result[0][4])
         else:
             revid.set('')
             rating.set('')
@@ -449,36 +469,21 @@ search_button.place(
     height=37.0
 )
 
-def update_review():
-    api = QueriesAPI()
+def edit_button_click():
+    # Get the values from the StringVars
+    new_rating = rating.get()
+    new_review_text = reviewdesc.get()
+    estab_id = eid.get()
+    food_id = fid.get()
 
-    # Check if review_id is valid
-    if int(revid.get()) not in api.select_all_review_ids():
-        print(type(revid.get()))
-        print(api.select_all_review_ids()[0])
-        messagebox.showerror("Invalid Input!", "Invalid Review ID.")
-        return
-
-    # Check if rating is between 1 and 5
-    if int(rating.get()) < 1 or int(rating.get()) > 5:
-        messagebox.showerror("Invalid Input!", "Rating must be between 1 and 5.")
-        return
-
-    # Check if food_id is valid
-    food_id = None if fid == '' else fid
-    if food_id is not None and food_id not in api.select_all_food_ids():
-        messagebox.showerror("Invalid Input!", "Invalid Food ID.")
-        return
-
-    # Check if estab_id is valid
-    estab_id = None if eid == '' else eid
-    if estab_id is not None and estab_id not in api.select_all_estab_ids():
-        messagebox.showerror("Invalid Input!", "Invalid Establishment ID.")
-        return
-
-    # If all conditions are met, update the review
-    api.update_review_by_id(revid, rating, reviewdesc, estab_id, food_id)
-    messagebox.showinfo("Review Updated", "Review has been successfully updated!")
+    if not new_rating.isdigit() or int(new_rating) < 1 or int(new_rating) > 5:
+        messagebox.showinfo("Invalid Input!", "Rating entry must be 1-5 only.")
+    elif not (food_id.isdigit() or estab_id.isdigit()):
+        messagebox.showinfo("Invalid Input!", "Either Food ID or Establishment ID must be present.")
+    elif not new_review_text.strip():
+        messagebox.showinfo("Invalid Input!", "Review cannot be empty.")
+    else:
+        QueriesAPI().update_review(global_reviewid, new_rating, new_review_text, estab_id, food_id)
 
 #edit button
 button_image_1 = PhotoImage(
@@ -487,7 +492,7 @@ button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: update_review(),
+    command=lambda: edit_button_click(),
     relief="flat"
 )
 button_1.place(

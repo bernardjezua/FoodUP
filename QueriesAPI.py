@@ -474,44 +474,54 @@ class QueriesAPI():
 
         
     # ----- UPDATE STATEMENTS -----
-    def update_review_by_id(self, review_id, new_rating, new_food_id, new_estab_id, new_review_text):
-        # Check if Food ID or Estab ID is provided
-        if new_food_id == '' and new_estab_id == '':
-            messagebox.showerror("Invalid Input", "Either Food ID or Estab ID should be provided!")
-            return
-        
-        # Fetch the user details
+    def update_review(self, review_id, new_rating, new_review_text, estab_id, food_id):
+        # Check if user is logged in
         user_details = self.fetch_user_details()
         if user_details is None or len(user_details) == 0:
             messagebox.showerror("Invalid User", "The user is not logged in or does not exist.")
             return
         email = user_details[0][0]
+        print(email)
 
-        # Check if new_rating is between 1 and 5
-        new_rating_value = int(new_rating.get())
-        if new_rating_value < 1 or new_rating_value > 5:
-            messagebox.showerror("Rating must be between 1 and 5.")
+        # Check if user is an admin or not
+        if not self.admin_perms_check(review_id):
+            messagebox.showerror("Permission Denied", "You do not have permission to update this review.")
             return
 
-        # Check if new_food_id is valid
-        new_food_id_value = new_food_id.get() if new_food_id is not None else None
-        new_food_id_value = 'NULL' if new_food_id_value == '' else new_food_id_value
-        if new_food_id_value != 'NULL' and new_food_id_value not in self.select_all_food_ids():
-            messagebox.showerror("Invalid Food Item ID.")
-            return
+        # Converted food IDs and estab IDs from list to set
+        food_id_list = self.select_all_food_ids()
+        estab_id_list = self.select_all_estab_ids()
+        food_id_set = set()
+        estab_id_set = set()
 
-        # Check if new_estab_id is valid
-        new_estab_id_value = new_estab_id.get() if new_estab_id is not None else None
-        new_estab_id_value = 'NULL' if new_estab_id_value == '' else new_estab_id_value
-        if new_estab_id_value != 'NULL' and new_estab_id_value not in self.select_all_estab_ids():
-            messagebox.showerror("Invalid Establishment ID.")
-            return
+        for i in food_id_list:
+            food_id_set.add(i)
 
-        # If all conditions are met, update the review
-        sql_statement = 'UPDATE REVIEW SET review_text=%s, rating=%s, food_id=%s, estab_id=%s WHERE review_id=%s'
-        self.cursor.execute(sql_statement, (new_review_text, new_rating_value, new_food_id_value, new_estab_id_value, review_id))
-        self.conn.commit()
-        messagebox.showinfo("Update Review", "Review updated successfully!")
+        for j in estab_id_list:
+            estab_id_set.add(j)
+
+        # Check if food_id and estab_id are valid
+        if food_id != '' and food_id in food_id_set:
+            messagebox.showerror("Invalid Food ID", "The Food ID is not present in the database.")
+            return
+        if estab_id != '' and estab_id in estab_id_set:
+            messagebox.showerror("Invalid Establishment ID", "The establishment ID is not present in the database.")
+            return
+        
+        # Check if estab_id or food_id is an empty string
+        estab_id = None if estab_id == "" else estab_id
+        food_id = None if food_id == "" else food_id
+
+        # SQL query to update the review
+        sql_statement = """UPDATE REVIEW
+                        SET rating = %s, rev_stat = %s, estab_id = %s, food_id = %s
+                        WHERE review_id = %s"""
+        try:
+            self.cursor.execute(sql_statement, (new_rating, new_review_text, estab_id, food_id, review_id))
+            self.conn.commit()
+            messagebox.showinfo("Update Review", "Review updated successfully!")
+        except mysql.connector.Error as err:
+            messagebox.showerror("Error", f"Error: {err}")
 
     def update_food_item(self, foodid, name, price, type, estid, desc):
         if(estid != ''):
