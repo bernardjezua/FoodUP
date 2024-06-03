@@ -416,10 +416,10 @@ def setId(*args):
     revid.set(global_reviewid)
 
 revid.trace_add("write", callback=setId)
-# rating.trace_add("write", callback=setId)
-# reviewdesc.trace_add("write", callback=setId)
-# eid.trace_add("write", callback=setId)
-# fid.trace_add("write", callback=setId)
+rating.trace_add("write", callback=setId)
+reviewdesc.trace_add("write", callback=setId)
+eid.trace_add("write", callback=setId)
+fid.trace_add("write", callback=setId)
 
 # SEARCH FUNCTION
 global_reviewid = None
@@ -484,6 +484,7 @@ def edit_button_click():
         messagebox.showinfo("Invalid Input!", "Review cannot be empty.")
     else:
         QueriesAPI().update_review(global_reviewid, new_rating, new_review_text, estab_id, food_id)
+        revid.set(global_reviewid)
 
 #edit button
 button_image_1 = PhotoImage(
