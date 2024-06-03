@@ -417,11 +417,10 @@ class QueriesAPI():
         sql_statement = 'SELECT estab_id FROM FOOD_ESTABLISHMENT ORDER BY estab_id DESC'
         self.cursor.execute(sql_statement)
         result = self.cursor.fetchall()
-        if isinstance(result[0][0], type(None)):
+        if(result == []):
             newId = 1
         else:
             newId = result[0][0] + 1
-        
         
 
         for i in loc: 
