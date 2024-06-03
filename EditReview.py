@@ -4,8 +4,8 @@ from pathlib import Path
 # Explicit imports to satisfy Flake8
 import subprocess
 import sys
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, StringVar, messagebox
+from QueriesAPI import QueriesAPI
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets/editreview"
@@ -44,22 +44,6 @@ canvas = Canvas(
 )
 
 canvas.place(x = 0, y = 0)
-#edit button
-button_image_1 = PhotoImage(
-    file=relative_to_assets("button_1.png"))
-button_1 = Button(
-    image=button_image_1,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: print("button_1 clicked"),
-    relief="flat"
-)
-button_1.place(
-    x=374.0,
-    y=417.0,
-    width=299.0,
-    height=49.0
-)
 
 def on_button_2_click():
     window.destroy()
@@ -77,23 +61,6 @@ button_2 = Button(
 button_2.place(
     x=703.0,
     y=35.0,
-    width=67.8702392578125,
-    height=37.0
-)
-
-#search button
-button_image_3 = PhotoImage(
-    file=relative_to_assets("button_3.png"))
-button_3 = Button(
-    image=button_image_3,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: print("button_3 clicked"),
-    relief="flat"
-)
-button_3.place(
-    x=604.0,
-    y=59.0,
     width=67.8702392578125,
     height=37.0
 )
@@ -298,6 +265,11 @@ def button_9_leave(e):
 button_9.bind('<Enter>', button_9_hover)
 button_9.bind('<Leave>', button_9_leave)
 
+revid = StringVar()
+eid = StringVar()
+fid = StringVar()
+rating = StringVar()
+reviewdesc = StringVar()
 
 entry_image_1 = PhotoImage(
     file=relative_to_assets("entry_1.png"))
@@ -306,13 +278,14 @@ entry_bg_1 = canvas.create_image(
     366.5,
     image=entry_image_1
 )
-entry_1 = Text(
+review_entry = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
+    textvariable=reviewdesc,
     highlightthickness=0
 )
-entry_1.place(
+review_entry.place(
     x=381.0,
     y=330.0,
     width=289.0,
@@ -326,13 +299,14 @@ entry_bg_2 = canvas.create_image(
     216.5,
     image=entry_image_2
 )
-entry_2 = Entry(
+food_id_entry = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
+    textvariable=fid,
     highlightthickness=0
 )
-entry_2.place(
+food_id_entry.place(
     x=381.0,
     y=192.0,
     width=289.0,
@@ -355,13 +329,14 @@ entry_bg_3 = canvas.create_image(
     147.5,
     image=entry_image_3
 )
-entry_3 = Entry(
+estab_id_entry = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
+    textvariable=eid,
     highlightthickness=0
 )
-entry_3.place(
+estab_id_entry.place(
     x=380.0,
     y=123.0,
     width=289.0,
@@ -393,13 +368,14 @@ entry_bg_4 = canvas.create_image(
     285.5,
     image=entry_image_4
 )
-entry_4 = Entry(
+rating_entry = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
+    textvariable=rating,
     highlightthickness=0
 )
-entry_4.place(
+rating_entry.place(
     x=381.0,
     y=261.0,
     width=289.0,
@@ -422,17 +398,103 @@ entry_bg_5 = canvas.create_image(
     77.5,
     image=entry_image_5
 )
-entry_5 = Entry(
+review_id_entry = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
+    textvariable=revid,
     highlightthickness=0
 )
-entry_5.place(
+review_id_entry.place(
     x=380.0,
     y=53.0,
     width=207.0,
     height=47.0
+)
+
+def search_review():
+    if(review_id_entry.get().isnumeric()):
+        result = QueriesAPI().select_review_by_id(review_id_entry.get())
+        if result != []:
+            print(result)
+            revid.set(result[0][0])
+            rating.set(result[0][1])
+            reviewdesc.set(result[0][2])
+            eid.set(result[0][3])
+            fid.set(result[0][4])
+        else:
+            revid.set('')
+            rating.set('')
+            reviewdesc.set('')
+            eid.set('')
+            fid.set('')
+            messagebox.showinfo("Review Not Found", "No review was found with the given id!")
+    else:
+        messagebox.showinfo("Invalid Input!", "Please check all fields!")
+
+#search button
+button_image_3 = PhotoImage(
+    file=relative_to_assets("button_3.png"))
+search_button = Button(
+    image=button_image_3,
+    borderwidth=0,
+    highlightthickness=0,
+    command=lambda: search_review(),
+    relief="flat"
+)
+search_button.place(
+    x=604.0,
+    y=59.0,
+    width=67.8702392578125,
+    height=37.0
+)
+
+def update_review():
+    api = QueriesAPI()
+
+    # Check if review_id is valid
+    if int(revid.get()) not in api.select_all_review_ids():
+        print(type(revid.get()))
+        print(api.select_all_review_ids()[0])
+        messagebox.showerror("Invalid Input!", "Invalid Review ID.")
+        return
+
+    # Check if rating is between 1 and 5
+    if int(rating.get()) < 1 or int(rating.get()) > 5:
+        messagebox.showerror("Invalid Input!", "Rating must be between 1 and 5.")
+        return
+
+    # Check if food_id is valid
+    food_id = None if fid == '' else fid
+    if food_id is not None and food_id not in api.select_all_food_ids():
+        messagebox.showerror("Invalid Input!", "Invalid Food ID.")
+        return
+
+    # Check if estab_id is valid
+    estab_id = None if eid == '' else eid
+    if estab_id is not None and estab_id not in api.select_all_estab_ids():
+        messagebox.showerror("Invalid Input!", "Invalid Establishment ID.")
+        return
+
+    # If all conditions are met, update the review
+    api.update_review_by_id(revid, rating, reviewdesc, estab_id, food_id)
+    messagebox.showinfo("Review Updated", "Review has been successfully updated!")
+
+#edit button
+button_image_1 = PhotoImage(
+    file=relative_to_assets("button_1.png"))
+button_1 = Button(
+    image=button_image_1,
+    borderwidth=0,
+    highlightthickness=0,
+    command=lambda: update_review(),
+    relief="flat"
+)
+button_1.place(
+    x=374.0,
+    y=417.0,
+    width=299.0,
+    height=49.0
 )
 
 canvas.create_text(

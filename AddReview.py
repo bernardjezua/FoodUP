@@ -81,24 +81,12 @@ button_1.place(
 
 button_image_2 = PhotoImage(
     file=relative_to_assets("button_2.png"))
-#add review button
-button_2 = Button(
-    image=button_image_2,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: QueriesAPI().add_review(entry_3, entry_5, entry_4, entry_2, window),
-    relief="flat"
-)
-button_2.place(
-    x=372.0,
-    y=393.0,
-    width=299.0,
-    height=49.0
-)
+
 def on_entry_1_click(): #back
     window.destroy()
     process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
     process.wait()
+
 entry_image_1 = PhotoImage(
     file=relative_to_assets("entry_1.png"))
 entry_bg_1 = canvas.create_image(
@@ -294,13 +282,13 @@ entry_bg_2 = canvas.create_image(
     324.5,
     image=entry_image_2
 )
-entry_2 = Text(
+review_entry = Text(
     bd=0,
     bg="#F2D398",
     fg="#000716",
     highlightthickness=0
 )
-entry_2.place(
+review_entry.place(
     x=377.0,
     y=288.0,
     width=289.0,
@@ -314,13 +302,13 @@ entry_bg_3 = canvas.create_image(
     103.5,
     image=entry_image_3
 )
-entry_3 = Entry(
+food_rating_entry = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
     highlightthickness=0
 )
-entry_3.place(
+food_rating_entry.place(
     x=377.0,
     y=79.0,
     width=289.0,
@@ -352,13 +340,13 @@ entry_bg_4 = canvas.create_image(
     243.5,
     image=entry_image_4
 )
-entry_4 = Entry(
+estab_id_entry = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
     highlightthickness=0
 )
-entry_4.place(
+estab_id_entry.place(
     x=377.0,
     y=219.0,
     width=289.0,
@@ -381,13 +369,13 @@ entry_bg_5 = canvas.create_image(
     173.5,
     image=entry_image_5
 )
-entry_5 = Entry(
+food_id_entry = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
     highlightthickness=0
 )
-entry_5.place(
+food_id_entry.place(
     x=377.0,
     y=149.0,
     width=289.0,
@@ -402,5 +390,42 @@ canvas.create_text(
     fill="#D78521",
     font=("Inter", 14 * -1)
 )
+
+#add review button
+def on_button_2_click():
+    food_rating = food_rating_entry.get()
+    food_id = food_id_entry.get()
+    estab_id = estab_id_entry.get()
+    review = review_entry.get('1.0', 'end-1c')
+
+    if not food_rating.isdigit() or int(food_rating) < 1 or int(food_rating) > 5:
+        messagebox.showinfo("Invalid Input!", "Rating entry must be 1-5 only.")
+    elif not food_id.isdigit():
+        messagebox.showinfo("Invalid Input!", "Food ID is not present.")
+    elif not estab_id.isdigit():
+        messagebox.showinfo("Invalid Input!", "Establishment ID is not present.")
+    elif not review.strip():
+        messagebox.showinfo("Invalid Input!", "Review cannot be empty.")
+    else:
+        QueriesAPI().add_review(food_rating, food_id, estab_id, review, window)
+        window.destroy()
+        process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+        process.wait()
+        
+# add review button
+button_2 = Button(
+    image=button_image_2,
+    borderwidth=0,
+    highlightthickness=0,
+    command=lambda: on_button_2_click(),
+    relief="flat"
+)
+button_2.place(
+    x=372.0,
+    y=393.0,
+    width=299.0,
+    height=49.0
+)
+
 window.resizable(False, False)
 window.mainloop()
