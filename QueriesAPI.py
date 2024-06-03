@@ -574,6 +574,7 @@ class QueriesAPI():
 
         self.conn.commit()
         updatedFoodEstab = self.select_food_estab_by_id(id)
+        messagebox.showinfo("Edit Establishment", "Successfully updated establishment!")
         return updatedFoodEstab
 
 

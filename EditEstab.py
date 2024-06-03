@@ -4,7 +4,7 @@ import subprocess
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox, END
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox, StringVar
 from QueriesAPI import QueriesAPI
 
 db = QueriesAPI()
@@ -21,61 +21,66 @@ def on_button_3_click():
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-def resetEntries():
-    entry_3.delete(0,END)
-    entry_2.delete(0,END)
-    entry_4.delete(0,END)
-    entry_1.delete(0,END)
-    entry_5.delete(0,END)
+window = Tk()
+window.title("GROUP 1 Food & Restaurant Review Application")
+
+eid = StringVar()
+ename = StringVar()
+edesc = StringVar()
+eloc = StringVar()
+eservmod = StringVar()
+econtact = StringVar()
 
 estab_id = None
 
-def search_button_click():
-    global estab_id
-    estab_id = entry_6.get()
-    
-    if(estab_id == None or estab_id == ''):
-        messagebox.showerror("Search Error", "Enter Establishment ID first")
-        return
-    
-    # add validation for non-numeric chars
+def setId(*args):
+    eid.set(estab_id)
 
-    result = db.select_food_estab_by_id(estab_id)
-    if(len(result) == 0):
-        resetEntries()
-        messagebox.showerror("Search Error", "No establishment with specified ID found")
+ename.trace_add("write", callback=setId)
+edesc.trace_add("write", callback=setId)
+eloc.trace_add("write", callback=setId)
+eservmod.trace_add("write", callback=setId)
+econtact.trace_add("write", callback=setId)
+
+def resetEntries():
+    ename.set('')
+    edesc.set('')
+    eloc.set('')
+    eservmod.set('')
+    econtact.set('')
+
+def search_button_click():
+    if(eid.get().isnumeric()):
+        global estab_id
+        estab_id = eid.get()
+        result = db.select_food_estab_by_id(eid.get())
+        if(len(result) == 0):
+            resetEntries()
+            messagebox.showerror("Search Error", "No establishment with specified ID found")
+        else:
+            resetEntries()
+            # print(result)
+            ename.set(result[0][2])  # Name
+            edesc.set(result[0][1])  # Description
+            eloc.set(result[0][4])  # Location
+            eservmod.set(result[0][5])  # Modes of Service
+            econtact.set(result[0][3])  # Contact
     else:
-        resetEntries()
-        # print(result)
-        entry_2.insert(0,result[0][2])  # Name
-        entry_3.insert(0,result[0][1])  # Description
-        entry_4.insert(0,result[0][4])  # Location
-        entry_1.insert(0,result[0][5])  # Modes of Service
-        entry_5.insert(0,result[0][3])  # Contact
+        messagebox.showinfo("Invalid Input!", "Please check all fields!")
         
 
 def edit_button_click():
-    if(estab_id == None):
-        messagebox.showerror("Search Error", "Enter Establishment ID first")
-        return
+    if(eid.get() != "" and ename.get() != "" and edesc.get() != "" and eloc.get() != "" and eservmod.get() != "" and econtact.get() != "" and eid.get().isnumeric()):
+        locList = eloc.get().split(",")
+        servModList = eservmod.get().split(",")
+        contactList = econtact.get().split(",")
+        result = db.update_food_estab_by_id(estab_id, ename.get(), edesc.get(), locList, servModList, contactList)
+        window.destroy()
+        process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+        process.wait()
+    else:
+        messagebox.showinfo("Invalid Input", "Please check all fields!")
     
-    # validate fields - ensure fields not empty
-    if(entry_6.get() == '' or entry_2.get() == '' or entry_3.get() == '' or entry_4.get() == '' or entry_1.get() == '' or entry_5.get() == ''):
-        messagebox.showerror("Edit Error", "Fields cannot be empty")
-        return
-    
-    locList = entry_4.get().split(",")
-    servModList = entry_1.get().split(",")
-    contactList = entry_5.get().split(",")
-    
-    result = db.update_food_estab_by_id(estab_id, entry_2.get(), entry_3.get(), locList, servModList, contactList)
-    messagebox.showinfo("Edit Establishment", "Successfully updated establishment!")
-    entry_6.get()
-    resetEntries()
-    print(result)
-
-window = Tk()
-window.title("GROUP 1 Food & Restaurant Review Application")
 
 w = 800
 h = 500 
@@ -189,7 +194,8 @@ entry_6 = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
-    highlightthickness=0
+    highlightthickness=0,
+    textvariable=eid
 )
 entry_6.place(
     x=379.0,
@@ -210,7 +216,8 @@ entry_1 = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
-    highlightthickness=0
+    highlightthickness=0,
+    textvariable=eservmod
 )
 entry_1.place(
     x=379.0,
@@ -249,7 +256,8 @@ entry_2 = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
-    highlightthickness=0
+    highlightthickness=0,
+    textvariable=ename
 )
 entry_2.place(
     x=379.0,
@@ -270,7 +278,8 @@ entry_3 = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
-    highlightthickness=0
+    highlightthickness=0,
+    textvariable=edesc
 )
 entry_3.place(
     x=379.0,
@@ -332,7 +341,8 @@ entry_4 = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
-    highlightthickness=0
+    highlightthickness=0,
+    textvariable=eloc
 )
 entry_4.place(
     x=379.0,
@@ -401,7 +411,8 @@ entry_5 = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
-    highlightthickness=0
+    highlightthickness=0,
+    textvariable=econtact
 )
 entry_5.place(
     x=379.0,
