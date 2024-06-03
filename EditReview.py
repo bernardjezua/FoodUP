@@ -81,6 +81,10 @@ image_1 = canvas.create_image(
     image=image_image_1
 )
 
+def logout():
+    window.destroy()
+    subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
+
 button_image_4 = PhotoImage(
     file=relative_to_assets("button_4.png"))
 button_4 = Button(
@@ -88,7 +92,7 @@ button_4 = Button(
     borderwidth=0,
     background="#DE1A1A",
     highlightthickness=0,
-    command=lambda: print("button_4 clicked"),
+    command=lambda: logout(),
     relief="flat"
 )
 button_4.place(
