@@ -64,7 +64,7 @@ def search_button_click():
             messagebox.showerror("Search Error", "No establishment with specified ID found")
         else:
             resetEntries()
-            # print(result)
+            messagebox.showinfo("Establishment ID Found", "Matched query results to Establishment ID!")
             ename.set(result[0][2])  # Name
             edesc.set(result[0][1])  # Description
             eloc.set(result[0][4])  # Location
