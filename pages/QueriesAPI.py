@@ -417,7 +417,11 @@ class QueriesAPI():
         sql_statement = 'SELECT estab_id FROM FOOD_ESTABLISHMENT ORDER BY estab_id DESC'
         self.cursor.execute(sql_statement)
         result = self.cursor.fetchall()
-        newId = result[0][0] + 1
+        if(result == []):
+            newId = 1
+        else:
+            newId = result[0][0] + 1
+        
 
         for i in loc: 
             sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_LOCATION(estab_id, loc) VALUES (%s, %s)'
@@ -441,7 +445,10 @@ class QueriesAPI():
         maxquery = "SELECT MAX(food_id) from food_item;"
         self.cursor.execute(maxquery)
         max = self.cursor.fetchall()
-        foodid = max[0][0]+1
+        if isinstance(max[0][0], type(None)):
+            foodid = 1
+        else:
+            foodid = max[0][0] + 1
         foodname = name_text.get()
         foodprice = price_text.get()
         foodtype = [type_text.get()]
