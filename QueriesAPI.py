@@ -371,7 +371,11 @@ class QueriesAPI():
         maxquery = "SELECT MAX(review_id) from REVIEW;"
         self.cursor.execute(maxquery)
         max = self.cursor.fetchall()
-        reviewid = max[0][0] + 1
+        # Checks if there are no reviews, if none, default is 1
+        if isinstance(max[0][0], type(None)):
+            reviewid = 1
+        else:
+            reviewid = max[0][0] + 1
 
         # Converted food IDs and estab IDs from list to set
         food_id_list = self.select_all_food_ids()
