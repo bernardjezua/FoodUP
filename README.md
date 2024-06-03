@@ -23,11 +23,16 @@ Follow these steps to set up the project locally:
 
        pip install -r dependencies.txt
 
-5. Run the program:
+5. Inside the project directory, login to mariadb using your sql root account and run the following command:
+
+       mariadb -uroot -p<root_password>
+       source restaurant.sql
+
+6. Run the program:
 
        python LoginPage.py
 
-6. You will be greeted with a login page, login or signup for an account
+7. You will be greeted with a login page, login or signup for an account
 
 ![alt text](pages/assets/image.png)
 
