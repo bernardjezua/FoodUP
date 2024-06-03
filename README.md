@@ -29,7 +29,7 @@ Follow these steps to set up the project locally:
 
 6. You will be greeted with a login page, login or signup for an account
 
-![alt text](/assets/image.png)
+![alt text](pages/assets/image.png)
 
 ## Contributing
 
