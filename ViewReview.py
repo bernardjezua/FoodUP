@@ -66,7 +66,7 @@ button_1 = Button(
     borderwidth=0,
     highlightthickness=0,
     #command=lambda: print("button_1 clicked"),
-    command=QueriesAPI().logout(view_review),
+    command=lambda: QueriesAPI().logout(view_review),
     relief="flat"
 )
 button_1.place(
