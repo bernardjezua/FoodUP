@@ -33,9 +33,14 @@ econtact = StringVar()
 
 estab_id = None
 
+def maintainId(*args):
+    if(estab_id != None and eid.get() != estab_id and estab_id != ''):
+        eid.set(estab_id)
+
 def setId(*args):
     eid.set(estab_id)
 
+eid.trace_add("write", callback=maintainId)
 ename.trace_add("write", callback=setId)
 edesc.trace_add("write", callback=setId)
 eloc.trace_add("write", callback=setId)
