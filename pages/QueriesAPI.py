@@ -410,9 +410,11 @@ class QueriesAPI():
             self.cursor.execute(reviewInsert)
             self.conn.commit()
 
+            # Count the number of reviews
+            review_count = self.count_reviews()
+
             # Update the num_reviews column for the logged-in user
-            update_num_reviews_query = "UPDATE customer SET num_reviews = num_reviews + 1 WHERE email = %s"
-            self.cursor.execute(update_num_reviews_query, (email,))
+            self.cursor.execute(f"UPDATE customer SET num_reviews = {review_count} WHERE email = '{email}'")
             self.conn.commit()
 
             messagebox.showinfo("Success", "Review added successfully!")
@@ -654,7 +656,23 @@ class QueriesAPI():
         if 'admin' in user_email:
             return True
         return False
+    
+    def count_reviews(self):
+        # Fetch user details
+        user_details = self.fetch_user_details()
+        email = user_details[0][0]
 
+        # Check if user is admin
+        if 'admin' in email:
+            # Execute SQL query to count the total number of reviews
+            self.cursor.execute("SELECT COUNT(*) FROM review")
+            total_reviews = self.cursor.fetchone()[0]
+            return total_reviews
+        else:
+            # If user is not admin, count the number of reviews made by the user
+            self.cursor.execute(f"SELECT COUNT(*) FROM review WHERE email = '{email}'")
+            user_reviews = self.cursor.fetchone()[0]
+            return user_reviews
     
     def delete_review(self, review_id):
         if not review_id.isdigit():
@@ -669,32 +687,26 @@ class QueriesAPI():
             self.cursor.execute(f"SELECT * FROM review WHERE review_id = {review_id}")
             review_search = self.cursor.fetchall()
             if(review_search != []):
+                # Delete the review
+                self.cursor.execute(f"DELETE FROM review WHERE review_id = '{review_id}'")
+                self.conn.commit()
+
+                # Count the number of reviews
+                review_count = self.count_reviews()
+
                 # Update the num_reviews column for the logged-in user
                 user_details = self.fetch_user_details()
                 email = user_details[0][0]
-                num_reviews = user_details[0][3]
+                sql_statement = 'UPDATE customer SET num_reviews = %s WHERE email = %s'
+                self.cursor.execute(sql_statement, (review_count, email))
+                self.conn.commit()
 
-                # Check if num_reviews is already 0
-                if num_reviews == 0:
-                    messagebox.showwarning("Warning", "The user has no reviews to delete.")
-                    return
-
-                delete_review = f'''DELETE FROM review WHERE review_id = "{review_id}";'''               
-                try:
-                    self.cursor.execute(delete_review)
-                    self.conn.commit()
-
-                    update_num_reviews_query = "UPDATE customer SET num_reviews = %s WHERE email = %s"
-                    new_num_reviews = num_reviews - 1
-                    self.cursor.execute(update_num_reviews_query, (new_num_reviews, email))
-                    self.conn.commit()
-
-                    messagebox.showinfo("Success", "Review deleted successfully!")
-                    return None
-                except mysql.connector.Error as err:
-                    return f"Error: {err}"
+                messagebox.showinfo("Success", "Review deleted successfully!")
+                return None
             else:
                 return "No review was found with the entered id!"
+        else:
+            return "Review ID cannot be empty."
 
     def delete_food_item(self, foodid):
         if(foodid != ''):

@@ -278,7 +278,7 @@ queries_api = QueriesAPI()
 user_details = queries_api.fetch_user_details()
 print("User details:", user_details)
 if user_details:
-    num_reviews = user_details[0][3]
+    num_reviews = queries_api.count_reviews()
     real_name = user_details[0][2]
     username = user_details[0][1]
     email = user_details[0][0]
