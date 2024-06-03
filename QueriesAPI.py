@@ -31,6 +31,8 @@ class EncryptionHelper:
         
 class QueriesAPI():
     logged_user = ()
+    
+
     def __init__(self):
         self.conn = mysql.connector.connect(
                 host="localhost",
@@ -64,19 +66,31 @@ class QueriesAPI():
         subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
         sys.exit()
     
-    def get_logged_user_email(self):
-        if QueriesAPI.logged_user:
-            return QueriesAPI.logged_user[0]
-        return None
+    # def get_logged_user_email(self):
+        
+    def count_food_estab(self):
+        sql_statement = f"SELECT COUNT(estab_id) FROM FOOD_ESTABLISHMENT;"
+        self.cursor.execute(sql_statement)
+        result = self.cursor.fetchall()[0][0]
+        return result
     
-    def fetch_user_details(self, user_email):
-        if QueriesAPI.logged_user:  # Check if logged_user is set
-            # Fetch user details only if logged_user is not an empty tuple
-            self.cursor.execute("SELECT real_name, user_name, email FROM CUSTOMER WHERE email = %s", (user_email,))
-            user_details = self.cursor.fetchone()
-            return user_details
-        else:
-            return None
+    def fetch_user_details(self):
+        data_file = open("data_file.txt", "r")
+        try:
+            read_text = data_file.read()
+            print(f"text: {read_text}")
+            email = self.encryption_helper.decrypt(read_text)
+            print(email)
+            
+            sql_statement = f'''SELECT email, real_name, user_name, num_reviews FROM customer WHERE email = "{email}";'''
+            self.cursor.execute(sql_statement)
+            result = self.cursor.fetchall()
+            data_file.close()
+            return result
+        except Exception as e:
+            messagebox.showerror("Error in file", f"{e}")
+            
+        
 
     # ----- SELECT STATEMENTS -----
     def select_all_food_estabs(self):
@@ -198,10 +212,15 @@ class QueriesAPI():
             decrypted_password = self.encryption_helper.decrypt(stored_password)
             # Compare the decrypted password with the provided password
             if decrypted_password == password:
+                data_file = open("data_file.txt", "w")
                 QueriesAPI.logged_user = (stored_email,)
                 messagebox.showinfo("Login", "User logged in successfully!")
+                #encrypt email then write to an external text file
+                encrypted_email = self.encryption_helper.encrypt(email)
+                data_file.write(encrypted_email)
                 login_window.destroy()
                 subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+                data_file.close()
                 return QueriesAPI.logged_user
             else:
                 # If the credentials do not match, show an error message
@@ -222,6 +241,7 @@ class QueriesAPI():
         if result[0] > 0:
             messagebox.showerror("Duplicate Email", "The email address you provided is already registered.")
             return
+
 
         # Encrypt the password before saving it
         encrypted_password = self.encryption_helper.encrypt(password)

@@ -277,15 +277,15 @@ canvas.create_text(
 
 # Initialize QueriesAPI and get the logged-in user's email
 queries_api = QueriesAPI()
-user_email = queries_api.get_logged_user_email()
-print("Logged-in user email:", user_email)
 
 
 # Fetch user details and display them
-user_details = queries_api.fetch_user_details(user_email)
+user_details = queries_api.fetch_user_details()
 print("User details:", user_details)
 if user_details:
-    real_name, username, email = user_details
+    real_name = user_details[0][2]
+    username = user_details[0][1]
+    email = user_details[0][0]
     label_real_name = Label(window, text=f"Name: {real_name}", bg="#DE1A1A", font=("Inter", 14))
     label_real_name.place(x=279, y=100)
 
