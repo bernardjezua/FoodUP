@@ -23,7 +23,7 @@ Follow these steps to set up the project locally:
 
        pip install -r dependencies.txt
 
-5. Inside the project directory, login to mariadb using your sql root account and run the following command:
+5. Inside the project directory, login to mariadb using your sql root account and run the source command:
 
        mariadb -uroot -p<root_password>
        source restaurant.sql
