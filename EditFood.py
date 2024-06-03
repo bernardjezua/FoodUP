@@ -81,6 +81,7 @@ button_1.place(
 def edit_button_click():
     if(fid.get() != "" and fname.get() != "" and fprice.get() != "" and ftype.get() != "" and estid.get() != "" and fdesc.get() != "" and fid.get().isnumeric() and estid.get().isnumeric()):
         QueriesAPI().update_food_item(global_foodid, fname.get(), fprice.get(), ftype.get(), estid.get(), fdesc.get())
+        fid.set(global_foodid)
         window.destroy()
         process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
         process.wait()
@@ -460,9 +461,16 @@ entry_5.place(
     height=47.0
 )
 
+def maintainId(*args):
+    if(global_foodid != None and fid.get() != global_foodid and global_foodid != ''):
+        fid.set(global_foodid)
+    # elif(fid.get() != global_foodid):
+    #     fid.set('')
+
 def setId(*args):
     fid.set(global_foodid)
-
+    
+fid.trace_add("write", callback=maintainId)
 fname.trace_add("write", callback=setId)
 fprice.trace_add("write", callback=setId)
 ftype.trace_add("write", callback=setId)
@@ -484,6 +492,8 @@ def searchfood():
             estid.set(result[0][4])
             fdesc.set(result[0][1])
         else:
+            global_foodid = ''
+            fid.set('')
             fname.set('')
             fprice.set('')
             ftype.set('')
