@@ -70,11 +70,31 @@ class QueriesAPI():
         self.cursor.execute(sql_statement)
         result = self.cursor.fetchall()
         return result
+    
+    def select_all_food_ids(self):
+        self.cursor.execute("SELECT food_id FROM food_item")
+        food_ids = [row[0] for row in self.cursor.fetchall()]
+        return food_ids
+
+    def select_all_estab_ids(self):
+        self.cursor.execute("SELECT estab_id FROM food_establishment")
+        estab_ids = [row[0] for row in self.cursor.fetchall()]
+        return estab_ids
+
+    def select_all_review_ids(self):
+        self.cursor.execute("SELECT review_id FROM review")
+        review_ids = [row[0] for row in self.cursor.fetchall()]
+        return review_ids
 
     # ----- FOOD REVIEW FUNCTIONS -----
     def select_all_food_reviews(self):
         sql_statement = "SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id GROUP BY r.review_id;"
         self.cursor.execute(sql_statement)
+        result = self.cursor.fetchall()
+        return result
+    
+    def select_review_by_id(self, review_id):
+        self.cursor.execute(f"SELECT review_id, rating, rev_stat, estab_id, food_id FROM review WHERE review_id = {review_id}")
         result = self.cursor.fetchall()
         return result
     
@@ -202,6 +222,71 @@ class QueriesAPI():
 
         
     # ----- UPDATE STATEMENTS -----
+    def update_review_by_id(self, review_id, new_rating, new_food_id, new_estab_id, new_review_text):
+        # Check if review_id is valid
+        if review_id not in self.select_all_review_ids():
+            messagebox.showerror("Invalid Review ID.")
+            return
+
+        # Check if new_rating is between 1 and 5
+        new_rating_value = int(new_rating.get())
+        if new_rating_value < 1 or new_rating_value > 5:
+            messagebox.showerror("Rating must be between 1 and 5.")
+            return
+
+        # Check if new_food_id is valid
+        new_food_id_value = new_food_id.get() if new_food_id is not None else None
+        new_food_id_value = 'NULL' if new_food_id_value == '' else new_food_id_value
+        if new_food_id_value != 'NULL' and new_food_id_value not in self.select_all_food_ids():
+            messagebox.showerror("Invalid Food Item ID.")
+            return
+
+        # Check if new_estab_id is valid
+        new_estab_id_value = new_estab_id.get() if new_estab_id is not None else None
+        new_estab_id_value = 'NULL' if new_estab_id_value == '' else new_estab_id_value
+        if new_estab_id_value != 'NULL' and new_estab_id_value not in self.select_all_estab_ids():
+            messagebox.showerror("Invalid Establishment ID.")
+            return
+
+        # If all conditions are met, update the review
+        sql_statement = 'UPDATE REVIEW SET review_text=%s, rating=%s, food_id=%s, estab_id=%s WHERE review_id=%s'
+        self.cursor.execute(sql_statement, (new_review_text, new_rating_value, new_food_id_value, new_estab_id_value, review_id))
+        self.conn.commit()
+        messagebox.showinfo("Update Review", "Review updated successfully!")
+
+    '''
+    def update_review_by_id(self, review_id, new_rating, new_reviewdesc, estab_id, food_id=None):
+        new_rating_value = int(new_rating.get())
+        if new_rating_value < 1 or new_rating_value > 5:
+            messagebox.showerror("Rating must be between 1 and 5.")
+            return
+
+        if not self.review_exists(review_id):
+            messagebox.showerror("Invalid Review ID.")
+            return
+
+        estab_id_value = estab_id.get()
+        food_id_value = food_id.get() if food_id is not None else None
+
+        estab_id_value = 'NULL' if estab_id_value == '' else estab_id_value
+        food_id_value = 'NULL' if food_id_value == '' else food_id_value
+
+        if estab_id_value != 'NULL' and estab_id_value not in self.select_all_estab_ids():
+            messagebox.showerror("Invalid Establishment ID.")
+            return
+
+        if food_id_value != 'NULL' and food_id_value not in self.select_all_food_ids():
+            messagebox.showerror("Invalid Food Item ID.")
+            return
+
+        sql_statement = 'UPDATE REVIEW SET review_text=%s, rating=%s WHERE review_id=%s'
+        self.cursor.execute(sql_statement, (review_text, rating, id))
+
+        self.conn.commit()
+        updatedReview = self.select_review_by_id(id)
+        return updatedReview
+    '''
+        
     def update_food_estab_by_id(self, id, estab_name, estab_desc, loc, serv_mod, contact):
         sql_statement = 'UPDATE FOOD_ESTABLISHMENT SET estab_desc=%s, estab_name=%s WHERE estab_id=%s'
         self.cursor.execute(sql_statement, (estab_desc, estab_name, id))
