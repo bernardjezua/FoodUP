@@ -30,7 +30,7 @@ Follow these steps to set up the project locally:
 
 6. Run the program:
 
-       python LoginPage.py
+       python main.py
 
 7. You will be greeted with a login page, login or signup for an account
 
