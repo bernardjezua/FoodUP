@@ -395,7 +395,7 @@ canvas.create_text(
     font=("Inter", 14 * -1)
 )
 
-#add review button
+# add button
 def on_button_2_click():
     food_rating = food_rating_entry.get()
     food_id = food_id_entry.get()
@@ -404,17 +404,12 @@ def on_button_2_click():
 
     if not food_rating.isdigit() or int(food_rating) < 1 or int(food_rating) > 5:
         messagebox.showinfo("Invalid Input!", "Rating entry must be 1-5 only.")
-    elif not food_id.isdigit():
-        messagebox.showinfo("Invalid Input!", "Food ID is not present.")
-    elif not estab_id.isdigit():
-        messagebox.showinfo("Invalid Input!", "Establishment ID is not present.")
+    elif not food_id.isdigit() and not estab_id.isdigit():
+        messagebox.showinfo("Invalid Input!", "Either Food ID or Establishment ID must be present.")
     elif not review.strip():
         messagebox.showinfo("Invalid Input!", "Review cannot be empty.")
     else:
         QueriesAPI().add_review(food_rating, food_id, estab_id, review, window)
-        window.destroy()
-        process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
-        process.wait()
         
 # add review button
 button_2 = Button(

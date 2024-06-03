@@ -130,9 +130,6 @@ def on_delete_click():
             messagebox.showerror("Error", result)
         else:
             messagebox.showinfo("Success", "Review deleted successfully!")
-            window.destroy()
-            process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
-            process.wait()
     else:
         messagebox.showinfo("Invalid Input", "Please enter all fields!")
 
