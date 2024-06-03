@@ -21,7 +21,7 @@ Follow these steps to set up the project locally:
 
 4. Navigate to the project directory and install dependencies:
 
-       pip install -r requirements.txt
+       pip install -r dependencies.txt
 
 5. Run the program:
 
