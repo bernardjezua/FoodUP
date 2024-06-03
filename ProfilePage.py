@@ -100,9 +100,9 @@ button_1.bind('<Enter>', button_1_hover)
 button_1.bind('<Leave>', button_1_leave)
 
 def on_button_2_click():
-    print("button_2 clicked")
     window.destroy()
-    subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process.wait()
     
 
 button_image_2 = PhotoImage(

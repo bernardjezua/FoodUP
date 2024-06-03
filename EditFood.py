@@ -185,8 +185,9 @@ button_5.bind('<Enter>', button_5_hover)
 button_5.bind('<Leave>', button_5_leave)
 
 def on_button_6_click():
-    print("button_6 clicked")
     window.destroy()
+    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process.wait()
 
 button_image_6 = PhotoImage(
     file=relative_to_assets("button_6.png"))

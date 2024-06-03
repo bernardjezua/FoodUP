@@ -103,7 +103,6 @@ button_2.place(
 )
 
 def on_button_3_click():
-    print("button_3 clicked")
     window.destroy()
     process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
     process.wait()
@@ -125,7 +124,6 @@ button_3.place(
 )
 
 def on_button_4_click():
-    print("button_4 clicked")
     window.destroy()
     process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
     process.wait()
@@ -147,7 +145,6 @@ button_4.place(
 )
 
 def on_button_5_click():
-    print("button_5 clicked")
     window.destroy()
     process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
     process.wait()
@@ -184,8 +181,9 @@ button_5.bind('<Enter>', button_5_hover)
 button_5.bind('<Leave>', button_5_leave)
 
 def on_button_6_click():
-    print("button_6 clicked")
     window.destroy()
+    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process.wait()
 
 button_image_6 = PhotoImage(
     file=relative_to_assets("button_6.png"))
@@ -219,7 +217,6 @@ button_6.bind('<Enter>', button_6_hover)
 button_6.bind('<Leave>', button_6_leave)
 
 def on_button_7_click():
-    print("button_7 clicked")
     window.destroy()
     process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
     process.wait()
@@ -256,7 +253,6 @@ button_7.bind('<Enter>', button_7_hover)
 button_7.bind('<Leave>', button_7_leave)
 
 def on_button_8_click():
-    print("button_8 clicked")
     window.destroy()
     process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
     process.wait()

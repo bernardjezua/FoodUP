@@ -182,6 +182,7 @@ for index,value in enumerate(result):
 def on_button_4_click():
     print("button_4 clicked")
     view_review.destroy()
+    subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
 
 button_image_4 = PhotoImage(
     file=relative_to_assets("button_4.png"))

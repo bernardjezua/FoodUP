@@ -112,7 +112,6 @@ canvas.create_rectangle(
     outline="")
 
 def on_button_3_click():
-    print("button_3 clicked")
     view_food.destroy()
     process = subprocess.Popen([sys.executable, "DeleteFood.py"], shell=True)
     process.wait()
@@ -134,7 +133,6 @@ button_3.place(
 )
 
 def on_button_4_click():
-    print("button_4 clicked")
     view_food.destroy()
     process = subprocess.Popen([sys.executable, "EditFood.py"], shell=True)
     process.wait()
@@ -156,7 +154,6 @@ button_4.place(
 )
 
 def on_button_5_click():
-    print("button_5 clicked")
     view_food.destroy()
     process = subprocess.Popen([sys.executable, "AddFood.py"], shell=True)
     process.wait()
@@ -243,6 +240,7 @@ button_6.bind('<Leave>', button_6_leave)
 def on_button_7_click():
     view_food.destroy()
     process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process.wait()
 
 button_image_7 = PhotoImage(
     file=relative_to_assets("button_7.png"))
