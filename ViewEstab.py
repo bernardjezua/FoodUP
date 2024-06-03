@@ -145,7 +145,7 @@ table.column("estab_desc",anchor=CENTER,minwidth=120,  stretch=False)
 table.column("serv_mod",anchor=CENTER,minwidth=80,  stretch=False)
 table.column("loc",anchor=CENTER,minwidth=70,  stretch=False)
 table.column("contact",anchor=CENTER,minwidth=100,  stretch=False)
-table.column("avg_rating",anchor=CENTER,width=40,  stretch=False)
+table.column("avg_rating",anchor=CENTER,width=110,  stretch=False)
 
 # Scrollbars
 horzScrollBar = ttk.Scrollbar(view_estab, 
