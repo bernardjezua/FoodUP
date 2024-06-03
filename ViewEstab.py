@@ -250,7 +250,10 @@ def update_table(*args):
     else:
         result = db.select_food_estab_by_id_rating(id, filter, sortTable)
     for index,value in enumerate(result):
-        table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3],'{:.2f}'.format(round(float(value[6]), 3))))
+        if(value[6] == 'N/A'):
+            table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3],value[6]))
+        else:
+            table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3],'{:.2f}'.format(round(float(value[6]), 3))))
         
 sv.trace_add("write", callback=update_table)
 
