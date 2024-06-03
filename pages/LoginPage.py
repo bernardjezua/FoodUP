@@ -25,7 +25,7 @@ def login():
 
 def open_signup():
     window.destroy()
-    subprocess.Popen([sys.executable, "SignupPage.py"], shell=True)
+    subprocess.Popen([sys.executable, "./pages/SignupPage.py"], shell=True)
     process.wait()
     window.wm_deiconify()
     #SignupPage.main()

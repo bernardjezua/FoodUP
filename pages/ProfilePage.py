@@ -93,7 +93,7 @@ button_1.bind('<Leave>', button_1_leave)
 
 def on_button_2_click():
     window.destroy()
-    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/DashboardPage.py"], shell=True)
     process.wait()
     
 
@@ -132,7 +132,7 @@ button_2.bind('<Leave>', button_2_leave)
 def on_button_3_click():
     print("button_3 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewEstab.py"], shell=True)
     process.wait()
 
 button_image_3 = PhotoImage(
@@ -171,7 +171,7 @@ button_3.bind('<Leave>', button_3_leave)
 def on_button_4_click():
     print("button_4 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewFood.py"], shell=True)
     process.wait()
 
 button_image_4 = PhotoImage(
@@ -209,7 +209,7 @@ button_4.bind('<Leave>', button_4_leave)
 def on_button_5_click():
     print("button_5 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewReview.py"], shell=True)
     process.wait()
 
 button_image_5 = PhotoImage(

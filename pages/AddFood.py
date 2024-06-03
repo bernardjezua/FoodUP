@@ -82,7 +82,7 @@ def on_button_2_click():
     if(entry_4 != "" and entry_2 != "" and entry_3 != "" and  entry_1 != "" and entry_5 != "" and (entry_2.get().isnumeric() and entry_1.get().isnumeric())):
         QueriesAPI().add_food(entry_4, entry_2, entry_3, entry_1 ,entry_5 ,window)
         window.destroy()
-        process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+        process = subprocess.Popen([sys.executable, "./pages/ViewFood.py"], shell=True)
         process.wait()
     else:
         messagebox.showinfo("Invalid Input!", "Please check all fields!")
@@ -105,7 +105,7 @@ button_2.place(
 
 def on_button_3_click():
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewFood.py"], shell=True)
     process.wait()
 
 button_image_3 = PhotoImage(
@@ -126,7 +126,7 @@ button_3.place(
 
 def on_button_4_click():
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewFood.py"], shell=True)
     process.wait()
 
 button_image_4 = PhotoImage(
@@ -148,7 +148,7 @@ button_4.place(
 
 def on_button_5_click():
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ProfilePage.py"], shell=True)
     process.wait()
 
 button_image_5 = PhotoImage(
@@ -185,7 +185,7 @@ button_5.bind('<Leave>', button_5_leave)
 
 def on_button_6_click():
     window.destroy()
-    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/DashboardPage.py"], shell=True)
     process.wait()
 
 button_image_6 = PhotoImage(
@@ -222,7 +222,7 @@ button_6.bind('<Leave>', button_6_leave)
 
 def on_button_7_click():
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewEstab.py"], shell=True)
     process.wait()
 
 button_image_7 = PhotoImage(
@@ -259,7 +259,7 @@ button_7.bind('<Leave>', button_7_leave)
 
 def on_button_8_click():
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewReview.py"], shell=True)
     process.wait()
 
 button_image_8 = PhotoImage(

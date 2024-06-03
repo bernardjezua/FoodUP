@@ -361,7 +361,7 @@ def on_button_4_click():
     if isAdmin:
         print("button_4 clicked")
         view_estab.destroy()
-        process = subprocess.Popen([sys.executable, "DeleteEstab.py"], shell=True)
+        process = subprocess.Popen([sys.executable, "./pages/DeleteEstab.py"], shell=True)
         process.wait()
     else:
         messagebox.showerror("Forbidden!", "You are not authorized to access this feature.")
@@ -386,7 +386,7 @@ def on_button_5_click():
     if isAdmin:
         print("button_5 clicked")
         view_estab.destroy()
-        process = subprocess.Popen([sys.executable, "EditEstab.py"], shell=True)
+        process = subprocess.Popen([sys.executable, "./pages/EditEstab.py"], shell=True)
         process.wait()
     else:
         messagebox.showerror("Forbidden!", "You are not authorized to access this feature.")
@@ -411,7 +411,7 @@ def on_button_6_click():
     if isAdmin:
         print("button_6 clicked")
         view_estab.destroy()
-        process = subprocess.Popen([sys.executable, "AddEstab.py"], shell=True)
+        process = subprocess.Popen([sys.executable, "./pages/AddEstab.py"], shell=True)
         process.wait()
     else:
         messagebox.showerror("Forbidden!", "You are not authorized to access this feature.")
@@ -435,7 +435,7 @@ button_6.place(
 def on_button_7_click():
     print("button_7 clicked")
     view_estab.destroy()
-    process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ProfilePage.py"], shell=True)
     process.wait()
 
 button_image_7 = PhotoImage(
@@ -473,7 +473,7 @@ button_7.bind('<Leave>', button_7_leave)
 def on_button_8_click():
     print("button_8 clicked")
     view_estab.destroy()
-    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/DashboardPage.py"], shell=True)
     process.wait()
 
 button_image_8 = PhotoImage(
@@ -511,7 +511,7 @@ button_8.bind('<Leave>', button_8_leave)
 def on_button_9_click():
     print("button_9 clicked")
     view_estab.destroy()
-    process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewFood.py"], shell=True)
     process.wait()
 
 button_image_9 = PhotoImage(
@@ -549,7 +549,7 @@ button_9.bind('<Leave>', button_9_leave)
 def on_button_10_click():
     print("button_10 clicked")
     view_estab.destroy()
-    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewReview.py"], shell=True)
     process.wait()
 
 button_image_10 = PhotoImage(

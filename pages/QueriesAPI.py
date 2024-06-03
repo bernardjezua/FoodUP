@@ -63,7 +63,7 @@ class QueriesAPI():
         QueriesAPI.logged_user = None
         os.remove("data_file.txt")
         messagebox.showinfo("Logout", "User logged out successfully!")
-        subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
+        subprocess.Popen([sys.executable, "./pages/LoginPage.py"], shell=True)
         sys.exit()
     
     # def get_logged_user_email(self):
@@ -318,7 +318,7 @@ class QueriesAPI():
                 encrypted_email = self.encryption_helper.encrypt(email)
                 data_file.write(encrypted_email)
                 login_window.destroy()
-                subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+                subprocess.Popen([sys.executable, "./pages/DashboardPage.py"], shell=True)
                 data_file.close()
                 return QueriesAPI.logged_user
             else:
@@ -350,7 +350,7 @@ class QueriesAPI():
             self.conn.commit()
             messagebox.showinfo("Register", "Account created successfully!")
             register_window.destroy()
-            subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
+            subprocess.Popen([sys.executable, "./pages/LoginPage.py"], shell=True)
         except mysql.connector.Error as err:
             messagebox.showerror("Database Error", f"An error occurred: {err}")
 

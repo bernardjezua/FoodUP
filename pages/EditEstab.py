@@ -15,7 +15,7 @@ ASSETS_PATH = OUTPUT_PATH / "assets/editestab"
 def on_button_3_click():
     print("button_3 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/DashboardPage.py"], shell=True)
     process.wait()
 
 def relative_to_assets(path: str) -> Path:
@@ -81,7 +81,7 @@ def edit_button_click():
         contactList = econtact.get().split(",")
         result = db.update_food_estab_by_id(estab_id, ename.get(), edesc.get(), locList, servModList, contactList)
         window.destroy()
-        process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+        process = subprocess.Popen([sys.executable, "./pages/ViewEstab.py"], shell=True)
         process.wait()
     else:
         messagebox.showinfo("Invalid Input", "Please check all fields!")
@@ -141,7 +141,7 @@ edit_button.place(
 def on_button_2_click():
     print("button_2 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewEstab.py"], shell=True)
     process.wait()
 
 button_image_2 = PhotoImage(
@@ -359,7 +359,7 @@ entry_4.place(
 def on_button_4_click():
     print("button_4 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewEstab.py"], shell=True)
     process.wait()
 
 button_image_4 = PhotoImage(
@@ -429,7 +429,7 @@ entry_5.place(
 def on_button_6_click():
     print("button_6 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ProfilePage.py"], shell=True)
     process.wait()
 
 button_image_6 = PhotoImage(
@@ -467,7 +467,7 @@ button_6.bind('<Leave>', button_6_leave)
 def on_button_7_click():
     print("button_7 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewFood.py"], shell=True)
     process.wait()
 
 button_image_7 = PhotoImage(
@@ -505,7 +505,7 @@ button_7.bind('<Leave>', button_7_leave)
 def on_button_8_click():
     print("button_8 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewReview.py"], shell=True)
     process.wait()
 
 button_image_8 = PhotoImage(

@@ -84,7 +84,7 @@ button_image_2 = PhotoImage(
 
 def on_entry_1_click(): #back
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewReview.py"], shell=True)
     process.wait()
 
 entry_image_1 = PhotoImage(
@@ -111,7 +111,7 @@ entry_1.place(
 
 def on_button_3_click():
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewReview.py"], shell=True)
     process.wait()
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
@@ -132,7 +132,7 @@ button_3.place(
 def on_button_4_click():
     print("button_4 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ProfilePage.py"], shell=True)
     process.wait()
 button_image_4 = PhotoImage(
     file=relative_to_assets("button_4.png"))
@@ -168,7 +168,7 @@ button_4.bind('<Leave>', button_4_leave)
 
 def on_button_5_click():
     window.destroy()
-    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/DashboardPage.py"], shell=True)
     process.wait()
 button_image_5 = PhotoImage(
     file=relative_to_assets("button_5.png"))
@@ -204,7 +204,7 @@ button_5.bind('<Leave>', button_5_leave)
 
 def on_button_6_click():
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewEstab.py"], shell=True)
     process.wait()
 button_image_6 = PhotoImage(
     file=relative_to_assets("button_6.png"))
@@ -240,7 +240,7 @@ button_6.bind('<Leave>', button_6_leave)
 
 def on_button_7_click():
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewFood.py"], shell=True)
     process.wait()
 button_image_7 = PhotoImage(
     file=relative_to_assets("button_7.png"))

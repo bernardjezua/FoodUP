@@ -46,7 +46,7 @@ def create_account():
 
 def go_back_to_login():
     window.destroy()
-    subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
+    subprocess.Popen([sys.executable, "./pages/LoginPage.py"], shell=True)
 
 api = QueriesAPI()
 

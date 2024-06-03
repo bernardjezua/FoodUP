@@ -77,7 +77,7 @@ canvas.create_rectangle(
 def on_button_1_click():
     print("button_1 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewEstab.py"], shell=True)
     process.wait()
 
 
@@ -255,7 +255,7 @@ def on_button_2_click():
     # TODO: Implement add estab logic here
     print("button_2 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewEstab.py"], shell=True)
     process.wait()
 
 button_image_2 = PhotoImage(
@@ -277,7 +277,7 @@ button_2.place(
 def on_button_3_click():
     print("button_3 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewReview.py"], shell=True)
     process.wait()
 
 button_image_3 = PhotoImage(
@@ -315,7 +315,7 @@ button_3.bind('<Leave>', button_3_leave)
 def on_button_4_click():
     print("button_4 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewFood.py"], shell=True)
     process.wait()
 
 button_image_4 = PhotoImage(
@@ -338,7 +338,7 @@ button_4.place(
 def on_button_5_click():
     print("button_5 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/DashboardPage.py"], shell=True)
     process.wait()
 
 button_image_5 = PhotoImage(
@@ -392,7 +392,7 @@ button_5.bind('<Leave>', button_5_leave)
 def on_button_6_click():
     print("button_6 clicked")
     window.destroy()
-    process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ProfilePage.py"], shell=True)
     process.wait()
 
 button_image_6 = PhotoImage(

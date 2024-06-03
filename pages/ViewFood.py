@@ -121,7 +121,7 @@ canvas.create_rectangle(
 def on_button_3_click():
     if isAdmin:
         view_food.destroy()
-        process = subprocess.Popen([sys.executable, "DeleteFood.py"], shell=True)
+        process = subprocess.Popen([sys.executable, "./pages/DeleteFood.py"], shell=True)
         process.wait()
     else:
         messagebox.showerror("Forbidden!", "You are not authorized to access this feature.")
@@ -145,7 +145,7 @@ button_3.place(
 def on_button_4_click():
     if isAdmin:
         view_food.destroy()
-        process = subprocess.Popen([sys.executable, "EditFood.py"], shell=True)
+        process = subprocess.Popen([sys.executable, "./pages/EditFood.py"], shell=True)
         process.wait()
     else:
         messagebox.showerror("Forbidden!", "You are not authorized to access this feature.")
@@ -169,7 +169,7 @@ button_4.place(
 def on_button_5_click():
     if isAdmin:
         view_food.destroy()
-        process = subprocess.Popen([sys.executable, "AddFood.py"], shell=True)
+        process = subprocess.Popen([sys.executable, "./pages/AddFood.py"], shell=True)
         process.wait()
     else:
         messagebox.showerror("Forbidden!", "You are not authorized to access this feature.")    
@@ -219,7 +219,7 @@ canvas.create_text(
 
 def on_button_6_click():
     view_food.destroy()
-    process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ProfilePage.py"], shell=True)
     process.wait()
 
 button_image_6 = PhotoImage(
@@ -256,7 +256,7 @@ button_6.bind('<Leave>', button_6_leave)
 
 def on_button_7_click():
     view_food.destroy()
-    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/DashboardPage.py"], shell=True)
     process.wait()
 
 button_image_7 = PhotoImage(
@@ -293,7 +293,7 @@ button_7.bind('<Leave>', button_7_leave)
 
 def on_button_8_click():
     view_food.destroy()
-    process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewEstab.py"], shell=True)
     process.wait()
 
 button_image_8 = PhotoImage(
@@ -330,7 +330,7 @@ button_8.bind('<Leave>', button_8_leave)
 
 def on_button_9_click():
     view_food.destroy()
-    process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+    process = subprocess.Popen([sys.executable, "./pages/ViewReview.py"], shell=True)
     process.wait()
 
 button_image_9 = PhotoImage(
