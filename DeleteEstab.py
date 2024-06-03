@@ -222,7 +222,7 @@ button_5 = Button(
     borderwidth=0,
     background="#DE1A1A",
     highlightthickness=0,
-    command=lambda: db.logout(window),
+    command=lambda: db.logout(),
     relief="flat"
 )
 button_5.place(

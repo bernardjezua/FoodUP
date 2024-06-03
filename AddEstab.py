@@ -5,8 +5,7 @@ import subprocess
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, END
-from OperationFunctions import *
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, END, messagebox
 from QueriesAPI import QueriesAPI
 
 OUTPUT_PATH = Path(__file__).parent

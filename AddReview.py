@@ -69,7 +69,7 @@ button_1 = Button(
     borderwidth=0,
     background = "#DE1A1A",
     highlightthickness=0,
-    command=lambda: QueriesAPI().logout(window),
+    command=lambda: QueriesAPI().logout(),
     relief="flat"
 )
 button_1.place(

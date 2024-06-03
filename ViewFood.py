@@ -91,7 +91,7 @@ button_2 = Button(
     background="#DE1A1A",
     highlightthickness=0,
     #command=lambda: print("button_2 clicked"),
-    command=lambda: QueriesAPI().logout(view_food),
+    command=lambda: QueriesAPI().logout(),
     relief="flat"
 )
 button_2.place(

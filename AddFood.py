@@ -4,8 +4,7 @@ import os
 # from tkinter import *
 
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-from OperationFunctions import *
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox
 from QueriesAPI import QueriesAPI
 
 
@@ -68,7 +67,7 @@ button_1 = Button(
     borderwidth=0,
     background = "#DE1A1A",
     highlightthickness=0,
-    command=lambda: QueriesAPI().logout(window),
+    command=lambda: QueriesAPI().logout(),
     relief="flat"
 )
 button_1.place(
