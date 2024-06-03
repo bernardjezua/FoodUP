@@ -4,9 +4,12 @@ import sys
 from tkinter import messagebox
 import mysql.connector
 import re
+import shortuuid
 import os
 from cryptography.fernet import Fernet
 
+def generateID():
+    return shortuuid.ShortUUID(alphabet="0123456789").random(length=5)
 
 class DuplicateEmailError(Exception):
     pass
@@ -56,12 +59,9 @@ class QueriesAPI():
                 key_file.write(key)
             return key
 
-    def logout(self, window):
+    def logout(self):
         QueriesAPI.logged_user = None
-        if os.path.exists("data_file.txt"):
-            os.remove("data_file.txt")
         messagebox.showinfo("Logout", "User logged out successfully!")
-        window.destroy()
         subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
         sys.exit()
     
@@ -134,6 +134,11 @@ class QueriesAPI():
         result = self.cursor.fetchall()
         return result
     
+    def select_email_by_revid(self, review_id, email):
+        self.cursor.execute(f"SELECT email FROM review WHERE review_id = {review_id} AND email = '{email}'")
+        result = self.cursor.fetchall()
+        return result
+
     def select_all_food_ids(self):
         self.cursor.execute("SELECT food_id FROM food_item")
         food_ids = [row[0] for row in self.cursor.fetchall()]
@@ -469,10 +474,17 @@ class QueriesAPI():
         
     # ----- UPDATE STATEMENTS -----
     def update_review_by_id(self, review_id, new_rating, new_food_id, new_estab_id, new_review_text):
-        # Check if review_id is valid
-        if review_id not in self.select_all_review_ids():
-            messagebox.showerror("Invalid Review ID.")
+        # Check if Food ID or Estab ID is provided
+        if new_food_id == '' and new_estab_id == '':
+            messagebox.showerror("Invalid Input", "Either Food ID or Estab ID should be provided!")
             return
+        
+        # Fetch the user details
+        user_details = self.fetch_user_details()
+        if user_details is None or len(user_details) == 0:
+            messagebox.showerror("Invalid User", "The user is not logged in or does not exist.")
+            return
+        email = user_details[0][0]
 
         # Check if new_rating is between 1 and 5
         new_rating_value = int(new_rating.get())
@@ -562,26 +574,56 @@ class QueriesAPI():
 
         for contactDetail in contact:
             sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_CONTACT(estab_id, contact) VALUES(%s, %s)'
-            self.cursor.execute(sql_statement, (id, contactDetail.strip()))
+            self.cursor.execute(sql_statement, (id, contactDetail))
 
         for location in loc:
             sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_LOCATION(estab_id, loc) VALUES(%s, %s)'
-            self.cursor.execute(sql_statement, (id, location.strip()))
+            self.cursor.execute(sql_statement, (id, location))
 
         for modeOfService in serv_mod:
             sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_MODE_OF_SERVICE(estab_id, serv_mod) VALUES(%s, %s)'
-            self.cursor.execute(sql_statement, (id, modeOfService.strip()))
+            self.cursor.execute(sql_statement, (id, modeOfService))
 
         self.conn.commit()
         updatedFoodEstab = self.select_food_estab_by_id(id)
-        messagebox.showinfo("Edit Establishment", "Successfully updated establishment!")
         return updatedFoodEstab
 
 
     # ----- DELETE STATEMENTS -----
+    def admin_perms_check(self, review_id):
+        # Fetch the details of the logged-in user
+        user_details = self.fetch_user_details()
+        if user_details is None or len(user_details) == 0:
+            messagebox.showerror("Invalid User", "The user is not logged in or does not exist.")
+            return False
+
+        # Assuming user_details is a list of tuples
+        user_email = user_details[0][0]
+
+        # Fetch the details of the review
+        review_details = self.select_email_by_revid(review_id, user_email)
+        if review_details:
+            review_email = review_details[0][0]
+        else:
+            review_email = None
+
+        # If the user is an admin, they can delete any review
+        if 'admin' in user_email:
+            return True
+
+        # If the user is not an admin, they can only delete their own reviews
+        if user_email == review_email:
+            return True
+        return False
+    
     def delete_review(self, review_id):
         if not review_id.isdigit():
             return "Review ID must be a number."
+
+        # Check if the user has permission to delete the review
+        if not self.admin_perms_check(review_id):
+            messagebox.showerror("Permission Denied", "You do not have permission to delete this review.")
+            return
 
         if(review_id != ''):
             self.cursor.execute(f"SELECT * FROM review WHERE review_id = {review_id}")
@@ -591,6 +633,7 @@ class QueriesAPI():
                 try:
                     self.cursor.execute(delete_review)
                     self.conn.commit()
+                    messagebox.showinfo("Success", "Review deleted successfully!")
                     return None
                 except mysql.connector.Error as err:
                     return f"Error: {err}"
