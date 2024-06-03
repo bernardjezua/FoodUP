@@ -11,7 +11,6 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Label
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets/frame3"
 
-
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
@@ -25,6 +24,7 @@ def logout():
     subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
 
 window = Tk()
+window.title("GROUP 1 Food & Restaurant Review Application")
 
 w = 800
 h = 500 
@@ -73,6 +73,7 @@ button_image_1 = PhotoImage(
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=lambda: print("button_1 clicked"),
     relief="flat"
@@ -110,6 +111,7 @@ button_image_2 = PhotoImage(
 button_2 = Button(
     image=button_image_2,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_2_click,
     relief="flat"
@@ -147,6 +149,7 @@ button_image_3 = PhotoImage(
 button_3 = Button(
     image=button_image_3,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_3_click,
     relief="flat"
@@ -185,6 +188,7 @@ button_image_4 = PhotoImage(
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_4_click,
     relief="flat"
@@ -222,6 +226,7 @@ button_image_5 = PhotoImage(
 button_5 = Button(
     image=button_image_5,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_5_click,
     relief="flat"
@@ -278,7 +283,6 @@ canvas.create_text(
 # Initialize QueriesAPI and get the logged-in user's email
 queries_api = QueriesAPI()
 
-
 # Fetch user details and display them
 user_details = queries_api.fetch_user_details()
 print("User details:", user_details)
@@ -286,13 +290,13 @@ if user_details:
     real_name = user_details[0][2]
     username = user_details[0][1]
     email = user_details[0][0]
-    label_real_name = Label(window, text=f"Name: {real_name}", bg="#DE1A1A", font=("Inter", 14))
+    label_real_name = Label(window, text=f"Name: {real_name}", bg="#FFFFFF", font=("Inter", 14))
     label_real_name.place(x=279, y=100)
 
-    label_username = Label(window, text=f"Username: {username}", bg="#DE1A1A", font=("Inter", 14))
+    label_username = Label(window, text=f"Username: {username}", bg="#FFFFFF", font=("Inter", 14))
     label_username.place(x=279, y=140)
 
-    label_email = Label(window, text=f"Email: {email}", bg="#DE1A1A", font=("Inter", 14))
+    label_email = Label(window, text=f"Email: {email}", bg="#FFFFFF", font=("Inter", 14))
     label_email.place(x=279, y=180)
 else:
     label_no_user = Label(window, text="No user details found.", bg="#DE1A1A", font=("Inter", 14))

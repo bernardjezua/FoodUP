@@ -16,6 +16,7 @@ def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 window = Tk()
+window.title("GROUP 1 Food & Restaurant Review Application")
 
 w = 800
 h = 500 
@@ -64,7 +65,7 @@ button_image_1 = PhotoImage(
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
-    background="#DE1A1A",
+    background = "#DE1A1A",
     highlightthickness=0,
     command=lambda: print("button_1 clicked"),
     relief="flat"
@@ -135,6 +136,7 @@ button_image_4 = PhotoImage(
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_4_click,
     relief="flat"
@@ -157,6 +159,7 @@ button_image_5 = PhotoImage(
 button_5 = Button(
     image=button_image_5,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_5_click,
     relief="flat"
@@ -192,6 +195,7 @@ button_image_6 = PhotoImage(
 button_6 = Button(
     image=button_image_6,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_6_click,
     relief="flat"
@@ -229,6 +233,7 @@ button_image_7 = PhotoImage(
 button_7 = Button(
     image=button_image_7,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_7_click,
     relief="flat"
@@ -266,6 +271,7 @@ button_image_8 = PhotoImage(
 button_8 = Button(
     image=button_image_8,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_8_click,
     relief="flat"

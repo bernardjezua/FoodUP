@@ -38,6 +38,7 @@ def add_button_clicked():
     print(result)
 
 window = Tk()
+window.title("GROUP 1 Food & Restaurant Review Application")
 
 w = 800
 h = 500 
@@ -284,6 +285,7 @@ button_image_3 = PhotoImage(
 button_3 = Button(
     image=button_image_3,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=lambda: on_button_3_click(),
     relief="flat"
@@ -321,6 +323,7 @@ button_image_4 = PhotoImage(
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=lambda: on_button_4_click(),
     relief="flat"
@@ -343,6 +346,7 @@ button_image_5 = PhotoImage(
 button_5 = Button(
     image=button_image_5,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=lambda: on_button_5_click(),
     relief="flat"
@@ -396,6 +400,7 @@ button_image_6 = PhotoImage(
 button_6 = Button(
     image=button_image_6,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=lambda: on_button_6_click(),
     relief="flat"
@@ -445,6 +450,7 @@ button_image_8 = PhotoImage(
 button_8 = Button(
     image=button_image_8,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=lambda: print("button_8 clicked"),
     relief="flat"

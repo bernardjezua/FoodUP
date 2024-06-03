@@ -13,7 +13,17 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame11"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
+# Define a function for logout
+def logout():
+    # children = multiprocessing.active_children()
+    # print(children)
+    # for child in children:
+    #     child.terminate()
+    window.destroy() 
+    subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
+
 window = Tk()
+window.title("GROUP 1 Food & Restaurant Review Application")
 
 w = 800
 h = 500 
@@ -64,7 +74,8 @@ button_1 = Button(
     background= '#DE1A1A',
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_1 clicked"),
+    #command=lambda: print("button_1 clicked"),
+    command=logout,
     relief="flat"
 )
 button_1.place(
@@ -79,6 +90,7 @@ button_image_2 = PhotoImage(
 button_2 = Button(
     image=button_image_2,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=lambda: print("button_2 clicked"),
     relief="flat"
@@ -101,6 +113,7 @@ button_image_3 = PhotoImage(
 button_3 = Button(
     image=button_image_3,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_3_click,
     relief="flat"
@@ -136,6 +149,7 @@ button_image_4 = PhotoImage(
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_4_click,
     relief="flat"
@@ -173,6 +187,7 @@ button_image_5 = PhotoImage(
 button_5 = Button(
     image=button_image_5,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_5_click,
     relief="flat"
@@ -210,6 +225,7 @@ button_image_6 = PhotoImage(
 button_6 = Button(
     image=button_image_6,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_6_click,
     relief="flat"

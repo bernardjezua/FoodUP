@@ -32,7 +32,6 @@ class EncryptionHelper:
 class QueriesAPI():
     logged_user = ()
     
-
     def __init__(self):
         self.conn = mysql.connector.connect(
                 host="localhost",
@@ -89,8 +88,6 @@ class QueriesAPI():
             return result
         except Exception as e:
             messagebox.showerror("Error in file", f"{e}")
-            
-        
 
     # ----- SELECT STATEMENTS -----
     def select_all_food_estabs(self):
