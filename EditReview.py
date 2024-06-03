@@ -412,10 +412,14 @@ review_id_entry.place(
     height=47.0
 )
 
+def maintainId(*args):
+    if(global_reviewid != None and revid.get() != global_reviewid and global_reviewid != ''):
+        revid.set(global_reviewid)
+
 def setId(*args):
     revid.set(global_reviewid)
 
-revid.trace_add("write", callback=setId)
+revid.trace_add("write", callback=maintainId)
 rating.trace_add("write", callback=setId)
 reviewdesc.trace_add("write", callback=setId)
 eid.trace_add("write", callback=setId)
@@ -442,6 +446,7 @@ def search_review():
                 fid.set('')
             else:
                 fid.set(result[0][4])
+            messagebox.showinfo("Review ID Found", "Matched query results to Review ID!")
         else:
             revid.set('')
             rating.set('')
