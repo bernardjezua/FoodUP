@@ -104,14 +104,14 @@ entry_bg_1 = canvas.create_image(
     213.5,
     image=entry_image_1
 )
-entry_1 = Entry(
+delete_entry = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
     textvariable=delete,
     highlightthickness=0
 )
-entry_1.place(
+delete_entry.place(
     x=377.0,
     y=189.0,
     width=289.0,
@@ -121,11 +121,9 @@ entry_1.place(
 #DELETE BUTTON
 def on_delete_click():
     if(delete.get() != ""):
-        result = QueriesAPI().delete_review(entry_1.get())
+        result = QueriesAPI().delete_review(delete_entry.get())
         if result is not None:
             messagebox.showerror("Error", result)
-        else:
-            messagebox.showinfo("Success", "Review deleted successfully!")
     else:
         messagebox.showinfo("Invalid Input", "Please enter all fields!")
 
