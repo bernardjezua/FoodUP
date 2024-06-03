@@ -1,10 +1,10 @@
 from pathlib import Path
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-import subprocess
-import sys
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import StringVar, Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox
+import sys, subprocess
 
+from QueriesAPI import QueriesAPI
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets/frame12"
@@ -73,22 +73,6 @@ button_1.place(
     width=75.0,
     height=19.354839324951172
 )
-#delete button
-button_image_2 = PhotoImage(
-    file=relative_to_assets("button_2.png"))
-button_2 = Button(
-    image=button_image_2,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: print("button_2 clicked"),
-    relief="flat"
-)
-button_2.place(
-    x=372.0,
-    y=254.0,
-    width=299.0,
-    height=49.0
-)
 
 def on_button_3_click():
     window.destroy()
@@ -111,6 +95,7 @@ button_3.place(
     height=37.0
 )
 
+delete = StringVar()
 entry_image_1 = PhotoImage(
     file=relative_to_assets("entry_1.png"))
 entry_bg_1 = canvas.create_image(
@@ -122,6 +107,7 @@ entry_1 = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
+    textvariable=delete,
     highlightthickness=0
 )
 entry_1.place(
@@ -129,6 +115,36 @@ entry_1.place(
     y=189.0,
     width=289.0,
     height=47.0
+)
+
+#DELETE BUTTON
+def on_delete_click():
+    if(delete.get() != ""):
+        result = QueriesAPI().delete_review(entry_1.get())
+        if result is not None:
+            messagebox.showerror("Error", result)
+        else:
+            messagebox.showinfo("Success", "Review deleted successfully!")
+            window.destroy()
+            process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
+            process.wait()
+    else:
+        messagebox.showinfo("Invalid Input", "Please enter all fields!")
+
+button_image_2 = PhotoImage(
+    file=relative_to_assets("button_2.png"))
+button_2 = Button(
+    image=button_image_2,
+    borderwidth=0,
+    highlightthickness=0,
+    command=lambda: on_delete_click(),
+    relief="flat"
+)
+button_2.place(
+    x=372.0,
+    y=254.0,
+    width=299.0,
+    height=49.0
 )
 
 canvas.create_text(

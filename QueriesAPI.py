@@ -128,6 +128,25 @@ class QueriesAPI():
         result = self.cursor.fetchall()
         return result
     
+    def select_all_food_ids(self):
+        self.cursor.execute("SELECT food_id FROM food_item")
+        food_ids = [row[0] for row in self.cursor.fetchall()]
+        return food_ids
+
+    def select_all_estab_ids(self):
+        self.cursor.execute("SELECT estab_id FROM food_establishment")
+        estab_ids = [row[0] for row in self.cursor.fetchall()]
+        return estab_ids
+
+    def select_all_review_ids(self):
+        self.cursor.execute("SELECT review_id FROM review")
+        review_ids = [row[0] for row in self.cursor.fetchall()]
+        return review_ids
+
+    # ----- FOOD REVIEW FUNCTIONS -----
+    def select_all_food_reviews(self):
+        sql_statement = "SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id GROUP BY r.review_id;"
+
     def select_food_estab_by_id(self, id):
         if(id == ''):
             sql_statement = "SELECT estab_id, estab_desc, estab_name, GROUP_CONCAT(DISTINCT contact), GROUP_CONCAT(DISTINCT loc), GROUP_CONCAT(DISTINCT serv_mod) FROM FOOD_ESTABLISHMENT NATURAL JOIN FOOD_ESTABLISHMENT_CONTACT NATURAL JOIN FOOD_ESTABLISHMENT_LOCATION NATURAL JOIN FOOD_ESTABLISHMENT_MODE_OF_SERVICE GROUP BY estab_id"
@@ -140,6 +159,43 @@ class QueriesAPI():
         result = self.cursor.fetchall()
         return result
     
+    def select_review_by_id(self, review_id):
+        self.cursor.execute(f"SELECT review_id, rating, rev_stat, estab_id, food_id FROM review WHERE review_id = {review_id}")
+        result = self.cursor.fetchall()
+        return result
+    
+    def count_food_reviews(self):
+        sql_statement = f"SELECT COUNT(review_id) FROM review;"
+        self.cursor.execute(sql_statement)
+        result = self.cursor.fetchall()[0][0]
+        return result
+    
+    def select_food_review_spec(self, food_id, estab_id, month_filter):
+        whereclause = ""
+        if(food_id != '' or estab_id != '' or month_filter != 'Any'):
+            whereclause = "WHERE "
+            if(food_id != ''):
+                whereclause += f"r.food_id = {food_id} AND "
+            if(estab_id != ''):
+                whereclause += f"r.estab_id = {estab_id} AND "
+            if(month_filter == 'Current Month'):
+                whereclause += f"MONTH(r.rev_date) = MONTH(CURDATE()) AND YEAR(r.rev_date) = YEAR(CURDATE())"
+            elif(month_filter == 'Last 3 Months'):
+                whereclause += f"r.rev_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)"
+            elif(month_filter == 'Last 6 Months'):
+                whereclause += f"r.rev_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)"
+            elif(month_filter == 'Last Year'):
+                whereclause += f"r.rev_date >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)"
+            
+            # Remove the last ' AND ' if it exists
+            if whereclause.endswith(' AND '):
+                whereclause = whereclause[:-5]
+
+        sql_statement = f"SELECT r.review_id, r.rating, r.rev_date, r.rev_stat, r.email, fe.estab_name, fi.food_name FROM review r LEFT JOIN food_item fi ON r.food_id=fi.food_id LEFT JOIN food_establishment fe ON r.estab_id=fe.estab_id {whereclause}"
+        self.cursor.execute(sql_statement)
+        result = self.cursor.fetchall()
+        return result
+
     def select_food_estab_by_rating(self, rating):
         if(rating == "Filter"):
             sql_statement = "SELECT estab_id, estab_desc, estab_name, GROUP_CONCAT(DISTINCT contact), GROUP_CONCAT(DISTINCT loc), GROUP_CONCAT(DISTINCT serv_mod) FROM FOOD_ESTABLISHMENT NATURAL JOIN FOOD_ESTABLISHMENT_CONTACT NATURAL JOIN FOOD_ESTABLISHMENT_LOCATION NATURAL JOIN FOOD_ESTABLISHMENT_MODE_OF_SERVICE GROUP BY estab_id"
@@ -204,7 +260,6 @@ class QueriesAPI():
                     self.cursor.execute(maxquery)
                     max = self.cursor.fetchall()
                     whereclause = whereclause + f"{max[0][0]}"
-
             if(type != "Any"):
                 if(foodid != '' or estabid != '' or minp != '' or maxp != ''):
                     whereclause = whereclause + " AND food_type = "
@@ -284,25 +339,43 @@ class QueriesAPI():
         except mysql.connector.Error as err:
             messagebox.showerror("Database Error", f"An error occurred: {err}")
 
-    def add_review(self, rate_text, food_text, estab_text, review_text, addrev_window):
-        #print(f"Rating: {rate_text.get()}\nFood ID: {food_text.get()}\nEstab ID: {estab_text.get()}\nReview: {review_text.get('1.0', 'end-1c')}")
-        reviewid = generateID()
-        rating = rate_text.get()
-        foodid = food_text.get()
-        estabid = estab_text.get()
-        review = review_text.get('1.0', 'end-1c')
+    def add_review(self, rating, food_id, estab_id, review, window):
+        maxquery = "SELECT MAX(review_id) from REVIEW;"
+        self.cursor.execute(maxquery)
+        max = self.cursor.fetchall()
+        reviewid = max[0][0]+1
         datereviewed = datetime.now().strftime("%Y-%m-%d")
+
+        global logged_user
+        if logged_user is None:
+            logged_user = ["customer1@yahoo.com"]
         email = self.logged_user[0]
-        reviewInsert = f'''INSERT INTO REVIEW(review_id, rating, rev_date, rev_stat, email, estab_id, food_id) VALUES ({reviewid}, {rating}, '{datereviewed}', '{review}', '{email}', {estabid}, {foodid})'''
+        reviewInsert = f'''INSERT INTO REVIEW(review_id, rating, rev_date, rev_stat, email, estab_id, food_id) VALUES ({reviewid}, {rating}, '{datereviewed}', '{review}', '{email}', {estab_id}, {food_id})'''
         
+        email = logged_user[0]
+
+        if food_id != '':
+            self.cursor.execute(f"SELECT * FROM food_item WHERE food_id = {food_id}")
+            food_query = self.cursor.fetchall()
+            if food_query == []:
+                messagebox.showerror("Food Not Found", f"No food was found with the entered id!")
+                return
+
+        if estab_id != '':
+            self.cursor.execute(f"SELECT * FROM food_establishment WHERE estab_id = {estab_id}")
+            estab_query = self.cursor.fetchall()
+            if estab_query == []:
+                messagebox.showerror("Establishment Not Found", f"No establishment was found with the entered id!")
+                return
+
+        # Insert review into the database
         try:
+            reviewInsert = f'''INSERT INTO REVIEW(review_id, rating, rev_date, rev_stat, email, estab_id, food_id) VALUES ({reviewid}, {rating}, '{datereviewed}', '{review}', '{email}', {estab_id}, {food_id})'''
             self.cursor.execute(reviewInsert)
-            self.conn.commit()
-            messagebox.showinfo("Add Review", "Review posted!")
-            print(reviewInsert)
-            addrev_window.destroy()
+            self.db.commit()
+            messagebox.showinfo("Success", "Review added successfully!")
         except mysql.connector.Error as err:
-            messagebox.showerror("Error", f"Error: {err}")
+            messagebox.showerror("Database Error", f"Error: {err}")
 
     def add_food_estab(self, estab_name, estab_desc, loc, serv_mod, contact):
         sql_statement = 'SELECT estab_id FROM FOOD_ESTABLISHMENT ORDER BY estab_id DESC'
@@ -369,8 +442,39 @@ class QueriesAPI():
 
         
     # ----- UPDATE STATEMENTS -----
-    def update_food_item(self, foodid, name, price, type, estid, desc):
+    def update_review_by_id(self, review_id, new_rating, new_food_id, new_estab_id, new_review_text):
+        # Check if review_id is valid
+        if review_id not in self.select_all_review_ids():
+            messagebox.showerror("Invalid Review ID.")
+            return
 
+        # Check if new_rating is between 1 and 5
+        new_rating_value = int(new_rating.get())
+        if new_rating_value < 1 or new_rating_value > 5:
+            messagebox.showerror("Rating must be between 1 and 5.")
+            return
+
+        # Check if new_food_id is valid
+        new_food_id_value = new_food_id.get() if new_food_id is not None else None
+        new_food_id_value = 'NULL' if new_food_id_value == '' else new_food_id_value
+        if new_food_id_value != 'NULL' and new_food_id_value not in self.select_all_food_ids():
+            messagebox.showerror("Invalid Food Item ID.")
+            return
+
+        # Check if new_estab_id is valid
+        new_estab_id_value = new_estab_id.get() if new_estab_id is not None else None
+        new_estab_id_value = 'NULL' if new_estab_id_value == '' else new_estab_id_value
+        if new_estab_id_value != 'NULL' and new_estab_id_value not in self.select_all_estab_ids():
+            messagebox.showerror("Invalid Establishment ID.")
+            return
+
+        # If all conditions are met, update the review
+        sql_statement = 'UPDATE REVIEW SET review_text=%s, rating=%s, food_id=%s, estab_id=%s WHERE review_id=%s'
+        self.cursor.execute(sql_statement, (new_review_text, new_rating_value, new_food_id_value, new_estab_id_value, review_id))
+        self.conn.commit()
+        messagebox.showinfo("Update Review", "Review updated successfully!")
+
+    def update_food_item(self, foodid, name, price, type, estid, desc):
         if(estid != ''):
             self.cursor.execute(f"SELECT * FROM food_establishment WHERE estab_id = {estid}")
             estab_query = self.cursor.fetchall()
@@ -448,6 +552,24 @@ class QueriesAPI():
 
 
     # ----- DELETE STATEMENTS -----
+    def delete_review(self, review_id):
+        if not review_id.isdigit():
+            return "Review ID must be a number."
+
+        if(review_id != ''):
+            self.cursor.execute(f"SELECT * FROM review WHERE review_id = {review_id}")
+            review_search = self.cursor.fetchall()
+            if(review_search != []):
+                delete_review = f'''DELETE FROM review WHERE review_id = "{review_id}";'''               
+                try:
+                    self.cursor.execute(delete_review)
+                    self.conn.commit()
+                    return None
+                except mysql.connector.Error as err:
+                    return f"Error: {err}"
+            else:
+                return "No review was found with the entered id!"
+
     def delete_food_item(self, foodid):
         if(foodid != ''):
             self.cursor.execute(f"SELECT * FROM food_item WHERE food_id = {foodid}")
