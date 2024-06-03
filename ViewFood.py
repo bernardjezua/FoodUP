@@ -242,6 +242,7 @@ button_6.bind('<Leave>', button_6_leave)
 
 def on_button_7_click():
     view_food.destroy()
+    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
 
 button_image_7 = PhotoImage(
     file=relative_to_assets("button_7.png"))
