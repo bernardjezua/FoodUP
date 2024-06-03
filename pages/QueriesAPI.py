@@ -409,7 +409,14 @@ class QueriesAPI():
         try:
             self.cursor.execute(reviewInsert)
             self.conn.commit()
+
+            # Update the num_reviews column for the logged-in user
+            update_num_reviews_query = "UPDATE customer SET num_reviews = num_reviews + 1 WHERE email = %s"
+            self.cursor.execute(update_num_reviews_query, (email,))
+            self.conn.commit()
+
             messagebox.showinfo("Success", "Review added successfully!")
+
         except mysql.connector.Error:
             messagebox.showerror("Database Error", f"One or both of the IDs is not present in the database.")
 
@@ -662,10 +669,26 @@ class QueriesAPI():
             self.cursor.execute(f"SELECT * FROM review WHERE review_id = {review_id}")
             review_search = self.cursor.fetchall()
             if(review_search != []):
+                # Update the num_reviews column for the logged-in user
+                user_details = self.fetch_user_details()
+                email = user_details[0][0]
+                num_reviews = user_details[0][3]
+
+                # Check if num_reviews is already 0
+                if num_reviews == 0:
+                    messagebox.showwarning("Warning", "The user has no reviews to delete.")
+                    return
+
                 delete_review = f'''DELETE FROM review WHERE review_id = "{review_id}";'''               
                 try:
                     self.cursor.execute(delete_review)
                     self.conn.commit()
+
+                    update_num_reviews_query = "UPDATE customer SET num_reviews = %s WHERE email = %s"
+                    new_num_reviews = num_reviews - 1
+                    self.cursor.execute(update_num_reviews_query, (new_num_reviews, email))
+                    self.conn.commit()
+
                     messagebox.showinfo("Success", "Review deleted successfully!")
                     return None
                 except mysql.connector.Error as err:

@@ -278,6 +278,7 @@ queries_api = QueriesAPI()
 user_details = queries_api.fetch_user_details()
 print("User details:", user_details)
 if user_details:
+    num_reviews = user_details[0][3]
     real_name = user_details[0][2]
     username = user_details[0][1]
     email = user_details[0][0]
@@ -289,6 +290,9 @@ if user_details:
 
     label_email = Label(window, text=f"Email: {email}", bg="#FFFFFF", font=("Inter", 14))
     label_email.place(x=279, y=180)
+
+    label_num_reviews = Label(window, text=f"Number of Reviews: {num_reviews}", bg="#FFFFFF", font=("Inter", 14))
+    label_num_reviews.place(x=279, y=220)
 else:
     label_no_user = Label(window, text="No user details found.", bg="#DE1A1A", font=("Inter", 14))
     label_no_user.place(x=279, y=100)
