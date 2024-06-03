@@ -157,17 +157,15 @@ INSERT INTO FOOD_ITEM_FOOD_TYPE(food_id, food_type) VALUES
 -- Inserting dummy data into the REVIEW table
 INSERT INTO REVIEW(review_id, rating, rev_date, rev_stat, email, estab_id, food_id) VALUES
 (1, 5, '2024-05-01', 'Saks lang beh', 'customer1@email.com', 1, 1),
-(2, 4, '2020-10-01', 'Goods lang pre', 'customer2@email.com', 1, 4),
-(3, 2, '2021-03-16', 'Sarap niya guys', 'customer3@email.com', 2, 7),
-(4, 3, '2022-02-06', 'Budget friendly', 'customer4@email.com', 2, 7),
+(2, 4, '2023-10-01', 'Goods lang pre', 'customer2@email.com', 1, 4),
+(3, 2, '2024-03-16', 'Sarap niya guys', 'customer3@email.com', 2, 7),
+(4, 3, '2022-01-06', 'Budget friendly', 'customer4@email.com', 2, 7),
 (5, 1, '2023-11-03', 'Mas masarap sa kabila', 'customer5@email.com', 3, 6),
-(6, 5, '2024-05-03', 'My favorite place', 'customer1@email.com', 3, 5),
+(6, 5, '2024-02-03', 'My favorite place', 'customer1@email.com', 3, 5),
 (7, 3, '2023-01-02', 'Okay food', 'customer2@email.com', 4, 3),
 (8, 1, '2024-04-03', 'Waiting time is too long for a sandwich', 'customer3@email.com', 4, 3),
-(9, 4, '2022-06-12', 'Fluffy pancakes yummy frfr', 'customer4@email.com', 5, 2),
+(9, 4, '2023-06-12', 'Fluffy pancakes yummy frfr', 'customer4@email.com', 5, 2),
 (10, 5, '2024-05-05', 'The best in the country', 'customer5@email.com', 5, 2);
-
-
 
 
 -- UPDATE TABLES
