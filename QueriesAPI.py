@@ -564,15 +564,15 @@ class QueriesAPI():
 
         for contactDetail in contact:
             sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_CONTACT(estab_id, contact) VALUES(%s, %s)'
-            self.cursor.execute(sql_statement, (id, contactDetail))
+            self.cursor.execute(sql_statement, (id, contactDetail.strip()))
 
         for location in loc:
             sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_LOCATION(estab_id, loc) VALUES(%s, %s)'
-            self.cursor.execute(sql_statement, (id, location))
+            self.cursor.execute(sql_statement, (id, location.strip()))
 
         for modeOfService in serv_mod:
             sql_statement = 'INSERT INTO FOOD_ESTABLISHMENT_MODE_OF_SERVICE(estab_id, serv_mod) VALUES(%s, %s)'
-            self.cursor.execute(sql_statement, (id, modeOfService))
+            self.cursor.execute(sql_statement, (id, modeOfService.strip()))
 
         self.conn.commit()
         updatedFoodEstab = self.select_food_estab_by_id(id)
