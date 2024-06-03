@@ -24,6 +24,7 @@ def delete_button_clicked():
 
 
 window = Tk()
+window.title("GROUP 1 Food & Restaurant Review Application")
 
 w = 800
 h = 500 
@@ -70,6 +71,7 @@ button_image_1 = PhotoImage(
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_1_click,
     relief="flat"
@@ -107,6 +109,7 @@ button_image_2 = PhotoImage(
 button_2 = Button(
     image=button_image_2,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_2_click,
     relief="flat"
@@ -144,6 +147,7 @@ button_image_3 = PhotoImage(
 button_3 = Button(
     image=button_image_3,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_3_click,
     relief="flat"
@@ -166,6 +170,7 @@ button_image_4 = PhotoImage(
 button_4 = Button(
     image=button_image_4,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_4_click,
     relief="flat"
@@ -237,6 +242,7 @@ button_image_6 = PhotoImage(
 button_6 = Button(
     image=button_image_6,
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_6_click,
     relief="flat"

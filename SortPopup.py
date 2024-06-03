@@ -14,6 +14,7 @@ def relative_to_assets(path: str) -> Path:
 
 
 sort = Tk()
+sort.title("Sort Price")
 
 sort.geometry("287x222")
 sort.configure(bg = "#FFFFFF")

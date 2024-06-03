@@ -51,6 +51,7 @@ def go_back_to_login():
 api = QueriesAPI()
 
 window = Tk()
+window.title("GROUP 1 Food & Restaurant Review Application")
 
 w = 800
 h = 500 

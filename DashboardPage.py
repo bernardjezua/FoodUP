@@ -21,6 +21,7 @@ def logout():
     subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
 
 window = Tk()
+window.title("GROUP 1 Food & Restaurant Review Application")
 
 w = 800  # width for the Tk root
 h = 500  # height for the Tk root
@@ -70,6 +71,7 @@ button_1 = Button(
     image=button_image_1,
     bg="#D78521",
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_1_click, 
     relief="flat"
@@ -110,6 +112,7 @@ button_2 = Button(
     image=button_image_2,
     bg="#D78521",
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_2_click,
     relief="flat"
@@ -150,6 +153,7 @@ button_3 = Button(
     image=button_image_3,
     bg="#D78521",
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_3_click,
     relief="flat"
@@ -191,6 +195,7 @@ button_4 = Button(
     image=button_image_4,
     bg="#D78521",
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     command=on_button_4_click,
     relief="flat"
@@ -224,6 +229,7 @@ button_5 = Button(
     image=button_image_5,
     bg = "#DE1A1A",
     borderwidth=0,
+    background = "#DE1A1A",
     highlightthickness=0,
     #command=lambda: print("button_5 clicked"),
     command=logout,

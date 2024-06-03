@@ -32,7 +32,6 @@ class EncryptionHelper:
 class QueriesAPI():
     logged_user = ()
     
-
     def __init__(self):
         self.conn = mysql.connector.connect(
                 host="localhost",
@@ -89,8 +88,6 @@ class QueriesAPI():
             return result
         except Exception as e:
             messagebox.showerror("Error in file", f"{e}")
-            
-        
 
     # ----- SELECT STATEMENTS -----
     def select_all_food_estabs(self):
@@ -158,7 +155,7 @@ class QueriesAPI():
         self.cursor.execute(sql_statement)
         result = self.cursor.fetchall()
         return result
-    
+
     def select_food_estab_by_id(self, id):
         if(id == ''):
             sql_statement = "SELECT estab_id, estab_desc, estab_name, GROUP_CONCAT(DISTINCT contact), GROUP_CONCAT(DISTINCT loc), GROUP_CONCAT(DISTINCT serv_mod) FROM FOOD_ESTABLISHMENT NATURAL JOIN FOOD_ESTABLISHMENT_CONTACT NATURAL JOIN FOOD_ESTABLISHMENT_LOCATION NATURAL JOIN FOOD_ESTABLISHMENT_MODE_OF_SERVICE GROUP BY estab_id"
