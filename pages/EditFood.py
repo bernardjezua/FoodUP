@@ -485,7 +485,7 @@ def searchfood():
         global_foodid = fid.get()
         result = QueriesAPI().select_food_item_byid(global_foodid)
         if result != []:
-            print(result)
+            messagebox.showinfo("Food ID Found", "Matched query results to Food ID!")
             fname.set(result[0][0])
             fprice.set(result[0][2])
             ftype.set(result[0][3])

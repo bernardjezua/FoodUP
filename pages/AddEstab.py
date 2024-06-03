@@ -34,7 +34,7 @@ def add_button_clicked():
     contactList = entry_5.get().split(",")
     
     result = db.add_food_estab(entry_4.get(), entry_2.get(), locList, servModList, contactList)
-    messagebox.showinfo("Edit Establishment", "Successfully updated establishment!")
+    messagebox.showinfo("Add Establishment", "Successfully added establishment!")
     print(result)
 
 window = Tk()
