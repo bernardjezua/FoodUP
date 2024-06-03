@@ -13,15 +13,6 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame10"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-# Define a function for logout
-def logout():
-    # children = multiprocessing.active_children()
-    # print(children)
-    # for child in children:
-    #     child.terminate()
-    view_estab.destroy() 
-    subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
-
 view_estab = Tk()
 view_estab.title("GROUP 1 Food & Restaurant Review Application")
 
@@ -81,7 +72,7 @@ button_1 = Button(
     background="#DE1A1A",
     highlightthickness=0,
     #command=lambda: print("button_1 clicked"),
-    command=logout,
+    command=lambda: QueriesAPI().logout(view_estab),
     relief="flat"
 )
 button_1.place(

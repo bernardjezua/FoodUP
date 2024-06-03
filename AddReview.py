@@ -1,6 +1,7 @@
 from pathlib import Path
 import subprocess
 import sys
+import os
 from OperationFunctions import *
 # from tkinter import *
 # Explicit imports to satisfy Flake8
@@ -62,10 +63,6 @@ image_1 = canvas.create_image(
     image=image_image_1
 )
 
-def logout():
-    window.destroy()
-    subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
-
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
@@ -73,7 +70,7 @@ button_1 = Button(
     borderwidth=0,
     background = "#DE1A1A",
     highlightthickness=0,
-    command=lambda: logout(),
+    command=lambda: QueriesAPI().logout(window),
     relief="flat"
 )
 button_1.place(

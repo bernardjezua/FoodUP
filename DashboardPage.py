@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+import os
 import subprocess
 import mysql.connector
 from QueriesAPI import QueriesAPI
@@ -16,9 +17,6 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame2"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-def logout():
-    window.destroy()
-    subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
 
 window = Tk()
 window.title("GROUP 1 Food & Restaurant Review Application")
@@ -232,7 +230,7 @@ button_5 = Button(
     background = "#DE1A1A",
     highlightthickness=0,
     #command=lambda: print("button_5 clicked"),
-    command=logout,
+    command=lambda: QueriesAPI().logout(window),
     relief="flat"
 )
 button_5.place(

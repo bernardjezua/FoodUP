@@ -14,15 +14,6 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame11"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-# Define a function for logout
-def logout():
-    # children = multiprocessing.active_children()
-    # print(children)
-    # for child in children:
-    #     child.terminate()
-    view_review.destroy() 
-    subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
-
 view_review = Tk()
 
 w = 800
@@ -67,10 +58,6 @@ image_1 = canvas.create_image(
     image=image_image_1
 )
 
-def logout():
-    view_review.destroy()
-    subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
-
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
@@ -79,7 +66,7 @@ button_1 = Button(
     borderwidth=0,
     highlightthickness=0,
     #command=lambda: print("button_1 clicked"),
-    command=logout,
+    command=QueriesAPI().logout(view_review),
     relief="flat"
 )
 button_1.place(

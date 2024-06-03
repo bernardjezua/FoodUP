@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import StringVar, Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox
@@ -110,12 +111,6 @@ image_1 = canvas.create_image(
     image=image_image_1
 )
 
-def on_button_3_click():
-    print("button_3 clicked")
-    window.destroy()
-    process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
-    process.wait()
-
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
 button_3 = Button(
@@ -123,7 +118,7 @@ button_3 = Button(
     borderwidth=0,
     background="#DE1A1A",
     highlightthickness=0,
-    command=on_button_3_click,
+    command=lambda: QueriesAPI().logout(window),
     relief="flat"
 )
 button_3.place(

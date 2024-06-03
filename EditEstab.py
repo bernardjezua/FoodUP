@@ -381,7 +381,7 @@ button_5 = Button(
     borderwidth=0,
     background="#DE1A1A",
     highlightthickness=0,
-    command=lambda: print("button_5 clicked"),
+    command=lambda: QueriesAPI().logout(window),
     relief="flat"
 )
 button_5.place(

@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+import os
 import subprocess
 
 # from tkinter import *
@@ -414,15 +415,15 @@ button_6.place(
 
 button_image_7 = PhotoImage(
     file=relative_to_assets("button_7.png"))
-button_7 = Button(
+logout_button = Button(
     image=button_image_7,
     borderwidth=0,
     background="#DE1A1A",
     highlightthickness=0,
-    command=lambda: print("button_7 clicked"),
+    command=lambda: db.logout(window),
     relief="flat"
 )
-button_7.place(
+logout_button.place(
     x=86.0,
     y=460.0,
     width=75.0,
