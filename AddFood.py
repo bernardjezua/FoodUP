@@ -5,6 +5,7 @@ import sys, subprocess
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 from OperationFunctions import *
+from QueriesAPI import QueriesAPI
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -76,13 +77,22 @@ button_1.place(
 )
 
 #add food button
+def on_button_2_click():
+    if(entry_4 != "" and entry_2 != "" and entry_3 != "" and  entry_1 != "" and entry_5 != "" and (entry_2.get().isnumeric() and entry_1.get().isnumeric())):
+        QueriesAPI().add_food(entry_4, entry_2, entry_3, entry_1 ,entry_5 ,window)
+        window.destroy()
+        process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
+        process.wait()
+    else:
+        messagebox.showinfo("Invalid Input!", "Please check all fields!")
+
 button_image_2 = PhotoImage(
     file=relative_to_assets("button_2.png"))
 button_2 = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: addFood(entry_4, entry_2, entry_3, entry_1 ,entry_5),
+    command=lambda:on_button_2_click(),
     relief="flat"
 )
 button_2.place(

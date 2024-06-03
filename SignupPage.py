@@ -1,9 +1,11 @@
 from pathlib import Path
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-from QueriesAPI import QueriesAPI
-
+import mysql.connector
+import subprocess
+import sys
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox
+from QueriesAPI import QueriesAPI, DuplicateEmailError
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets/frame1"
@@ -11,6 +13,42 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame1"
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
+def create_account():
+    name = entry_1.get()
+    username = entry_2.get()
+    email = entry_4.get()
+    password = entry_3.get()
+
+    # Check if any of the required fields are empty
+    if not (name and username and email and password):
+        messagebox.showerror("Missing Information", "Please fill in all required fields.")
+        return
+
+    # Checking if '@' is present in the email
+    if '@' not in email:
+        messagebox.showerror("Invalid Email", "Please enter a valid email address.")
+        return
+    
+    try:
+        api.create_account(email, name, username, password, window)
+    except DuplicateEmailError as e:
+        messagebox.showerror("Duplicate Email", str(e))
+    except mysql.connector.errors.IntegrityError as e:
+        if e.errno == 1062:  # Duplicate entry error
+            messagebox.showerror("Duplicate Email", "The email address you provided is already registered. Please use a different email address.")
+        else:
+            messagebox.showerror("Database Error", f"An error occurred: {e}")
+    except mysql.connector.Error as err:
+        messagebox.showerror("Database Error", f"An error occurred: {err}")
+    except Exception as e:
+        messagebox.showerror("Error", f"An unexpected error occurred: {e}")
+
+def go_back_to_login():
+    window.destroy()
+    subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
+
+api = QueriesAPI()
 
 window = Tk()
 
@@ -80,7 +118,8 @@ button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: QueriesAPI().create_account(entry_4.get(), entry_2.get(), entry_1.get(), entry_3.get(), window),
+    #command=lambda: QueriesAPI().create_account(entry_4.get(), entry_2.get(), entry_1.get(), entry_3.get(), window),
+    command=create_account,
     relief="flat"
 )
 button_1.place(
@@ -97,7 +136,8 @@ button_2 = Button(
     bg = "#DE1A1A",
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_2 clicked"),
+    #command=lambda: print("button_2 clicked"),
+    command=go_back_to_login,
     relief="flat"
 )
 button_2.place(
@@ -107,6 +147,7 @@ button_2.place(
     height=44.0
 )
 
+# Name
 entry_image_1 = PhotoImage(
     file=relative_to_assets("entry_1.png"))
 entry_bg_1 = canvas.create_image(
@@ -127,6 +168,7 @@ entry_1.place(
     height=47.0
 )
 
+# Username entry
 entry_image_2 = PhotoImage(
     file=relative_to_assets("entry_2.png"))
 entry_bg_2 = canvas.create_image(
@@ -165,6 +207,7 @@ canvas.create_text(
     font=("Inter", 14 * -1)
 )
 
+# PASSWORD entry
 entry_image_3 = PhotoImage(
     file=relative_to_assets("entry_3.png"))
 entry_bg_3 = canvas.create_image(
@@ -176,7 +219,8 @@ entry_3 = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
-    highlightthickness=0
+    highlightthickness=0,
+    show="*"
 )
 entry_3.place(
     x=418.0,
@@ -185,6 +229,7 @@ entry_3.place(
     height=47.0
 )
 
+# EMAIL entry
 entry_image_4 = PhotoImage(
     file=relative_to_assets("entry_4.png"))
 entry_bg_4 = canvas.create_image(

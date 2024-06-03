@@ -3,8 +3,10 @@ import subprocess
 import sys
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox, END
+from QueriesAPI import QueriesAPI
 
+db = QueriesAPI()
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets/frame4"
@@ -12,6 +14,14 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame4"
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
+def delete_button_clicked():
+    if(entry_1.get() == ''):
+        messagebox.showerror("Delete Error", "Enter Establishment ID first")
+        return
+    db.delete_food_estab_by_id(entry_1.get())
+    entry_1.delete(0, END)
+
 
 window = Tk()
 
@@ -126,6 +136,8 @@ button_2.bind('<Leave>', button_2_leave)
 def on_button_3_click():
     print("button_3 clicked")
     window.destroy()
+    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    process.wait()
 
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
@@ -301,7 +313,7 @@ button_8 = Button(
     image=button_image_8,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_8 clicked"),
+    command=lambda: delete_button_clicked(),
     relief="flat"
 )
 button_8.place(

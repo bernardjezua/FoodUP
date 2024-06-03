@@ -1,9 +1,11 @@
-
+from multiprocessing import process
 from pathlib import Path
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+import subprocess
+import sys
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox
 from QueriesAPI import QueriesAPI
 
 OUTPUT_PATH = Path(__file__).parent
@@ -12,6 +14,23 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame0"
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
+def login():
+    email = entry_2.get()
+    password = entry_1.get()
+    if not email or not password:
+        messagebox.showerror("Input Error", "Please enter both email and password")
+    else:
+        api.verify_credentials(email, password, window)
+
+def open_signup():
+    window.destroy()
+    subprocess.Popen([sys.executable, "SignupPage.py"], shell=True)
+    process.wait()
+    window.wm_deiconify()
+    #SignupPage.main()
+
+api = QueriesAPI()
 
 window = Tk()
 
@@ -84,6 +103,7 @@ canvas.create_rectangle(
     fill="#F2D398",
     outline="")
 
+# PASSWORD entry
 entry_image_1 = PhotoImage(
     file=relative_to_assets("entry_1.png"))
 entry_bg_1 = canvas.create_image(
@@ -95,7 +115,8 @@ entry_1 = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
-    highlightthickness=0
+    highlightthickness=0,
+    show="*"
 )
 entry_1.place(
     x=418.0,
@@ -170,8 +191,7 @@ image_2 = canvas.create_image(
     image=image_image_2
 )
 
-
-
+# EMAIL entry
 entry_image_2 = PhotoImage(
     file=relative_to_assets("entry_2.png"))
 entry_bg_2 = canvas.create_image(
@@ -210,34 +230,38 @@ canvas.create_text(
     font=("Inter", 14 * -1)
 )
 
-button_image_3 = PhotoImage(
-    file=relative_to_assets("button_3.png"))
-#LOGIN BUTTON
-button_3 = Button(
-    image=button_image_3,
+button_image_1 = PhotoImage(
+    file=relative_to_assets("button_1.png"))
+#Login BUTTON
+button_1 = Button(
+    image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: QueriesAPI().verify_credentials(entry_2.get(), entry_1.get(), window),
+    #command=lambda: QueriesAPI().verify_credentials(entry_2.get(), entry_1.get(), window),
+    command=login,
     relief="flat"
 )
-button_3.place(
+
+button_1.place(
     x=413.0,
     y=376.0,
     width=299.0,
     height=49.0
 )
 
-button_image_4 = PhotoImage(
-    file=relative_to_assets("button_4.png"))
-button_4 = Button(
-    image=button_image_4,
+# Sign-up button
+button_image_2 = PhotoImage(
+    file=relative_to_assets("button_2.png"))
+button_2 = Button(
+    image=button_image_2,
     borderwidth=0,
     background= "#FFFFFF",
     highlightthickness=0,
-    command=lambda: print("button_4 clicked"),
+    #command=lambda: print("button_4 clicked"),
+    command=open_signup,
     relief="flat"
 )
-button_4.place(
+button_2.place(
     x=345.0,
     y=432.0,
     width=435.0,

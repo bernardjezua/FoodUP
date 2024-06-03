@@ -1,10 +1,12 @@
+import multiprocessing
 from pathlib import Path
 import sys
 import subprocess
-
+import mysql.connector
+from QueriesAPI import QueriesAPI
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Label
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets/frame3"
@@ -13,6 +15,14 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame3"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
+# Define a function for logout
+def logout():
+    # children = multiprocessing.active_children()
+    # print(children)
+    # for child in children:
+    #     child.terminate()
+    window.destroy() 
+    subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
 
 window = Tk()
 
@@ -92,6 +102,8 @@ button_1.bind('<Leave>', button_1_leave)
 def on_button_2_click():
     print("button_2 clicked")
     window.destroy()
+    subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
+    
 
 button_image_2 = PhotoImage(
     file=relative_to_assets("button_2.png"))
@@ -236,7 +248,6 @@ def button_5_leave(e):
 button_5.bind('<Enter>', button_5_hover)
 button_5.bind('<Leave>', button_5_leave)
 
-
 button_image_6 = PhotoImage(
     file=relative_to_assets("button_6.png"))
 button_6 = Button(
@@ -244,7 +255,8 @@ button_6 = Button(
     borderwidth=0,
     background = "#DE1A1A",
     highlightthickness=0,
-    command=lambda: print("button_6 clicked"),
+    #command=lambda: print("button_6 clicked"),
+    command=logout,
     relief="flat"
 )
 button_6.place(
@@ -262,5 +274,29 @@ canvas.create_text(
     fill="#D78521",
     font=("Inter Bold", 32 * -1)
 )
+
+# Initialize QueriesAPI and get the logged-in user's email
+queries_api = QueriesAPI()
+
+
+# Fetch user details and display them
+user_details = queries_api.fetch_user_details()
+print("User details:", user_details)
+if user_details:
+    real_name = user_details[0][2]
+    username = user_details[0][1]
+    email = user_details[0][0]
+    label_real_name = Label(window, text=f"Name: {real_name}", bg="#DE1A1A", font=("Inter", 14))
+    label_real_name.place(x=279, y=100)
+
+    label_username = Label(window, text=f"Username: {username}", bg="#DE1A1A", font=("Inter", 14))
+    label_username.place(x=279, y=140)
+
+    label_email = Label(window, text=f"Email: {email}", bg="#DE1A1A", font=("Inter", 14))
+    label_email.place(x=279, y=180)
+else:
+    label_no_user = Label(window, text="No user details found.", bg="#DE1A1A", font=("Inter", 14))
+    label_no_user.place(x=279, y=100)
+
 window.resizable(False, False)
 window.mainloop()

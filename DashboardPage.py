@@ -1,6 +1,8 @@
 from pathlib import Path
 import sys
 import subprocess
+import mysql.connector
+from QueriesAPI import QueriesAPI
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
@@ -13,6 +15,10 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame2"
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
+def logout():
+    window.destroy()
+    subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
 
 window = Tk()
 
@@ -56,6 +62,7 @@ def on_button_1_click():
     process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
     process.wait()
     window.wm_deiconify()
+    window.destroy()
 
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
@@ -95,6 +102,7 @@ def on_button_2_click():
     process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
     process.wait()
     window.wm_deiconify()
+    window.destroy()
 
 button_image_2 = PhotoImage(
     file=relative_to_assets("button_2.png"))
@@ -134,6 +142,7 @@ def on_button_3_click():
     process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
     process.wait()
     window.wm_deiconify()
+    window.destroy()
 
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
@@ -173,6 +182,7 @@ def on_button_4_click():
     process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
     process.wait()
     window.wm_deiconify()
+    window.destroy()
 
 button_image_4 = PhotoImage(
     file=relative_to_assets("button_4.png"))
@@ -215,7 +225,8 @@ button_5 = Button(
     bg = "#DE1A1A",
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_5 clicked"),
+    #command=lambda: print("button_5 clicked"),
+    command=logout,
     relief="flat"
 )
 button_5.place(
@@ -241,7 +252,6 @@ canvas.create_text(
     fill="#FFFFFF",
     font=("Inter Black", 39 * -1)
 )
-
 
 
 window.resizable(False, False)

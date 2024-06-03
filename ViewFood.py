@@ -1,10 +1,13 @@
 from pathlib import Path
+import re
 import sys
 import subprocess
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Button, PhotoImage, messagebox, ttk, CENTER, NO, StringVar, OptionMenu, font
+
+from QueriesAPI import QueriesAPI
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -14,26 +17,26 @@ ASSETS_PATH = OUTPUT_PATH / "assets/frame17"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-window = Tk()
+view_food = Tk()
 
 w = 800
 h = 500 
 
 # get screen width and height
-ws = window.winfo_screenwidth() 
-hs = window.winfo_screenheight()
+ws = view_food.winfo_screenwidth() 
+hs = view_food.winfo_screenheight()
 
-# calculate x and y coordinates for the Tk root window
+# calculate x and y coordinates for the Tk root view_food
 x = (ws/2) - (w/2)
 y = (hs/2) - (h/2)
 
 # set the dimensions of the screen and where it is placed
-window.geometry('%dx%d+%d+%d' % (w, h, x, y))
-window.configure(bg = "#FFFFFF")
+view_food.geometry('%dx%d+%d+%d' % (w, h, x, y))
+view_food.configure(bg = "#FFFFFF")
 
 
 canvas = Canvas(
-    window,
+    view_food,
     bg = "#FFFFFF",
     height = 500,
     width = 800,
@@ -110,7 +113,7 @@ canvas.create_rectangle(
 
 def on_button_3_click():
     print("button_3 clicked")
-    window.destroy()
+    view_food.destroy()
     process = subprocess.Popen([sys.executable, "DeleteFood.py"], shell=True)
     process.wait()
 
@@ -132,7 +135,7 @@ button_3.place(
 
 def on_button_4_click():
     print("button_4 clicked")
-    window.destroy()
+    view_food.destroy()
     process = subprocess.Popen([sys.executable, "EditFood.py"], shell=True)
     process.wait()
 
@@ -154,7 +157,7 @@ button_4.place(
 
 def on_button_5_click():
     print("button_5 clicked")
-    window.destroy()
+    view_food.destroy()
     process = subprocess.Popen([sys.executable, "AddFood.py"], shell=True)
     process.wait()
 
@@ -182,6 +185,16 @@ image_2 = canvas.create_image(
     image=image_image_2
 )
 
+
+canvas.create_text(
+    638.0,
+    47.0,
+    anchor="nw",
+    text=f"{QueriesAPI().count_food_item()}",
+    fill="#FFFFFF",
+    font=("Inter Bold", 18)
+)
+
 canvas.create_text(
     276.0,
     33.0,
@@ -192,8 +205,7 @@ canvas.create_text(
 )
 
 def on_button_6_click():
-    print("button_6 clicked")
-    window.destroy()
+    view_food.destroy()
     process = subprocess.Popen([sys.executable, "ProfilePage.py"], shell=True)
     process.wait()
 
@@ -229,8 +241,8 @@ button_6.bind('<Enter>', button_6_hover)
 button_6.bind('<Leave>', button_6_leave)
 
 def on_button_7_click():
-    print("button_7 clicked")
-    window.destroy()
+    view_food.destroy()
+    process = subprocess.Popen([sys.executable, "DashboardPage.py"], shell=True)
 
 button_image_7 = PhotoImage(
     file=relative_to_assets("button_7.png"))
@@ -264,8 +276,7 @@ button_7.bind('<Enter>', button_7_hover)
 button_7.bind('<Leave>', button_7_leave)
 
 def on_button_8_click():
-    print("button_8 clicked")
-    window.destroy()
+    view_food.destroy()
     process = subprocess.Popen([sys.executable, "ViewEstab.py"], shell=True)
     process.wait()
 
@@ -301,8 +312,7 @@ button_8.bind('<Enter>', button_8_hover)
 button_8.bind('<Leave>', button_8_leave)
 
 def on_button_9_click():
-    print("button_9 clicked")
-    window.destroy()
+    view_food.destroy()
     process = subprocess.Popen([sys.executable, "ViewReview.py"], shell=True)
     process.wait()
 
@@ -338,75 +348,214 @@ button_9.bind('<Enter>', button_9_hover)
 button_9.bind('<Leave>', button_9_leave)
 
 
-button_image_10 = PhotoImage(
-    file=relative_to_assets("button_10.png"))
-button_10 = Button(
-    image=button_image_10,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: print("button_10 clicked"),
-    relief="flat"
+
+
+#################
+canvas.create_rectangle(
+    276.0,
+    218.0,
+    770.0,
+    480.0,
+    fill="#F0F0F0",
+    outline="")
+
+table = ttk.Treeview()
+table['columns'] = ('food_id', 'food_name', 'food_desc', 'food_type', 'price', 'estab_name')
+table.column("#0", width=0,  stretch=NO)
+table.column("food_id",anchor=CENTER,width=40)
+table.column("food_name",anchor=CENTER,minwidth=50)
+table.column("food_desc",anchor=CENTER,minwidth=90)
+table.column("food_type",anchor=CENTER,minwidth=50)
+table.column("price",anchor=CENTER,minwidth=30)
+table.column("estab_name",anchor=CENTER,minwidth=90)
+
+# Scrollbars
+horzScrollBar = ttk.Scrollbar(view_food, 
+                           orient ="horizontal", 
+                           command = table.xview)
+horzScrollBar.place(
+    x=276,
+    y=480,
+    width=494,
+    height=20
 )
-button_10.place(
-    x=590.0,
-    y=176.0,
-    width=80.0,
-    height=25.736572265625
+vertScrollBar = ttk.Scrollbar(view_food, 
+                           orient ="vertical", 
+                           command = table.yview)
+vertScrollBar.place(
+    x=770,
+    y=218,
+    width=20,
+    height=262
+)
+table.configure(xscrollcommand = horzScrollBar.set)
+table.configure(yscrollcommand = vertScrollBar.set)
+
+# Disable resizing of columns
+table.bind('<Button-1>', 'break')
+
+#ascSort = True
+sortTable = 0
+sortText = StringVar()
+sortText.set("Price (₱) —")
+def toggleSort(event):
+    region = table.identify_region(event.x, event.y)
+    if region == "heading":
+        column = table.identify_column(event.x)
+        if(column == "#5"):
+            global sortTable
+            if(sortTable == 2):
+                sortTable = 0
+                table.heading("price",text=f"{"Price (₱) —"}",anchor=CENTER)
+            elif(sortTable == 0):
+                sortTable+=1
+                #sortText.set("Price (₱) ↑")
+                table.heading("price",text=f"{"Price (₱) ↑"}",anchor=CENTER)
+            else:
+                table.heading("price",text=f"{"Price (₱) ↓"}",anchor=CENTER)
+                #sortText.set("Price (₱) ↓")
+                sortTable+=1
+            print("toggled")
+            update_table_search_id()
+
+
+table.bind("<Button-1>", toggleSort)
+table.heading("#0",text="",anchor=CENTER)
+table.heading("food_id",text="Id",anchor=CENTER)
+table.heading("food_name",text="Name",anchor=CENTER)
+table.heading("food_desc",text="Description",anchor=CENTER)
+table.heading("food_type",text="Food Type",anchor=CENTER)
+table.heading("price",text=f"{sortText.get()}",anchor=CENTER)
+table.heading("estab_name",text="Establishment Name",anchor=CENTER)
+table.place(
+    x=276,
+    y=218,
+    width=494,
+    height=262
 )
 
-entry_image_1 = PhotoImage(
-    file=relative_to_assets("entry_1.png"))
-entry_bg_1 = canvas.create_image(
-    358.0,
-    189.0,
-    image=entry_image_1
-)
-entry_1 = Entry(
+
+canvas.create_rectangle(
+    276.0,
+    151.0,
+    770.0,
+    208.0,
+    fill="#F0F0F0",
+    outline="")
+
+db = QueriesAPI()
+result = db.select_all_food_item()
+for index,value in enumerate(result):
+    table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[1],value[2],value[4],value[3], value[5]))
+
+
+def clear_all(tableToClear):
+   for item in tableToClear.get_children():
+      tableToClear.delete(item)
+
+
+options = [
+    "Any",
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+]
+
+fiv = StringVar()
+fev = StringVar()
+minv = StringVar()
+maxv = StringVar()
+clicked = StringVar()
+
+def update_table_search_id(*args):
+    clear_all(table)
+    if(bool(re.search(r'[^\d]', fiv.get())) or bool(re.search(r'[^\d]', fev.get())) or bool(re.search(r'[^\d]', minv.get()))) or bool(re.search(r'[^\d]', maxv.get())):
+        print("non-numeric input")
+        result = []
+    else:
+        result = db.select_food_item_spec(fiv.get(), fev.get(), minv.get(), maxv.get(), clicked.get(), sortTable)
+        
+    for index, value in enumerate(result):
+        table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[1],value[2],value[4],value[3], value[5]))
+
+            
+        
+
+fiv.trace_add("write", callback=update_table_search_id)
+fev.trace_add("write", callback=update_table_search_id)
+minv.trace_add("write", callback=update_table_search_id)
+maxv.trace_add("write", callback=update_table_search_id)
+clicked.trace_add("write", callback=update_table_search_id)
+clicked.set("Any")
+
+foodid_field = Entry(
     bd=0,
     bg="#FFFFFF",
     fg="#000716",
-    highlightthickness=0
+    textvariable=fiv
 )
-entry_1.place(
-    x=293.0,
-    y=177.0,
-    width=130.0,
+foodid_field.place(
+    x=292.0,
+    y=175.0,
+    width=90.0,
     height=24.0
 )
 
-button_image_11 = PhotoImage(
-    file=relative_to_assets("button_11.png"))
-button_11 = Button(
-    image=button_image_11,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: print("button_11 clicked"),
-    relief="flat"
-)
-button_11.place(
-    x=681.0,
-    y=169.0,
-    width=80.0,
-    height=26.0
-)
 
-entry_image_2 = PhotoImage(
-    file=relative_to_assets("entry_2.png"))
-entry_bg_2 = canvas.create_image(
-    510.0,
-    189.0,
-    image=entry_image_2
+
+# button_image_3 = PhotoImage(
+#     file=relative_to_assets("button_3.png"))
+
+# clicked = StringVar()
+# def update_table_filter(*args):
+#     clear_all(table)
+#     result = db.select_food_estab_by_rating(clicked.get())
+#     if(clicked.get() == "Any"):
+#         for index,value in enumerate(result):
+#             table.insert(parent='',index='end',iid=index, text='',values=(value[0],value[1],value[2],value[3],value[4]))
+#     else:
+#         for index,value in enumerate(result):
+#             table.insert(parent='',index='end',iid=index, text='',values=(value[0],value[1],value[2],value[3],value[4]))
+    
+
+# clicked.trace_add("write", callback=update_table_filter)
+# clicked.set("Any")
+foodtype_dd = OptionMenu(canvas,
+    clicked,
+    *options,
 )
-entry_2 = Entry(
+foodtype_dd.configure(
     bd=0,
+    activebackground="#FFFFFF",
     bg="#FFFFFF",
     fg="#000716",
     highlightthickness=0
 )
-entry_2.place(
-    x=445.0,
+foodtype_dd.place(
+    x=680.0,
+    y=174.0,
+    width=80.0,
+    height=26.0
+)
+###############
+# entry_image_2 = PhotoImage(
+#     file=relative_to_assets("estabid_field.png"))
+# entry_bg_2 = canvas.create_image(
+#     510.0,
+#     189.0,
+#     image=entry_image_2
+# )
+estabid_field = Entry(
+    bd=0,
+    bg="#FFFFFF",
+    fg="#000716",
+    highlightthickness=0,
+    textvariable=fev
+)
+estabid_field.place(
+    x=400.0,
     y=177.0,
-    width=130.0,
+    width=100.0,
     height=24.0
 )
 
@@ -420,7 +569,7 @@ canvas.create_text(
 )
 
 canvas.create_text(
-    439.0,
+    400.0,
     158.0,
     anchor="nw",
     text="Search Establishment ID",
@@ -429,12 +578,58 @@ canvas.create_text(
 )
 
 canvas.create_text(
-    589.0,
+    540.0,
+    158.0,
+    anchor="nw",
+    text="Min Price",
+    fill="#DE1A1A",
+    font=("Inter", 11 * -1)
+)
+minprice_field = Entry(
+    bd=0,
+    bg="#FFFFFF",
+    fg="#000716",
+    highlightthickness=0,
+    textvariable=minv
+)
+minprice_field.place(
+    x=540.0,
+    y=175.0,
+    width=50.0,
+    height=24.0
+)
+
+canvas.create_text(
+    600.0,
+    158.0,
+    anchor="nw",
+    text="Max Price",
+    fill="#DE1A1A",
+    font=("Inter", 11 * -1)
+)
+
+maxprice_field = Entry(
+    bd=0,
+    bg="#FFFFFF",
+    fg="#000716",
+    highlightthickness=0,
+    textvariable=maxv
+)
+maxprice_field.place(
+    x=600.0,
+    y=175.0,
+    width=50.0,
+    height=24.0
+)
+
+
+canvas.create_text(
+    680.0,
     158.0,
     anchor="nw",
     text="Type",
     fill="#DE1A1A",
     font=("Inter", 11 * -1)
 )
-window.resizable(False, False)
-window.mainloop()
+view_food.resizable(False, False)
+view_food.mainloop()

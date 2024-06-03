@@ -75,6 +75,8 @@ def edit_button_click():
     
     result = db.update_food_estab_by_id(estab_id, entry_2.get(), entry_3.get(), locList, servModList, contactList)
     messagebox.showinfo("Edit Establishment", "Successfully updated establishment!")
+    entry_6.get()
+    resetEntries()
     print(result)
 
 window = Tk()
