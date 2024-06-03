@@ -78,9 +78,8 @@ button_1.place(
     height=19.354839324951172
 )
 #edit button
-
 def edit_button_click():
-    if(entry_6.get() != "" and fname.get() != "" and fprice.get() != "" and ftype.get() != "" and estid.get() != "" and fdesc.get() != "" and entry_6.get().isnumeric() and estid.get().isnumeric()):
+    if(fid.get() != "" and fname.get() != "" and fprice.get() != "" and ftype.get() != "" and estid.get() != "" and fdesc.get() != "" and fid.get().isnumeric() and estid.get().isnumeric()):
         QueriesAPI().update_food_item(entry_6.get(), fname.get(), fprice.get(), ftype.get(), estid.get(), fdesc.get())
         window.destroy()
         process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
@@ -319,6 +318,7 @@ canvas.create_text(
     font=("Inter", 14 * -1)
 )
 
+fid = StringVar()
 fname = StringVar()
 fprice = StringVar()
 ftype = StringVar()
@@ -459,11 +459,23 @@ entry_5.place(
     width=289.0,
     height=47.0
 )
-#SEARCH BUTTON
 
+def setId(*args):
+    fid.set(global_foodid)
+
+fname.trace_add("write", callback=setId)
+fprice.trace_add("write", callback=setId)
+ftype.trace_add("write", callback=setId)
+estid.trace_add("write", callback=setId)
+fdesc.trace_add("write", callback=setId)
+
+#SEARCH BUTTON
+global_foodid = None
 def searchfood():
-    if(entry_6.get().isnumeric()):
-        result = QueriesAPI().select_food_item_byid(entry_6.get())
+    if(fid.get().isnumeric()):
+        global global_foodid
+        global_foodid = fid.get()
+        result = QueriesAPI().select_food_item_byid(fid.get())
         if result != []:
             print(result)
             fname.set(result[0][0])
@@ -510,7 +522,8 @@ entry_6 = Entry(
     bd=0,
     bg="#F2D398",
     fg="#000716",
-    highlightthickness=0
+    highlightthickness=0,
+    textvariable=fid
 )
 entry_6.place(
     x=377.0,
