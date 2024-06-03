@@ -25,7 +25,7 @@ Follow these steps to set up the project locally:
 
 5. Run the program:
 
-       py main.py
+       python LoginPage.py
 
 6. You will be greeted with a login page, login or signup for an account
 
