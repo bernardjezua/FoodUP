@@ -38,6 +38,7 @@ y = (hs/2) - (h/2)
 view_food.geometry('%dx%d+%d+%d' % (w, h, x, y))
 view_food.configure(bg = "#FFFFFF")
 
+isAdmin = QueriesAPI().isAdmin()
 
 canvas = Canvas(
     view_food,
@@ -118,9 +119,12 @@ canvas.create_rectangle(
     outline="")
 
 def on_button_3_click():
-    view_food.destroy()
-    process = subprocess.Popen([sys.executable, "DeleteFood.py"], shell=True)
-    process.wait()
+    if isAdmin:
+        view_food.destroy()
+        process = subprocess.Popen([sys.executable, "DeleteFood.py"], shell=True)
+        process.wait()
+    else:
+        messagebox.showerror("Forbidden!", "You are not authorized to access this feature.")
 
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
@@ -139,9 +143,12 @@ button_3.place(
 )
 
 def on_button_4_click():
-    view_food.destroy()
-    process = subprocess.Popen([sys.executable, "EditFood.py"], shell=True)
-    process.wait()
+    if isAdmin:
+        view_food.destroy()
+        process = subprocess.Popen([sys.executable, "EditFood.py"], shell=True)
+        process.wait()
+    else:
+        messagebox.showerror("Forbidden!", "You are not authorized to access this feature.")
 
 button_image_4 = PhotoImage(
     file=relative_to_assets("button_4.png"))
@@ -160,9 +167,12 @@ button_4.place(
 )
 
 def on_button_5_click():
-    view_food.destroy()
-    process = subprocess.Popen([sys.executable, "AddFood.py"], shell=True)
-    process.wait()
+    if isAdmin:
+        view_food.destroy()
+        process = subprocess.Popen([sys.executable, "AddFood.py"], shell=True)
+        process.wait()
+    else:
+        messagebox.showerror("Forbidden!", "You are not authorized to access this feature.")    
 
 button_image_5 = PhotoImage(
     file=relative_to_assets("button_5.png"))

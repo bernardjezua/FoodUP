@@ -617,6 +617,17 @@ class QueriesAPI():
             return True
         return False
     
+    def isAdmin(self):
+        user_details = self.fetch_user_details()
+        user_email = user_details[0][0]
+        if user_details is None or len(user_details) == 0:
+            messagebox.showerror("Invalid User", "The user is not logged in or does not exist.")
+            return False
+        if 'admin' in user_email:
+            return True
+        return False
+
+    
     def delete_review(self, review_id):
         if not review_id.isdigit():
             return "Review ID must be a number."

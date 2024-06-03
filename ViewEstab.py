@@ -5,7 +5,7 @@ import subprocess
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Button, PhotoImage, ttk, CENTER, NO, StringVar, OptionMenu, font
+from tkinter import Tk, Canvas, Entry, Button, PhotoImage, messagebox, ttk, CENTER, NO, StringVar, OptionMenu, font
 from QueriesAPI import QueriesAPI
 
 OUTPUT_PATH = Path(__file__).parent
@@ -22,7 +22,7 @@ view_estab.configure(bg = "#FFFFFF")
 
 # window.geometry("800x500")
 # window.configure(bg = "#FFFFFF")
-
+isAdmin = QueriesAPI().isAdmin()
 w = 800
 h = 500 
 
@@ -355,10 +355,13 @@ button_drop_3.place(
 # )
 
 def on_button_4_click():
-    print("button_4 clicked")
-    view_estab.destroy()
-    process = subprocess.Popen([sys.executable, "DeleteEstab.py"], shell=True)
-    process.wait()
+    if isAdmin:
+        print("button_4 clicked")
+        view_estab.destroy()
+        process = subprocess.Popen([sys.executable, "DeleteEstab.py"], shell=True)
+        process.wait()
+    else:
+        messagebox.showerror("Forbidden!", "You are not authorized to access this feature.")
 
 button_image_4 = PhotoImage(
     file=relative_to_assets("button_4.png"))
@@ -377,10 +380,13 @@ button_4.place(
 )
 
 def on_button_5_click():
-    print("button_5 clicked")
-    view_estab.destroy()
-    process = subprocess.Popen([sys.executable, "EditEstab.py"], shell=True)
-    process.wait()
+    if isAdmin:
+        print("button_5 clicked")
+        view_estab.destroy()
+        process = subprocess.Popen([sys.executable, "EditEstab.py"], shell=True)
+        process.wait()
+    else:
+        messagebox.showerror("Forbidden!", "You are not authorized to access this feature.")
 
 button_image_5 = PhotoImage(
     file=relative_to_assets("button_5.png"))
@@ -399,10 +405,13 @@ button_5.place(
 )
 
 def on_button_6_click():
-    print("button_6 clicked")
-    view_estab.destroy()
-    process = subprocess.Popen([sys.executable, "AddEstab.py"], shell=True)
-    process.wait()
+    if isAdmin:
+        print("button_6 clicked")
+        view_estab.destroy()
+        process = subprocess.Popen([sys.executable, "AddEstab.py"], shell=True)
+        process.wait()
+    else:
+        messagebox.showerror("Forbidden!", "You are not authorized to access this feature.")
 
 button_image_6 = PhotoImage(
     file=relative_to_assets("button_6.png"))
