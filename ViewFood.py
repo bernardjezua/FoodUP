@@ -370,13 +370,13 @@ canvas.create_rectangle(
 table = ttk.Treeview()
 
 table['columns'] = ('food_id', 'food_name', 'food_desc', 'food_type', 'price', 'estab_name')
-table.column("#0", width=0,  stretch=NO)
-table.column("food_id",anchor=CENTER,width=40)
-table.column("food_name",anchor=CENTER,minwidth=50)
-table.column("food_desc",anchor=CENTER,minwidth=90)
-table.column("food_type",anchor=CENTER,minwidth=50)
-table.column("price",anchor=CENTER,minwidth=30)
-table.column("estab_name",anchor=CENTER,minwidth=90)
+table.column("#0", width=0,  stretch=False)
+table.column("food_id",anchor=CENTER,width=40,  stretch=False)
+table.column("food_name",anchor=CENTER,minwidth=70,  stretch=False)
+table.column("food_desc",anchor=CENTER,minwidth=150,  stretch=False)
+table.column("food_type",anchor=CENTER,minwidth=100,  stretch=False)
+table.column("price",anchor=CENTER,minwidth=70,  stretch=False)
+table.column("estab_name",anchor=CENTER,minwidth=70,  stretch=False)
 
 # Scrollbars
 horzScrollBar = ttk.Scrollbar(view_food, 

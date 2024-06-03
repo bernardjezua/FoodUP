@@ -138,14 +138,14 @@ canvas.create_rectangle(
 
 table = ttk.Treeview()
 table['columns'] = ('estab_id', 'estab_name', 'estab_desc', 'serv_mod', 'loc', 'contact', 'avg_rating')
-table.column("#0", width=0,  stretch=NO)
-table.column("estab_id",anchor=CENTER,width=40)
-table.column("estab_name",anchor=CENTER,minwidth=50)
-table.column("estab_desc",anchor=CENTER,minwidth=50)
-table.column("serv_mod",anchor=CENTER,minwidth=50)
-table.column("loc",anchor=CENTER,minwidth=50)
-table.column("contact",anchor=CENTER,minwidth=50)
-table.column("avg_rating",anchor=CENTER,width=100)
+table.column("#0", width=0,  stretch=False)
+table.column("estab_id",anchor=CENTER,width=40,  stretch=False)
+table.column("estab_name",anchor=CENTER,minwidth=70,  stretch=False)
+table.column("estab_desc",anchor=CENTER,minwidth=120,  stretch=False)
+table.column("serv_mod",anchor=CENTER,minwidth=80,  stretch=False)
+table.column("loc",anchor=CENTER,minwidth=70,  stretch=False)
+table.column("contact",anchor=CENTER,minwidth=100,  stretch=False)
+table.column("avg_rating",anchor=CENTER,width=40,  stretch=False)
 
 # Scrollbars
 horzScrollBar = ttk.Scrollbar(view_estab, 
