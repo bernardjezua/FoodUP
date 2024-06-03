@@ -153,7 +153,7 @@ table.column("estab_desc",anchor=CENTER,minwidth=50)
 table.column("serv_mod",anchor=CENTER,minwidth=50)
 table.column("loc",anchor=CENTER,minwidth=50)
 table.column("contact",anchor=CENTER,minwidth=50)
-table.column("avg_rating",anchor=CENTER,width=90)
+table.column("avg_rating",anchor=CENTER,width=100)
 
 # Scrollbars
 horzScrollBar = ttk.Scrollbar(view_estab, 
@@ -180,6 +180,30 @@ table.configure(yscrollcommand = vertScrollBar.set)
 # Disable resizing of columns
 table.bind('<Button-1>', 'break')
 
+sortTable = 0
+sortText = StringVar()
+sortText.set("Average rating —")
+def toggleSort(event):
+    region = table.identify_region(event.x, event.y)
+    if region == "heading":
+        column = table.identify_column(event.x)
+        if(column == "#7"):
+            global sortTable
+            if(sortTable == 2):
+                sortTable = 0
+                table.heading("avg_rating",text=f"{"Average rating —"}",anchor=CENTER)
+            elif(sortTable == 0):
+                sortTable+=1
+                #sortText.set("Average rating ↑")
+                table.heading("avg_rating",text=f"{"Average rating ↑"}",anchor=CENTER)
+            else:
+                table.heading("avg_rating",text=f"{"Average rating ↓"}",anchor=CENTER)
+                #sortText.set("Average rating ↓")
+                sortTable+=1
+            print("toggled")
+            update_table()
+
+table.bind("<Button-1>", toggleSort)
 table.heading("#0",text="",anchor=CENTER)
 table.heading("estab_id",text="Id",anchor=CENTER)
 table.heading("estab_name",text="Name",anchor=CENTER)
@@ -187,7 +211,7 @@ table.heading("estab_desc",text="Description",anchor=CENTER)
 table.heading("serv_mod",text="Mode/s of Service",anchor=CENTER)
 table.heading("loc",text="Location/s",anchor=CENTER)
 table.heading("contact",text="Contact Detail/s",anchor=CENTER)
-table.heading("avg_rating",text="Average Rating",anchor=CENTER)
+table.heading("avg_rating",text=f"{sortText.get()}",anchor=CENTER)
 table.place(
     x=276,
     y=218,
@@ -226,15 +250,15 @@ def update_table(*args):
     id = sv.get()
     filter = clicked.get()
     if(filter == "Filter" and id == ''):
-        result = db.select_food_estab_by_id_rating(None, filter)
+        result = db.select_food_estab_by_id_rating(None, filter, sortTable)
     elif(filter == "Filter" and id != ''):
-        result = db.select_food_estab_by_id_rating(id, filter)
+        result = db.select_food_estab_by_id_rating(id, filter, sortTable)
     elif(filter != "Filter" and id == ''):
-        result = db.select_food_estab_by_id_rating(None, filter)
+        result = db.select_food_estab_by_id_rating(None, filter, sortTable)
     else:
-        result = db.select_food_estab_by_id_rating(id, filter)
+        result = db.select_food_estab_by_id_rating(id, filter, sortTable)
     for index,value in enumerate(result):
-        table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3],value[6]))
+        table.insert(parent='',index='end',iid=index, text='', values=(value[0],value[2],value[1],value[5],value[4],value[3],'{:.2f}'.format(round(float(value[6]), 3))))
         
 sv.trace_add("write", callback=update_table)
 entry_1 = Entry(
