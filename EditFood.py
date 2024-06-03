@@ -1,7 +1,7 @@
 from pathlib import Path
 import sys, subprocess
 
-# from tkinter import *
+# from tkinter import *fid
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, StringVar, messagebox
 
@@ -80,7 +80,7 @@ button_1.place(
 #edit button
 def edit_button_click():
     if(fid.get() != "" and fname.get() != "" and fprice.get() != "" and ftype.get() != "" and estid.get() != "" and fdesc.get() != "" and fid.get().isnumeric() and estid.get().isnumeric()):
-        QueriesAPI().update_food_item(entry_6.get(), fname.get(), fprice.get(), ftype.get(), estid.get(), fdesc.get())
+        QueriesAPI().update_food_item(global_foodid, fname.get(), fprice.get(), ftype.get(), estid.get(), fdesc.get())
         window.destroy()
         process = subprocess.Popen([sys.executable, "ViewFood.py"], shell=True)
         process.wait()
@@ -475,7 +475,7 @@ def searchfood():
     if(fid.get().isnumeric()):
         global global_foodid
         global_foodid = fid.get()
-        result = QueriesAPI().select_food_item_byid(fid.get())
+        result = QueriesAPI().select_food_item_byid(global_foodid)
         if result != []:
             print(result)
             fname.set(result[0][0])
