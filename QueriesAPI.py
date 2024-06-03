@@ -61,7 +61,8 @@ class QueriesAPI():
 
     def logout(self, window):
         QueriesAPI.logged_user = None
-        os.remove("data_file.txt")
+        if os.path.exists("data_file.txt"):
+            os.remove("data_file.txt")
         messagebox.showinfo("Logout", "User logged out successfully!")
         window.destroy()
         subprocess.Popen([sys.executable, "LoginPage.py"], shell=True)
