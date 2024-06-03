@@ -110,8 +110,8 @@ image_2 = canvas.create_image(
 )
 
 canvas.create_text(
-    638.0,
-    47.0,
+    606.0,
+    45.5,
     anchor="nw",
     text=f"{QueriesAPI().count_food_estab()}",
     fill="#FFFFFF",

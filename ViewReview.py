@@ -546,7 +546,7 @@ image_2 = canvas.create_image(
 
 canvas.create_text(
     608.0,
-    47.0,
+    45.5,
     anchor="nw",
     text=f"{QueriesAPI().count_food_reviews()}",
     fill="#FFFFFF",
