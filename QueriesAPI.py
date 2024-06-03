@@ -343,42 +343,59 @@ class QueriesAPI():
             messagebox.showerror("Database Error", f"An error occurred: {err}")
 
     def add_review(self, rating, food_id, estab_id, review, window):
+        # Check if either food_id or estab_id is provided
+        if food_id == '' and estab_id == '':
+            messagebox.showerror("Invalid Input", "Either Food ID or Estab ID should be provided!")
+            return
+
+        # Fetch the user details
+        user_details = self.fetch_user_details()
+        if user_details is None or len(user_details) == 0:
+            messagebox.showerror("Invalid User", "The user is not logged in or does not exist.")
+            return
+
+        # Assuming user_details is a list of tuples
+        email = user_details[0][0]
         maxquery = "SELECT MAX(review_id) from REVIEW;"
         self.cursor.execute(maxquery)
         max = self.cursor.fetchall()
-        reviewid = max[0][0]+1
+        reviewid = max[0][0] + 1
+
+        # Converted food IDs and estab IDs from list to set
+        food_id_list = self.select_all_food_ids()
+        estab_id_list = self.select_all_estab_ids()
+        food_id_set = set()
+        estab_id_set = set()
+
+        for i in food_id_list:
+            food_id_set.add(i)
+
+        for j in estab_id_list:
+            estab_id_set.add(j)
+
+        # Check if food_id and estab_id are valid
+        if food_id != '' and food_id in food_id_set:
+            messagebox.showerror("Invalid Food ID", "The food ID is not present in the database.")
+            return
+        if estab_id != '' and estab_id in estab_id_set:
+            messagebox.showerror("Invalid Establishment ID", "The establishment ID is not present in the database.")
+            return
+
         datereviewed = datetime.now().strftime("%Y-%m-%d")
 
-        global logged_user
-        if logged_user is None:
-            logged_user = ["customer1@yahoo.com"]
-        email = self.logged_user[0]
+        # Prepare the SQL statement
+        food_id = 'NULL' if food_id == '' else food_id
+        estab_id = 'NULL' if estab_id == '' else estab_id
+
         reviewInsert = f'''INSERT INTO REVIEW(review_id, rating, rev_date, rev_stat, email, estab_id, food_id) VALUES ({reviewid}, {rating}, '{datereviewed}', '{review}', '{email}', {estab_id}, {food_id})'''
-        
-        email = logged_user[0]
-
-        if food_id != '':
-            self.cursor.execute(f"SELECT * FROM food_item WHERE food_id = {food_id}")
-            food_query = self.cursor.fetchall()
-            if food_query == []:
-                messagebox.showerror("Food Not Found", f"No food was found with the entered id!")
-                return
-
-        if estab_id != '':
-            self.cursor.execute(f"SELECT * FROM food_establishment WHERE estab_id = {estab_id}")
-            estab_query = self.cursor.fetchall()
-            if estab_query == []:
-                messagebox.showerror("Establishment Not Found", f"No establishment was found with the entered id!")
-                return
 
         # Insert review into the database
         try:
-            reviewInsert = f'''INSERT INTO REVIEW(review_id, rating, rev_date, rev_stat, email, estab_id, food_id) VALUES ({reviewid}, {rating}, '{datereviewed}', '{review}', '{email}', {estab_id}, {food_id})'''
             self.cursor.execute(reviewInsert)
-            self.db.commit()
+            self.conn.commit()
             messagebox.showinfo("Success", "Review added successfully!")
-        except mysql.connector.Error as err:
-            messagebox.showerror("Database Error", f"Error: {err}")
+        except mysql.connector.Error:
+            messagebox.showerror("Database Error", f"One or both of the IDs is not present in the database.")
 
     def add_food_estab(self, estab_name, estab_desc, loc, serv_mod, contact):
         sql_statement = 'SELECT estab_id FROM FOOD_ESTABLISHMENT ORDER BY estab_id DESC'
