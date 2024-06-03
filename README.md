@@ -27,6 +27,10 @@ Follow these steps to set up the project locally:
 
        py main.py
 
+6. You will be greeted with a login page, login or signup for an account
+
+![alt text](/assets/image.png)
+
 ## Contributing
 
 1. Fork/Clone the repository
