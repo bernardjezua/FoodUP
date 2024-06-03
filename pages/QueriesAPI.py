@@ -536,6 +536,7 @@ class QueriesAPI():
             self.cursor.execute(sql_statement, (new_rating, new_review_text, estab_id, food_id, review_id))
             self.conn.commit()
             messagebox.showinfo("Update Review", "Review updated successfully!")
+            return
         except mysql.connector.Error as err:
             messagebox.showerror("Error", f"Error: {err}")
 
@@ -612,6 +613,7 @@ class QueriesAPI():
             self.cursor.execute(sql_statement, (id, modeOfService.strip()))
 
         self.conn.commit()
+        messagebox.showinfo("Establishment Updated", "Updated details of establishment.")
         updatedFoodEstab = self.select_food_estab_by_id(id)
         return updatedFoodEstab
 

@@ -490,6 +490,9 @@ def edit_button_click():
     else:
         QueriesAPI().update_review(global_reviewid, new_rating, new_review_text, estab_id, food_id)
         revid.set(global_reviewid)
+        window.destroy()
+        process = subprocess.Popen([sys.executable, "./pages/ViewReview.py"], shell=True)
+        process.wait()
 
 #edit button
 button_image_1 = PhotoImage(
